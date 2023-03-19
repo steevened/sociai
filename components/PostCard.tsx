@@ -1,6 +1,10 @@
 import Card from './Card';
 import Avatar from './Avatar';
 import Image from 'next/image';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import MenuDropdown from './MenuDropdown';
+import Link from 'next/link';
 
 export default function PostCard() {
   return (
@@ -11,9 +15,9 @@ export default function PostCard() {
         </div>
         <div className="grow">
           <p>
-            <a href="#" className="font-bold">
+            <Link href="/profile" className="font-semibold ">
               Steve Elias
-            </a>{' '}
+            </Link>{' '}
             shared a{' '}
             <a href="#" className="text-app-blue/80">
               album
@@ -21,24 +25,7 @@ export default function PostCard() {
           </p>
           <p className="text-xs text-gray-400">2 hours ago</p>
         </div>
-        <div>
-          <button className="text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-              />
-            </svg>
-          </button>
-        </div>
+        <MenuDropdown />
       </div>
       {/* content */}
       <div>

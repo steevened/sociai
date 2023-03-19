@@ -2,10 +2,17 @@ import React from 'react';
 import Card from './Card';
 
 export default function NavigationCard() {
+  const nonActiveElement =
+    'flex gap-2 px-2 py-3 my-2 -mx-2 duration-200 rounded-md hover:shadow-lg hover:bg-app-blue hover:bg-opacity-50 hover:shadow-gray-300';
+
+  const activeElement =
+    'flex gap-2 py-3 text-white rounded-md shadow-md px-7 -mx-7 bg-app-blue shadow-gray-300 ';
+
   return (
     <Card className="px-4 py-2">
-      <h2 className="text-gray-400 mb-3">Navigation</h2>
-      <a className="flex gap-2 py-3" href="">
+      <h2 className="mb-3 text-gray-400">Navigation</h2>
+
+      <a className={activeElement} href="">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -22,7 +29,7 @@ export default function NavigationCard() {
         </svg>
         Home
       </a>
-      <a className="flex gap-2 py-3" href="">
+      <a className={nonActiveElement} href="#">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -39,7 +46,7 @@ export default function NavigationCard() {
         </svg>
         Friends
       </a>
-      <a className="flex gap-2 py-3" href="">
+      <a className={nonActiveElement} href="#">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -56,7 +63,7 @@ export default function NavigationCard() {
         </svg>
         Saved posts
       </a>
-      <a className="flex gap-2 py-3" href="">
+      <a className={nonActiveElement} href="#">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -73,7 +80,7 @@ export default function NavigationCard() {
         </svg>
         Notifications
       </a>
-      <a className="flex gap-2 py-3" href="">
+      <a className={nonActiveElement} href="#">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
