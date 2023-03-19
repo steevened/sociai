@@ -11,7 +11,9 @@ export default function PostCard() {
     <Card>
       <div className="flex gap-3">
         <div>
-          <Avatar />
+          <Link href={'/profile'}>
+            <Avatar />
+          </Link>
         </div>
         <div className="grow">
           <p>
@@ -101,7 +103,9 @@ export default function PostCard() {
       {/* comments */}
       <div className="flex items-center gap-3 mt-4">
         <div>
-          <Avatar />
+          <Link href={'/profile'}>
+            <Avatar />
+          </Link>
         </div>
 
         <div className="relative border rounded-full grow">

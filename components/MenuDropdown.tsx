@@ -5,7 +5,7 @@ export default function MenuDropdown() {
   return (
     <div>
       <Menu as="div" className="relative ">
-        <Menu.Button className="p-1 text-gray-400 duration-100 rounded-full hover:bg-gray-200">
+        <Menu.Button className="p-1 text-gray-400 duration-100 rounded-full hover:bg-gray-200  active:scale-95 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
