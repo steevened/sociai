@@ -15,6 +15,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div className="w-full md:w-3/12">
         <NavigationCard />
       </div>
+      <div className="w-full">{children}</div>
       {/* <div className="w-9/12">
         {isProfilePage ? (
           <ProfileLayout>{children}</ProfileLayout>
