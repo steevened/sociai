@@ -8,6 +8,16 @@ import Link from 'next/link';
 export default function ProfileInfo() {
   const router = useRouter();
   const { pathname } = router;
+
+  const isPost = pathname === '/profile';
+  const isAbout = pathname === '/profile/about';
+  const isFriends = pathname === '/profile/friends';
+  const isPhotos = pathname === '/profile/photos';
+
+  const tabClass = 'flex hover:bg-gray-100 rounded-md duration-200';
+  const activeClass =
+    'border-b-4 border-b-app-blue text-app-blue font-bold duration-100';
+
   return (
     <Card className="p-0 overflow-hidden relative">
       <div className="h-36 overflow-hidden flex items-center justify-center">
@@ -27,7 +37,7 @@ export default function ProfileInfo() {
           <p className="text-gray-500 leading-4">Ecuador</p>
         </div>
         <ul className="mt-5 flex gap-0">
-          <li className="border-b-4 border-b-app-blue text-app-blue font-bold">
+          <li className={isPost ? activeClass : tabClass}>
             <Link
               href="/profile"
               className="flex gap-1 px-5 py-1  items-center"
@@ -50,10 +60,10 @@ export default function ProfileInfo() {
               <button>Posts</button>
             </Link>
           </li>
-          <li>
+          <li className={isAbout ? activeClass : tabClass}>
             <Link
               href="/profile/about"
-              className="flex gap-1 px-5 py-1  items-center"
+              className="flex gap-1 px-5 py-1 items-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +83,7 @@ export default function ProfileInfo() {
               <button>About</button>
             </Link>
           </li>
-          <li>
+          <li className={isFriends ? activeClass : tabClass}>
             <Link
               href="/profile/friends"
               className="flex gap-1 px-5 py-1  items-center"
@@ -96,7 +106,7 @@ export default function ProfileInfo() {
               <button>Friends</button>
             </Link>
           </li>
-          <li>
+          <li className={isPhotos ? activeClass : tabClass}>
             <Link
               href="/profile/photos"
               className="flex gap-1 px-5 py-1  items-center"

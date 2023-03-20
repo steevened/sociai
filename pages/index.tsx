@@ -6,10 +6,10 @@ import PostCard from '@/components/PostCard';
 
 const Home: NextPageWithLayout = () => {
   return (
-    <>
+    <div className="base-colors">
       <PostFormCard />
       <PostCard />
-    </>
+    </div>
   );
 };
 

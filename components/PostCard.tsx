@@ -29,7 +29,7 @@ export default function PostCard() {
         </div>
         <MenuDropdown />
       </div>
-      {/* content */}
+
       <div>
         <p className="mx-1 my-3 text-sm">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto
@@ -41,9 +41,9 @@ export default function PostCard() {
           <Image
             src="https://images.unsplash.com/photo-1564455656476-529f163c2821?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
             alt="picture"
-            width={1000}
-            height={444}
-            layout="responsive"
+            width={700}
+            height={500}
+            // layout="responsive"
           />
         </div>
       </div>
@@ -100,7 +100,6 @@ export default function PostCard() {
           5
         </button>
       </div>
-      {/* comments */}
       <div className="flex items-center gap-3 mt-4">
         <div>
           <Link href={'/profile'}>
