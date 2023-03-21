@@ -12,7 +12,7 @@ export default function NotificationContainer({ children, prompt }: Props) {
       <div className="flex items-center gap-2 grow">
         <Avatar />
         <p className="text-sm">
-          <Username /> <span>{prompt}</span>
+          <Username username="piero" /> <span>{prompt}</span>
         </p>
       </div>
       <div>{children}</div>
