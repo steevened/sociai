@@ -173,9 +173,9 @@ export default function NavigationCard() {
         </Link>
         <Link
           className={`${className} ${
-            pathname === '/profile' ? activeElement : nonActiveElement
+            pathname === '/steevened' ? activeElement : nonActiveElement
           }`}
-          href="/profile"
+          href="/steevened"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
