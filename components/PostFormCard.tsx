@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Avatar from './Avatar';
 import Card from './Card';
 
@@ -6,7 +7,9 @@ export default function PostFormCard() {
     <Card>
       <div className="flex gap-2 ">
         <div>
-          <Avatar />
+          <Link href={'/profile'}>
+            <Avatar />
+          </Link>
         </div>
         <textarea
           className="grow p-3 h-14 "

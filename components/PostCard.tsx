@@ -1,19 +1,25 @@
 import Card from './Card';
 import Avatar from './Avatar';
 import Image from 'next/image';
+import { Menu, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import MenuDropdown from './MenuDropdown';
+import Link from 'next/link';
 
 export default function PostCard() {
   return (
     <Card>
       <div className="flex gap-3">
         <div>
-          <Avatar />
+          <Link href={'/profile'}>
+            <Avatar />
+          </Link>
         </div>
         <div className="grow">
           <p>
-            <a href="#" className="font-bold">
+            <Link href="/profile" className="font-semibold ">
               Steve Elias
-            </a>{' '}
+            </Link>{' '}
             shared a{' '}
             <a href="#" className="text-app-blue/80">
               album
@@ -21,26 +27,9 @@ export default function PostCard() {
           </p>
           <p className="text-xs text-gray-400">2 hours ago</p>
         </div>
-        <div>
-          <button className="text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-              />
-            </svg>
-          </button>
-        </div>
+        <MenuDropdown />
       </div>
-      {/* content */}
+
       <div>
         <p className="mx-1 my-3 text-sm">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto
@@ -52,9 +41,9 @@ export default function PostCard() {
           <Image
             src="https://images.unsplash.com/photo-1564455656476-529f163c2821?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
             alt="picture"
-            width={1000}
-            height={444}
-            layout="responsive"
+            width={700}
+            height={500}
+            // layout="responsive"
           />
         </div>
       </div>
@@ -111,10 +100,11 @@ export default function PostCard() {
           5
         </button>
       </div>
-      {/* comments */}
       <div className="flex items-center gap-3 mt-4">
         <div>
-          <Avatar />
+          <Link href={'/profile'}>
+            <Avatar />
+          </Link>
         </div>
 
         <div className="relative border rounded-full grow">
