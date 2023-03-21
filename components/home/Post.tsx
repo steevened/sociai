@@ -1,28 +1,32 @@
 import Image from 'next/image';
 import Avatar from '../Avatar';
+import Username from '../links/Username';
 import MenuDropdown from '../MenuDropdown';
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props {
   children?: React.ReactNode;
+  id: number;
+  username: string;
+  className?: string;
 }
 
-const Post = ({ className }: Props) => {
+const Post = ({ className, id, username }: Props) => {
   return (
     <div
       className={`w-9/12 min-w-[300px] mx-auto  shadow-app-bottom my-8 pb-6 ${className}`}
     >
-      <div className="flex gap-3 items-center ">
+      <div className="flex items-center gap-3 ">
         <Avatar />
-        <div className="flex-grow flex gap-2 text-base">
-          <p className="font-semibold text-sm">username</p>
-          <p className="text-gray-500 text-sm">1d</p>
+        <div className="flex flex-grow gap-2 text-base">
+          <Username username={username} />
+          <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
           <MenuDropdown />
         </div>
       </div>
 
-      <div className="shadow-app-image mt-4">
+      <div className="mt-4 shadow-app-image">
         <Image
           src="https://images.unsplash.com/photo-1621500917010-3915ad3cabbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80"
           alt="photo"
@@ -30,9 +34,9 @@ const Post = ({ className }: Props) => {
           height={500}
         />
       </div>
-      <div className="mt-4 px-4">
+      <div className="px-4 mt-4">
         <div className="flex">
-          <div className="flex items-center gap-4  grow">
+          <div className="flex items-center gap-4 grow">
             <button>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,20 +87,20 @@ const Post = ({ className }: Props) => {
             </svg>
           </button>
         </div>
-        <div className="mt-4 flex flex-col gap-1">
+        <div className="flex flex-col gap-1 mt-4">
           <div>
-            <button className="text-sm text-gray-500 font-semibold">
+            <button className="text-sm font-semibold text-gray-500">
               34 stars
             </button>
           </div>
           <div>
-            <p className="text-sm">
-              <span className="font-semibold mr-2">username</span>
+            <div className="text-sm">
+              <Username username={username} className="mr-1" />
               <span className="">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quisquam, quod.
               </span>
-            </p>
+            </div>
           </div>
           <div className="mt-1">
             <button className="text-sm text-gray-500 ">

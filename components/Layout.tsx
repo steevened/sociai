@@ -11,11 +11,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   // console.log(isProfilePage);
 
   return (
-    <div className="md:flex md:mt-4 max-w-4xl mx-auto md:gap-6 mb-24 md:mb-0">
+    <div className="">
       <div className="w-full md:w-3/12">
         <NavigationCard />
       </div>
-      <div className="w-full">{children}</div>
+      <div className="w-full ">{children}</div>
       {/* <div className="w-9/12">
         {isProfilePage ? (
           <ProfileLayout>{children}</ProfileLayout>

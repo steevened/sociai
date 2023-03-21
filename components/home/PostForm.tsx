@@ -1,9 +1,11 @@
-const PostForm = () => {
+import { DivProps } from '../../lib/interfaces/components.interface';
+
+const PostForm = ({ className }: DivProps) => {
   return (
-    <form className="relative ">
+    <form className={`relative ${className}`}>
       <h2 className="font-semibold">New Post</h2>
-      <div className="flex mt-2 shadow-app-bottom pb-4 gap-2">
-        <div className="w-24 bg-gray-800 h-24 grid place-content-center text-teal-500">
+      <div className="flex gap-2 pb-4 mt-2 shadow-app-bottom">
+        <div className="grid w-24 h-24 text-teal-500 bg-gray-800 place-content-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,13 +24,13 @@ const PostForm = () => {
         <div className="grow">
           <textarea
             placeholder="Write a caption..."
-            className="w-full h-full bg-transparent resize-none outline-none placeholder-gray-500 text-gray-300 px-2 py-2 max-h-24 "
+            className="w-full h-full px-2 py-2 text-gray-300 placeholder-gray-500 bg-transparent outline-none resize-none max-h-24 "
           />
         </div>
         <button
           disabled={true}
           type="submit"
-          className="top-0 absolute right-0 text-teal-500 hover:text-teal-400 disabled:text-gray-400"
+          className="absolute top-0 right-0 text-teal-500 hover:text-teal-400 disabled:text-gray-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

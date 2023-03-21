@@ -1,19 +1,14 @@
 import React from 'react';
-import { NextPageWithLayout } from '../_app';
-import { ReactElement } from 'react';
-import Layout from '../../components/Layout';
-import TopBar from '@/components/atoms/TopBar';
-import SavedImg from '@/components/saved/SavedImg';
-import ImgsGrid from '@/components/temp/ImgsGrid';
+import SavedImg from '../saved/SavedImg';
 
-export interface SavePost {
+interface IPost {
   id: number;
   imgLink: string;
   likes: number;
   comments: number;
 }
 
-const savedPosts: SavePost[] = [
+const posts: IPost[] = [
   {
     id: 1,
     imgLink: 'https://picsum.photos/200/200',
@@ -70,17 +65,18 @@ const savedPosts: SavePost[] = [
   },
 ];
 
-const Saved: NextPageWithLayout = () => {
+export default function ImgsGrid({ className }: { className?: string }) {
   return (
-    <div className="">
-      <TopBar title="All Saved Posts" />
-      <ImgsGrid className="mt-4" />
+    <div className={`grid grid-cols-3 gap-1 ${className}`}>
+      {posts.map((post) => (
+        <SavedImg
+          key={post.id}
+          comments={post.comments}
+          id={post.id}
+          imgLink={post.imgLink}
+          likes={post.likes}
+        />
+      ))}
     </div>
   );
-};
-
-Saved.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
-export default Saved;
+}

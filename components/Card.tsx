@@ -7,12 +7,6 @@ type Props = {
 
 export default function Card({ children, className }: Props) {
   return (
-    <div
-      className={`app-shadow base-colors  rounded-md ${
-        !className && 'p-4'
-      } mb-5 ${className}`}
-    >
-      {children}
-    </div>
+    <div className={` base-colors  rounded-md ${className}`}>{children}</div>
   );
 }
