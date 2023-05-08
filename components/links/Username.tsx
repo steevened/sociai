@@ -7,7 +7,7 @@ interface IProps {
 
 export default function Username({ className, username }: IProps) {
   return (
-    <Link href={`/${encodeURIComponent(username)}`}>
+    <Link href={`/profile/${encodeURIComponent(username)}`}>
       <p className={`inline text-sm font-semibold ${className}`}>{username}</p>
     </Link>
   );

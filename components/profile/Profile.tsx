@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Card from '../Card';
+import Card from '../atoms/Card';
 import Image from 'next/image';
 import Avatar from '../Avatar';
 import Link from 'next/link';

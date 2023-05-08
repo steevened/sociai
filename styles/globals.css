@@ -17,4 +17,7 @@
   .app-shadow {
     @apply shadow-app-shadow;
   }
+  .test {
+    @apply border border-red-500;
+  }
 }

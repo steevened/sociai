@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Avatar from './Avatar';
-import Card from './Card';
+import Card from './atoms/Card';
 
 export default function PostFormCard() {
   return (
