@@ -27,35 +27,23 @@ export default function NavigationCard() {
   const className = 'duration-100 active:scale-95 hover:scale-105';
 
   return (
-    <div className="">
-      <div className="fixed inset-x-0 bottom-0 z-50 flex items-center justify-between px-4 py-5 bg-black shadow-app-top">
-        <Link className={`${className} `} href="/">
-          {isHome ? <HomeIconOut /> : <HomeIconIn />}
+    <div className="container fixed inset-x-0 bottom-0 z-50 flex items-center justify-between px-4 py-3 mx-auto duration-200 bg-black shadow-app-top md:hidden">
+      <Link className={`${className} `} href="/">
+        {isHome ? <HomeIconOut /> : <HomeIconIn />}
+      </Link>
+      <Link className={`${className} `} href="/notifications">
+        {isNotifications ? <LikesIconOut /> : <LikesIconIn />}
+      </Link>
 
-          <span className="hidden md:block">Home</span>
-        </Link>
-        <Link className={`${className} `} href="/notifications">
-          {isNotifications ? <LikesIconOut /> : <LikesIconIn />}
-
-          <span className="hidden md:block">Notifications</span>
-        </Link>
-
-        <Link className={`${className} `} href="/messages">
-          {isMessages ? <MsgsOut /> : <MsgsIn />}
-
-          <span className="hidden md:block">Messages</span>
-        </Link>
-        <Link className={`${className} `} href="/saved">
-          {isSaved ? <SaveIconOut /> : <SaveIconIn />}
-
-          <span className="hidden md:block">Saved posts</span>
-        </Link>
-        <Link className={`${className} `} href="/profile/steevened">
-          <div className="w-6 h-6 bg-white rounded-full " />
-
-          <span className="hidden md:block">Profile</span>
-        </Link>
-      </div>
+      <Link className={`${className} `} href="/messages">
+        {isMessages ? <MsgsOut /> : <MsgsIn />}
+      </Link>
+      <Link className={`${className} `} href="/saved">
+        {isSaved ? <SaveIconOut /> : <SaveIconIn />}
+      </Link>
+      <Link className={`${className} `} href="/profile/steevened">
+        <div className="w-6 h-6 bg-white rounded-full " />
+      </Link>
     </div>
   );
 }

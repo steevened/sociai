@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 export default function MenuDropdown() {
   return (
     <Menu as="div" className="relative text-gray-400">
-      <Menu.Button className="p-1  duration-100 rounded-full hover:bg-gray-900 active:scale-90 hover:scale-110">
+      <Menu.Button className="p-1 duration-100 rounded-full hover:bg-gray-900 active:scale-95 hover:scale-105">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -29,7 +29,7 @@ export default function MenuDropdown() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute -right-1 mt-1 p-2 bg-black rounded-md w-36 space-y-2 shadow-app-shadow">
+        <Menu.Items className="absolute p-2 mt-1 space-y-2 bg-black rounded-md -right-1 w-36 shadow-app-shadow">
           <Menu.Item>
             {({ active }) => (
               <button

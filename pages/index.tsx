@@ -35,7 +35,7 @@ const Home: NextPageWithLayout = () => {
   return (
     <div className="mb-36">
       {/* <PostForm className="mt-4" /> */}
-      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 bg-black shadow-app-bottom">
+      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 bg-black shadow-app-bottom md:hidden">
         <button onClick={() => router.push('/')} className="">
           <InstagramTextLogo />
         </button>
@@ -43,12 +43,11 @@ const Home: NextPageWithLayout = () => {
         <button>
           <AddPostIn />
         </button>
-        {/* <h1 className="font-bold text-center">{title}</h1> */}
       </div>
 
-      <div className="my-20 ">
-        {posts.map((post) => (
-          <Post key={post.id} username={post.username} id={post.id} />
+      <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
+        {posts.map(({ id, username }) => (
+          <Post key={id} username={username} id={id} />
         ))}
       </div>
     </div>
