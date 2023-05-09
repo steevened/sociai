@@ -4,8 +4,12 @@ import { useRouter } from 'next/router';
 import logo from '../public/social-media.png';
 import Card from './atoms/Card';
 import {
+  AddPostIn,
+  AddPostOut,
   HomeIconIn,
   HomeIconOut,
+  IgLogoIcon,
+  InstagramTextLogo,
   LikesIconIn,
   LikesIconOut,
   MsgsIn,
@@ -13,37 +17,130 @@ import {
   SaveIconIn,
   SaveIconOut,
 } from './icons/Svg';
+import { ReactNode } from 'react';
+
+interface Route {
+  name: string;
+  path: string;
+  iconActive: ReactNode;
+  iconInactive: ReactNode;
+}
+
+const routes: Route[] = [
+  {
+    name: 'Home',
+    path: '/',
+    iconActive: <HomeIconIn />,
+    iconInactive: <HomeIconOut />,
+  },
+  {
+    name: 'Notifications',
+    path: '/notifications',
+    iconActive: <LikesIconIn />,
+    iconInactive: <LikesIconOut />,
+  },
+  {
+    name: 'Messages',
+    path: '/messages',
+    iconActive: <MsgsIn />,
+    iconInactive: <MsgsOut />,
+  },
+  {
+    name: 'Saved',
+    path: '/saved',
+    iconActive: <SaveIconIn />,
+    iconInactive: <SaveIconOut />,
+  },
+];
 
 export default function NavigationCard() {
   const router = useRouter();
 
   const { pathname } = router;
 
-  const isHome = pathname === '/';
-  const isNotifications = pathname === '/notifications';
-  const isMessages = pathname === '/messages';
-  const isSaved = pathname === '/saved';
+  const className =
+    'p-3 duration-100 rounded-md md:hover:bg-zinc-900 active:scale-[0.99]';
 
-  const className = 'duration-100 active:scale-95 hover:scale-105';
+  const currentRoute = () => {
+    switch (pathname) {
+      case '/':
+        return 'home';
+      case '/notifications':
+        return 'notifications';
+      case '/messages':
+        return 'messages';
+      case '/saved':
+        return 'saved';
+      default:
+        break;
+    }
+  };
 
   return (
-    <div className="container fixed inset-x-0 bottom-0 z-50 flex items-center justify-between px-4 py-3 mx-auto duration-200 bg-black shadow-app-top md:hidden">
-      <Link className={`${className} `} href="/">
-        {isHome ? <HomeIconOut /> : <HomeIconIn />}
-      </Link>
-      <Link className={`${className} `} href="/notifications">
-        {isNotifications ? <LikesIconOut /> : <LikesIconIn />}
-      </Link>
+    <div className="fixed bottom-0 z-50 w-full bg-black shadow-app-top md:inset-y-0 md:w-fit md:left-0 md:shadow-app-right xl:w-60">
+      <div className="items-center justify-center hidden py-6 md:flex xl:justify-start">
+        <Link
+          href="/"
+          className="p-3 duration-100 rounded-md md:hover:bg-zinc-900 active:scale-[0.99] xl:hover:bg-transparent"
+        >
+          <span className="xl:hidden">
+            <IgLogoIcon />
+          </span>
+          <span className="hidden xl:block">
+            <InstagramTextLogo />
+          </span>
+        </Link>
+      </div>
 
-      <Link className={`${className} `} href="/messages">
-        {isMessages ? <MsgsOut /> : <MsgsIn />}
-      </Link>
-      <Link className={`${className} `} href="/saved">
-        {isSaved ? <SaveIconOut /> : <SaveIconIn />}
-      </Link>
-      <Link className={`${className} `} href="/profile/steevened">
-        <div className="w-6 h-6 bg-white rounded-full " />
-      </Link>
+      <div className="flex items-center justify-between h-full px-4 py-3 md:flex-col md:px-2 md:justify-start md:gap-4 xl:items-start ">
+        {routes.map(({ path, name, iconActive, iconInactive }) => (
+          <Link className={`${className} w-full`} href={path} key={name}>
+            <span className="flex items-center gap-3">
+              {currentRoute() !== name.toLowerCase()
+                ? iconActive
+                : iconInactive}
+              <p
+                className={`hidden text-lg  xl:block ${
+                  currentRoute() === name.toLowerCase()
+                    ? 'font-semibold'
+                    : 'font-normal'
+                }`}
+              >
+                {name}
+              </p>
+            </span>
+          </Link>
+        ))}
+
+        <Link
+          className={`${className} w-full  items-center gap-3 hidden md:flex`}
+          href="/create"
+        >
+          {pathname === '/create' ? <AddPostOut /> : <AddPostIn />}
+
+          <span
+            className={`hidden text-lg font-semibold xl:block ${
+              pathname === '/create' ? 'font-semibold' : 'font-normal'
+            }`}
+          >
+            <p>Create</p>
+          </span>
+        </Link>
+
+        <Link
+          className={`${className} w-full flex items-center gap-3`}
+          href="/profile/steevened"
+        >
+          <div className="w-6 h-6 bg-white rounded-full " />
+          <span
+            className={`hidden text-lg font-semibold xl:block ${
+              pathname.startsWith('/profile') ? 'font-semibold' : 'font-normal'
+            }`}
+          >
+            <p>Profile</p>
+          </span>
+        </Link>
+      </div>
     </div>
   );
 }
