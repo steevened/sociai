@@ -18,15 +18,6 @@ export default function App({
   Component,
   pageProps,
 }: AppPropsWithLayout<{ initialSession: Session }>) {
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient());
-
   const getlayout = Component.getLayout ?? ((page: ReactElement) => page);
-  return (
-    <SessionContextProvider
-      supabaseClient={supabaseClient}
-      initialSession={pageProps.initialSession}
-    >
-      {getlayout(<Component {...pageProps} />)}
-    </SessionContextProvider>
-  );
+  return getlayout(<Component {...pageProps} />);
 }

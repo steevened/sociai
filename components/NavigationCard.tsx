@@ -119,7 +119,7 @@ export default function NavigationCard() {
           {pathname === '/create' ? <AddPostOut /> : <AddPostIn />}
 
           <span
-            className={`hidden text-lg font-semibold xl:block ${
+            className={`hidden text-lg  xl:block ${
               pathname === '/create' ? 'font-semibold' : 'font-normal'
             }`}
           >
@@ -133,7 +133,7 @@ export default function NavigationCard() {
         >
           <div className="w-6 h-6 bg-white rounded-full " />
           <span
-            className={`hidden text-lg font-semibold xl:block ${
+            className={`hidden text-lg  xl:block ${
               pathname.startsWith('/profile') ? 'font-semibold' : 'font-normal'
             }`}
           >
