@@ -1,8 +1,9 @@
 import Layout from '@/components/Layout';
 import { NextPageWithLayout } from './_app';
 import { ReactElement } from 'react';
-import PostForm from '@/components/home/PostForm';
 import Post from '@/components/home/Post';
+import { useRouter } from 'next/router';
+import { AddPostIn, InstagramTextLogo } from '@/components/icons/Svg';
 
 interface IPost {
   id: number;
@@ -29,13 +30,24 @@ const posts: IPost[] = [
 ];
 
 const Home: NextPageWithLayout = () => {
+  const router = useRouter();
   return (
-    <div className="mx-4 mb-36">
-      <PostForm className="mt-4" />
+    <div className="mb-36">
+      <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 bg-black shadow-app-bottom md:hidden">
+        <button onClick={() => router.push('/')} className="">
+          <InstagramTextLogo />
+        </button>
 
-      {posts.map((post) => (
-        <Post key={post.id} username={post.username} id={post.id} />
-      ))}
+        <button>
+          <AddPostIn />
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
+        {posts.map(({ id, username }) => (
+          <Post key={id} username={username} id={id} />
+        ))}
+      </div>
     </div>
   );
 };

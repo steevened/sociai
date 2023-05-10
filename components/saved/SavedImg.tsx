@@ -1,6 +1,6 @@
 import { SavePost } from '@/pages/saved';
 import Image from 'next/image';
-import { CommentOutlined, StarOutlined } from '../icons/Svg';
+import { CommentIcon, LikesIconIn } from '../icons/Svg';
 
 const SavedImg = ({ id, comments, likes, imgLink }: SavePost) => {
   return (
@@ -9,10 +9,10 @@ const SavedImg = ({ id, comments, likes, imgLink }: SavePost) => {
       <div className="absolute inset-0 items-center justify-center hidden cursor-pointer bg-black/50 group-hover:flex">
         <div className="flex flex-col items-center gap-1 font-semibold">
           <div className="flex gap-2">
-            <StarOutlined /> <span>{likes}</span>
+            <LikesIconIn /> <span>{likes}</span>
           </div>
           <div className="flex gap-2">
-            <CommentOutlined /> <span>{comments}</span>
+            <CommentIcon /> <span>{comments}</span>
           </div>
         </div>
       </div>

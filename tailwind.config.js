@@ -14,6 +14,7 @@ module.exports = {
       boxShadow: {
         'app-shadow': 'inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
         'app-top': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        'app-right': 'inset -1px 0 0 rgba(255, 255, 255, 0.1)',
         'app-bottom': 'inset 0 -1px 0 rgba(255, 255, 255, 0.1)',
         'app-image': '0 0 0 1px rgba(255, 255, 255, 0.1)',
       },

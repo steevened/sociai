@@ -1,11 +1,17 @@
 import TopBar from '@/components/atoms/TopBar';
 import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
-import React from 'react';
-import Avatar from '../components/Avatar';
-import { NextPageWithLayout } from './_app';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import ImgsGrid from '@/components/temp/ImgsGrid';
+import { Menu } from '@headlessui/react';
+import { ConfigLogo } from '@/components/icons/Svg';
+import {
+  useSupabaseClient,
+  useSession,
+  useUser,
+} from '@supabase/auth-helpers-react';
+import { NextPageWithLayout } from '../_app';
+import Avatar from '@/components/Avatar';
 
 const UserProfile: NextPageWithLayout = () => {
   const router = useRouter();
@@ -14,7 +20,31 @@ const UserProfile: NextPageWithLayout = () => {
   return (
     <div className="">
       <TopBar title={username} />
-      <div className="mx-4 mt-8">
+      <div className="relative mx-4 mt-8">
+        <div className="absolute right-0">
+          <Menu>
+            <Menu.Button>
+              <ConfigLogo />
+            </Menu.Button>
+            <Menu.Items
+              as="div"
+              className="absolute right-0 p-2 bg-black rounded-md shadow-app-shadow w-28"
+            >
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    // onClick={() => supabaseClient.auth.signOut()}
+                    className={`${
+                      active ? 'bg-gray-900' : ''
+                    } block w-full text-left px-4 py-2 text-sm rounded-md`}
+                  >
+                    Log Out
+                  </button>
+                )}
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
+        </div>
         <div className="flex gap-8">
           <Avatar className="w-20" />
           <div className="flex flex-col justify-between">
