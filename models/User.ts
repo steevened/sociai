@@ -3,10 +3,9 @@ import mongoose, { Schema, model, Model } from 'mongoose';
 
 const userSchema = new Schema(
   {
-    id: { type: String, required: true },
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    image: { type: URL, required: false },
+    name: { type: String, required: true, unique: false },
+    email: { type: String, required: true, unique: true },
+    image: { type: String, required: false },
   },
   {
     timestamps: true,

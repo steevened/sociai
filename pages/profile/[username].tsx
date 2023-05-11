@@ -8,6 +8,7 @@ import { ConfigLogo } from '@/components/icons/Svg';
 import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
+import { signIn } from 'next-auth/react';
 
 const UserProfile: NextPageWithLayout = () => {
   const { logout } = useContext(AuthContext);
@@ -47,7 +48,13 @@ const UserProfile: NextPageWithLayout = () => {
           <div className="flex flex-col justify-between">
             <h2 className="text-xl">{username}</h2>
             <div className="flex gap-4 ">
-              <Btn text="Following" />
+              {/* <Btn text="Following" /> */}
+              <button
+                className="px-2 border border-white rounded-md"
+                onClick={() => signIn()}
+              >
+                Sign in
+              </button>
               <Btn text="Message" />
             </div>
           </div>
