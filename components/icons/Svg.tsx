@@ -139,7 +139,7 @@ export function LikesIconIn() {
       <path
         d="M11.4134 2.79424L11.9954 3.50842L12.5767 2.79365C13.1195 2.1261 13.7974 1.59768 14.5583 1.24535C15.3182 0.893475 16.1426 0.725603 16.9708 0.75286C18.6857 0.823662 20.3118 1.60045 21.4908 2.92535C22.6714 4.25205 23.3057 6.01946 23.2462 7.84189L23.2458 7.85414V7.8664C23.2458 11.4282 20.7761 13.7143 18.2984 15.9593C17.9892 16.2385 17.6768 16.5229 17.3681 16.809L17.3662 16.8108L16.4044 17.7085L16.3953 17.717L16.3865 17.7258C15.2107 18.8988 13.977 20.0065 12.6904 21.0442C12.4805 21.1798 12.2415 21.25 12 21.25C11.7586 21.25 11.5196 21.1799 11.3097 21.0443C10.0633 20.0377 8.86687 18.965 7.72515 17.8304L7.71684 17.8222L7.70827 17.8142L6.637 16.8141L6.63607 16.8133C6.36069 16.5571 6.08374 16.3057 5.81303 16.06C5.78848 16.0377 5.76402 16.0155 5.73959 15.9933C3.12606 13.6205 0.754247 11.4187 0.754247 7.8664V7.85414L0.753847 7.84189C0.69427 6.01946 1.32862 4.25205 2.50924 2.92535C3.68801 1.60071 5.31364 0.823968 7.02823 0.752901C7.85465 0.728074 8.67692 0.897077 9.43489 1.2488C10.1942 1.60113 10.8708 2.12847 11.4134 2.79424Z"
         stroke="currentColor"
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   );
@@ -206,7 +206,7 @@ export function MsgsOut() {
         fill="#ffffff"
         stroke="#ffffff"
         strokeWidth="1.739"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
       />
       <path
         fillRule="evenodd"
@@ -251,9 +251,9 @@ export function SaveIconOut() {
         d="M21 25L11 14.92L1 25V1H21V25Z"
         fill="currentColor"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -292,23 +292,23 @@ export function AddPostOut() {
         d="M2 12V15.45C2 18.299 2.698 19.455 3.606 20.394C4.546 21.303 5.704 22.002 8.552 22.002H15.448C18.296 22.002 19.454 21.302 20.394 20.394C21.302 19.455 22 18.3 22 15.45V8.552C22 5.703 21.302 4.546 20.394 3.607C19.454 2.7 18.296 2 15.448 2H8.552C5.704 2 4.546 2.699 3.606 3.607C2.698 4.547 2 5.703 2 8.552V12Z"
         fill="white"
         stroke="white"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M6.54501 12.001H17.455"
         stroke="#262626"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M12.003 6.545V17.455"
         stroke="#262626"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -323,7 +323,7 @@ export function CommentIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1_73)">
+      <g clipPath="url(#clip0_1_73)">
         <path
           d="M20.656 17.008C21.8711 14.9061 22.2795 12.4337 21.8048 10.0527C21.3301 7.67173 20.0048 5.54498 18.0765 4.06979C16.1482 2.59459 13.7488 1.87186 11.3266 2.03661C8.9043 2.20136 6.62486 3.24232 4.91408 4.96502C3.20329 6.68772 2.17817 8.97433 2.03024 11.3977C1.8823 13.821 2.62166 16.2153 4.1102 18.1334C5.59874 20.0514 7.73463 21.3619 10.1189 21.82C12.5031 22.2782 14.9726 21.8527 17.066 20.623L22 22L20.656 17.008Z"
           stroke="currentColor"

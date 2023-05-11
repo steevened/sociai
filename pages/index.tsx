@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import Post from '@/components/home/Post';
 import { useRouter } from 'next/router';
 import { AddPostIn, InstagramTextLogo } from '@/components/icons/Svg';
+import { useSession } from 'next-auth/react';
 
 interface IPost {
   id: number;
@@ -31,6 +32,7 @@ const posts: IPost[] = [
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
+
   return (
     <div className="mb-36">
       <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-5 py-4 bg-black shadow-app-bottom md:hidden">
