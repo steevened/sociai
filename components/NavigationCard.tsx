@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import logo from '../public/social-media.png';
-import Card from './atoms/Card';
+
 import {
   AddPostIn,
   AddPostOut,
@@ -12,12 +10,16 @@ import {
   InstagramTextLogo,
   LikesIconIn,
   LikesIconOut,
+  LogInIcon,
   MsgsIn,
   MsgsOut,
   SaveIconIn,
   SaveIconOut,
 } from './icons/Svg';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
+import { useSession } from 'next-auth/react';
+import { AuthContext } from '@/context';
+import Image from 'next/image';
 
 interface Route {
   name: string;
@@ -54,6 +56,10 @@ const routes: Route[] = [
 ];
 
 export default function NavigationCard() {
+  const { data, status } = useSession();
+  const { isLogged } = useContext(AuthContext);
+  console.log(isLogged);
+
   const router = useRouter();
 
   const { pathname } = router;
@@ -77,8 +83,8 @@ export default function NavigationCard() {
   };
 
   return (
-    <div className="fixed bottom-0 z-50 w-full bg-black shadow-app-top md:inset-y-0 md:w-fit md:left-0 md:shadow-app-right xl:w-60">
-      <div className="items-center justify-center hidden py-6 md:flex xl:justify-start">
+    <div className="fixed bottom-0 z-50 w-full bg-black shadow-app-top md:inset-y-0 md:w-fit md:left-0 md:shadow-app-right xl:w-60 ">
+      <div className="items-center justify-center hidden py-6 md:flex xl:justify-start ">
         <Link
           href="/"
           className="p-3 duration-100 rounded-md md:hover:bg-zinc-900 active:scale-[0.99] xl:hover:bg-transparent"
@@ -92,9 +98,13 @@ export default function NavigationCard() {
         </Link>
       </div>
 
-      <div className="flex items-center justify-between h-full px-4 py-3 md:flex-col md:px-2 md:justify-start md:gap-4 xl:items-start ">
+      <div className="flex items-center justify-between h-full px-4 py-3 md:flex-col md:px-2 md:justify-start md:gap-4 xl:items-start">
         {routes.map(({ path, name, iconActive, iconInactive }) => (
-          <Link className={`${className} w-full`} href={path} key={name}>
+          <Link
+            className={`${className} w-full  flex items-center justify-center xl:justify-start`}
+            href={path === '/' ? '/' : isLogged ? path : '/api/auth/signin'}
+            key={name}
+          >
             <span className="flex items-center gap-3">
               {currentRoute() !== name.toLowerCase()
                 ? iconActive
@@ -113,8 +123,8 @@ export default function NavigationCard() {
         ))}
 
         <Link
-          className={`${className} w-full  items-center gap-3 hidden md:flex`}
-          href="/create"
+          className={`${className} w-full  items-center gap-3 hidden md:flex justify-center xl:justify-start`}
+          href={isLogged ? '/create' : '/api/auth/signin'}
         >
           {pathname === '/create' ? <AddPostOut /> : <AddPostIn />}
 
@@ -128,17 +138,39 @@ export default function NavigationCard() {
         </Link>
 
         <Link
-          className={`${className} w-full flex items-center gap-3`}
-          href="/profile/steevened"
+          className={`${className} w-full flex items-center gap-3 justify-center xl:justify-start`}
+          href={
+            isLogged
+              ? `/profile/${data?.user?.email?.split('@')[0]}`
+              : '/api/auth/signin'
+          }
         >
-          <div className="w-6 h-6 bg-white rounded-full " />
-          <span
-            className={`hidden text-lg  xl:block ${
-              pathname.startsWith('/profile') ? 'font-semibold' : 'font-normal'
-            }`}
-          >
-            <p>Profile</p>
-          </span>
+          {isLogged ? (
+            <>
+              <div className="overflow-hidden bg-white rounded-full w-7 h-7">
+                <Image
+                  src={data?.user?.image as string}
+                  alt="user profile image"
+                  width={28}
+                  height={28}
+                />
+              </div>
+              <span
+                className={`hidden text-lg  xl:block ${
+                  pathname.startsWith('/profile')
+                    ? 'font-semibold'
+                    : 'font-normal'
+                }`}
+              >
+                <p>Profile</p>
+              </span>
+            </>
+          ) : (
+            <>
+              <LogInIcon />
+              <span className="hidden text-lg xl:block">Log In</span>
+            </>
+          )}
         </Link>
       </div>
     </div>

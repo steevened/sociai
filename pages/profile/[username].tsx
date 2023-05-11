@@ -8,12 +8,19 @@ import { ConfigLogo } from '@/components/icons/Svg';
 import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 const UserProfile: NextPageWithLayout = () => {
   const { logout } = useContext(AuthContext);
   const router = useRouter();
   const { username } = router.query;
+  const { status, data } = useSession();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [router, status]);
 
   return (
     <div className="">
@@ -31,7 +38,10 @@ const UserProfile: NextPageWithLayout = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={logout}
+                    onClick={() => {
+                      logout();
+                      router.push('/');
+                    }}
                     className={`${
                       active ? 'bg-gray-900' : ''
                     } block w-full text-left px-4 py-2 text-sm rounded-md`}
@@ -51,7 +61,9 @@ const UserProfile: NextPageWithLayout = () => {
               {/* <Btn text="Following" /> */}
               <button
                 className="px-2 border border-white rounded-md"
-                onClick={() => signIn()}
+                onClick={() => {
+                  signIn();
+                }}
               >
                 Sign in
               </button>

@@ -34,7 +34,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     if (status === 'authenticated') {
       const { user } = data;
       login({
-        id: user?.email,
         name: user?.name,
         email: user?.email,
         image: user?.image || '',
