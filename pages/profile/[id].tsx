@@ -9,12 +9,17 @@ import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
 import { signIn, useSession } from 'next-auth/react';
+import { useUserById } from '@/lib/hooks';
 
 const UserProfile: NextPageWithLayout = () => {
   const { logout } = useContext(AuthContext);
   const router = useRouter();
-  const { username } = router.query;
-  const { status, data } = useSession();
+  const { id } = router.query;
+  const { status } = useSession();
+
+  const { error, isLoading, user } = useUserById(id as string);
+
+  console.log(user);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -22,9 +27,17 @@ const UserProfile: NextPageWithLayout = () => {
     }
   }, [router, status]);
 
+  if (isLoading || !user) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
   return (
     <div className="">
-      <TopBar title={username} />
+      <TopBar title={user.email.split('@')[0]} />
       <div className="relative mx-4 mt-8">
         <div className="absolute right-0">
           <Menu>
@@ -54,9 +67,9 @@ const UserProfile: NextPageWithLayout = () => {
           </Menu>
         </div>
         <div className="flex gap-8">
-          <Avatar className="w-20" />
+          <Avatar imageUrl={user.image as string} className="w-20" />
           <div className="flex flex-col justify-between">
-            <h2 className="text-xl">{username}</h2>
+            <h2 className="text-xl">{user.email.split('@')[0]}</h2>
             <div className="flex gap-4 ">
               {/* <Btn text="Following" /> */}
               <button
@@ -72,7 +85,7 @@ const UserProfile: NextPageWithLayout = () => {
           </div>
         </div>
         <div className="mt-8 text-sm">
-          <h3 className="font-semibold">Firstname Lastname</h3>
+          <h3 className="font-semibold">{user.name}</h3>
           <p className="font-thin">
             some text representing the profile description
           </p>

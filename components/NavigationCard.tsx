@@ -20,6 +20,7 @@ import { ReactNode, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import { AuthContext } from '@/context';
 import Image from 'next/image';
+import { useUserByEmail } from '@/lib/hooks';
 
 interface Route {
   name: string;
@@ -57,7 +58,13 @@ const routes: Route[] = [
 
 export default function NavigationCard() {
   const { data, status } = useSession();
-  const { isLogged } = useContext(AuthContext);
+  const { isLogged, user: userLogged } = useContext(AuthContext);
+
+  const { user, error, isLoading } = useUserByEmail(
+    userLogged?.email as string
+  );
+
+  console.log(user);
 
   const router = useRouter();
 
@@ -138,17 +145,13 @@ export default function NavigationCard() {
 
         <Link
           className={`${className} w-full flex items-center gap-3 justify-center xl:justify-start`}
-          href={
-            isLogged
-              ? `/profile/${data?.user?.email?.split('@')[0]}`
-              : '/api/auth/signin'
-          }
+          href={isLogged ? `/profile/${user?._id}` : '/api/auth/signin'}
         >
           {isLogged ? (
             <>
               <div className="overflow-hidden bg-white rounded-full w-7 h-7">
                 <Image
-                  src={data?.user?.image as string}
+                  src={user?.image as string}
                   alt="user profile image"
                   width={28}
                   height={28}
