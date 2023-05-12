@@ -4,6 +4,8 @@ import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from '@/context';
+import { SWRConfig } from 'swr';
+import { fetcher } from '../lib/helpers/fetcher.helper';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode;
@@ -20,7 +22,17 @@ export default function App({
   const getlayout = Component.getLayout ?? ((page: ReactElement) => page);
   return (
     <SessionProvider session={session}>
-      <AuthProvider>{getlayout(<Component {...pageProps} />)}</AuthProvider>
+      <AuthProvider>
+        <SWRConfig
+          value={{
+            fetcher,
+            revalidateOnFocus: false,
+            shouldRetryOnError: false,
+          }}
+        >
+          {getlayout(<Component {...pageProps} />)}
+        </SWRConfig>
+      </AuthProvider>
     </SessionProvider>
   );
 }

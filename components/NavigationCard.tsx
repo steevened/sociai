@@ -58,7 +58,6 @@ const routes: Route[] = [
 export default function NavigationCard() {
   const { data, status } = useSession();
   const { isLogged } = useContext(AuthContext);
-  console.log(isLogged);
 
   const router = useRouter();
 

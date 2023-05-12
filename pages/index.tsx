@@ -5,6 +5,7 @@ import Post from '@/components/home/Post';
 import { useRouter } from 'next/router';
 import { AddPostIn, InstagramTextLogo } from '@/components/icons/Svg';
 import { useSession } from 'next-auth/react';
+import { useUsers } from '@/lib/hooks';
 
 interface IPost {
   id: number;
