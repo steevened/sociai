@@ -3,21 +3,20 @@ import Avatar from '../Avatar';
 import Username from '../links/Username';
 import MenuDropdown from '../MenuDropdown';
 import { CommentIcon, LikesIconIn, SaveIconIn } from '../icons/Svg';
+import { User } from '@/lib/interfaces/user-response.interface';
 
 interface Props {
-  children?: React.ReactNode;
-  id: number;
-  username: string;
+  user: User;
   className?: string;
 }
 
-const Post = ({ className, id, username }: Props) => {
+const Post = ({ className, user }: Props) => {
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
-        <Avatar />
+        <Avatar imageUrl={user.image} />
         <div className="flex flex-grow gap-2 text-base">
-          <Username username={username} />
+          <Username username={user.name} id={user._id} />
           <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
@@ -53,7 +52,7 @@ const Post = ({ className, id, username }: Props) => {
           </div>
           <div>
             <div className="text-sm">
-              <Username username={username} className="mr-1" />
+              <Username username={user.name} id={user._id} className="mr-1" />
               <span className="">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quisquam, quod.
