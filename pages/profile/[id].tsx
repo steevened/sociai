@@ -21,11 +21,11 @@ const UserProfile: NextPageWithLayout = () => {
 
   console.log(user);
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [router, status]);
+  // useEffect(() => {
+  //   if (status === 'unauthenticated') {
+  //     router.push('/');
+  //   }
+  // }, [router, status]);
 
   if (isLoading || !user) {
     return <div>Loading...</div>;
