@@ -41,7 +41,7 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [data, status]);
 
-  console.log({ data, status });
+  // console.log({ data, status });
 
   return (
     <AuthContext.Provider
