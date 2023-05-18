@@ -38,22 +38,22 @@ const CreatePage: NextPageWithLayout = ({}) => {
     <>
       <TopBar title="Create new post" />
       <div className="h-full min-h-[calc(100vh-56px)] flex relative">
-        <div className="flex items-center justify-center   w-full flex-col">
+        <div className="flex flex-col items-center justify-center w-full">
           <CreatePostLogo />
           <div className="mt-5">
             <label
               htmlFor="picture"
-              className="px-4 py-2 bg-sky-700 rounded-md hover:bg-blue-500 duration-200"
+              className="px-4 py-2 duration-200 rounded-md bg-sky-700 hover:bg-blue-500"
               role="button"
             >
               <input
                 type="file"
-                className="appearance-none hidden"
+                className="hidden appearance-none"
                 id="picture"
                 accept="image/*"
                 onChange={onFileChange}
               />
-              <span className="text-md font-medium">Upload Picture</span>
+              <span className="font-medium text-md">Upload Picture</span>
             </label>
           </div>
         </div>
