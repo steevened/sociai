@@ -49,6 +49,12 @@ const routes: Route[] = [
     iconInactive: <MsgsOut />,
   },
   {
+    name: 'Create',
+    path: '/create',
+    iconActive: <AddPostIn />,
+    iconInactive: <AddPostOut />,
+  },
+  {
     name: 'Saved',
     path: '/saved',
     iconActive: <SaveIconIn />,
@@ -64,7 +70,7 @@ export default function NavigationCard() {
     userLogged?.email as string
   );
 
-  console.log(user);
+  // console.log(user);
 
   const router = useRouter();
 
@@ -81,6 +87,8 @@ export default function NavigationCard() {
         return 'notifications';
       case '/messages':
         return 'messages';
+      case '/create':
+        return 'create';
       case '/saved':
         return 'saved';
       default:
@@ -127,21 +135,6 @@ export default function NavigationCard() {
             </span>
           </Link>
         ))}
-
-        <Link
-          className={`${className} w-full  items-center gap-3 hidden md:flex justify-center xl:justify-start`}
-          href={isLogged ? '/create' : '/api/auth/signin'}
-        >
-          {pathname === '/create' ? <AddPostOut /> : <AddPostIn />}
-
-          <span
-            className={`hidden text-lg  xl:block ${
-              pathname === '/create' ? 'font-semibold' : 'font-normal'
-            }`}
-          >
-            <p>Create</p>
-          </span>
-        </Link>
 
         <Link
           className={`${className} w-full flex items-center gap-3 justify-center xl:justify-start`}

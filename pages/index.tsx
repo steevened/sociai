@@ -42,10 +42,6 @@ const Home: NextPageWithLayout = () => {
         <button onClick={() => router.push('/')} className="">
           <InstagramTextLogo />
         </button>
-
-        <button>
-          <AddPostIn />
-        </button>
       </div>
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
