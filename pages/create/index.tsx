@@ -80,6 +80,7 @@ const CreatePage: NextPageWithLayout = ({}) => {
               onCropComplete={onCropComplete}
               onZoomChange={setZoom}
             />
+            <span></span>
           </div>
         </div>
       )}
