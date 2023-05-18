@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 interface IProps {
-  username: string;
+  username?: string;
   className?: string;
   id: string;
 }
@@ -9,7 +9,9 @@ interface IProps {
 export default function Username({ className, username, id }: IProps) {
   return (
     <Link href={`/profile/${id}`}>
-      <p className={`inline text-sm font-semibold ${className}`}>{username}</p>
+      <p className={`inline text-sm font-semibold ${className}`}>
+        {username || 'username'}
+      </p>
     </Link>
   );
 }
