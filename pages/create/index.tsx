@@ -6,6 +6,7 @@ import TopBar from '@/components/atoms/TopBar';
 import { ChangeEvent, Fragment, useCallback, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import getCroppedImg from '@/lib/utils/cropImage';
+import Image from 'next/image';
 
 function readFile(file: File) {
   return new Promise((resolve) => {
@@ -56,26 +57,55 @@ const CreatePage: NextPageWithLayout = ({}) => {
   return (
     <>
       <TopBar title="Create new post" />
-      <div className="h-full min-h-[calc(100vh-56px)] flex relative">
-        <div className="flex flex-col items-center justify-center w-full">
-          <CreatePostLogo />
-          <div className="mt-5">
-            <label
-              htmlFor="picture"
-              className="px-4 py-2 duration-200 rounded-md bg-sky-700 hover:bg-blue-500"
-              role="button"
-            >
-              <input
-                type="file"
-                className="hidden appearance-none"
-                id="picture"
-                accept="image/*"
-                onChange={onFileChange}
-              />
-              <span className="font-medium text-md">Upload Picture</span>
-            </label>
+      <div className="h-full min-h-[calc(100vh-56px)] flex relative ">
+        {!croppedImage ? (
+          <div className="flex flex-col items-center justify-center w-full">
+            <CreatePostLogo />
+            <div className="mt-5">
+              <label
+                htmlFor="picture"
+                className="px-4 py-2 duration-200 rounded-md bg-sky-700 hover:bg-blue-500"
+                role="button"
+              >
+                <input
+                  type="file"
+                  className="hidden appearance-none"
+                  id="picture"
+                  accept="image/*"
+                  onChange={onFileChange}
+                />
+                <span className="font-medium text-md">Upload Picture</span>
+              </label>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full p-5 ">
+            <div className="flex gap-3">
+              <div className="w-1/4">
+                <Image
+                  className="w-full"
+                  src={croppedImage}
+                  alt="image"
+                  width={1000}
+                  height={1000}
+                />
+              </div>
+              <div className="w-full ">
+                <form className="h-full">
+                  <textarea
+                    className="w-full h-full p-1 bg-black shadow-app-shadow focus:outline-none"
+                    placeholder="Write a caption"
+                  />
+                </form>
+              </div>
+            </div>
+            <div>
+              <button className="w-full px-4 py-2 mt-10 duration-200 rounded-md bg-sky-700 hover:bg-blue-500">
+                <span className="font-medium text-md">Post</span>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       {file && (
         <div className="absolute inset-0 z-50 bg-black/90 backdrop-blur-sm ">
