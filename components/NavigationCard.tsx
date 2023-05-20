@@ -21,6 +21,7 @@ import { useSession } from 'next-auth/react';
 import { AuthContext } from '@/context';
 import Image from 'next/image';
 import { useUserByEmail } from '@/lib/hooks';
+import avatar from '../public/avatar.jpg';
 
 interface Route {
   name: string;
@@ -144,7 +145,7 @@ export default function NavigationCard() {
             <>
               <div className="overflow-hidden bg-white rounded-full w-7 h-7">
                 <Image
-                  src={user?.image as string}
+                  src={user?.image || avatar}
                   alt="user profile image"
                   width={28}
                   height={28}
