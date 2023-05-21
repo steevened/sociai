@@ -2,11 +2,13 @@ import { NextPageWithLayout } from '../_app';
 import Layout from '@/components/Layout';
 import { Area } from 'react-easy-crop';
 import TopBar from '@/components/atoms/TopBar';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import getCroppedImg from '@/lib/utils/cropImage';
 import InputFile from '@/components/create/InputFile';
 import CreateForm from '@/components/create/CreateForm';
 import UploadModal from '@/components/create/UploadModal';
+import { createPost, getPost } from '@/lib/services';
+import { useRouter } from 'next/router';
 
 function readFile(file: File) {
   return new Promise((resolve) => {
@@ -24,6 +26,8 @@ const CreatePage: NextPageWithLayout = ({}) => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
   const [croppedImage, setCroppedImage] = useState(null);
   const [caption, setCaption] = useState('');
+
+  const router = useRouter();
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -53,7 +57,20 @@ const CreatePage: NextPageWithLayout = ({}) => {
     }
   }, [croppedAreaPixels, file]);
 
-  console.log(croppedImage);
+  const onSumbit = async () => {
+    if (croppedImage) {
+      try {
+        const res = await createPost({
+          caption: caption,
+          image: croppedImage,
+        });
+        router.push(`/`);
+        return res;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -66,6 +83,7 @@ const CreatePage: NextPageWithLayout = ({}) => {
             caption={caption}
             setCaption={setCaption}
             croppedImage={croppedImage}
+            onSumbit={onSumbit}
           />
         )}
       </div>

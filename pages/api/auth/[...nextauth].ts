@@ -3,7 +3,6 @@ import NextAuth from 'next-auth/next';
 import GithubProvider from 'next-auth/providers/github';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import clientPromise from '../../../lib/mongodb';
-import dbConnect from '@/lib/dbConnect';
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
@@ -16,5 +15,11 @@ export const authOptions: NextAuthOptions = {
     // ...add more providers here
   ],
   adapter: MongoDBAdapter(clientPromise),
+  // callbacks: {
+  //   session: async (session, user) => {
+  //     session.user = user;
+  //     return session;
+  //   },
+  // },
 };
 export default NextAuth(authOptions);

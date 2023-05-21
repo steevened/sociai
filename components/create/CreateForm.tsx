@@ -5,12 +5,14 @@ interface CreateFormProps {
   croppedImage: string;
   caption: string;
   setCaption: (caption: string) => void;
+  onSumbit: () => void;
 }
 
 const CreateForm: FC<CreateFormProps> = ({
   croppedImage,
   setCaption,
   caption,
+  onSumbit,
 }) => {
   return (
     <div className="w-full p-5 ">
@@ -37,7 +39,7 @@ const CreateForm: FC<CreateFormProps> = ({
       </div>
       <div className="mt-5">
         <button
-          onClick={() => console.log('posted')}
+          onClick={onSumbit}
           className="w-full px-4 py-2 duration-200 rounded-md bg-sky-700 hover:bg-blue-500"
         >
           <span className="font-medium text-md">Post</span>
