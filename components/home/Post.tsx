@@ -4,19 +4,22 @@ import Username from '../links/Username';
 import MenuDropdown from '../MenuDropdown';
 import { CommentIcon, LikesIconIn, SaveIconIn } from '../icons/Svg';
 import { User } from '@/lib/interfaces/user-response.interface';
+import { IPost } from '@/lib/interfaces';
+import { FC } from 'react';
+import alternAvatar from '../../public/avatar.jpg';
 
 interface Props {
-  user: User;
+  post: IPost;
   className?: string;
 }
 
-const Post = ({ className, user }: Props) => {
+const Post: FC<Props> = ({ className, post }) => {
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
-        <Avatar imageUrl={user.image} />
+        <Avatar imageUrl={post.user.image} />
         <div className="flex flex-grow gap-2 text-base">
-          <Username username={user.name} id={user._id} />
+          <Username username={post.user.name} id={post.user._id} />
           <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
@@ -25,12 +28,7 @@ const Post = ({ className, user }: Props) => {
       </div>
 
       <div className="mt-4 overflow-hidden rounded-md shadow-app-image">
-        <Image
-          src="https://images.unsplash.com/photo-1621500917010-3915ad3cabbb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80"
-          alt="photo"
-          width={1000}
-          height={1000}
-        />
+        <Image src={post.image} alt="photo" width={1000} height={1000} />
       </div>
       <div className="px-4 mt-4">
         <div className="flex">
@@ -48,22 +46,27 @@ const Post = ({ className, user }: Props) => {
         </div>
         <div className="flex flex-col gap-1 mt-4">
           <div>
-            <button className="text-xs font-semibold">34 likes</button>
+            <button className="text-xs font-semibold">
+              {post.likes.length} like{post.likes.length !== 1 && 's'}
+            </button>
           </div>
           <div>
             <div className="text-sm">
-              <Username username={user.name} id={user._id} className="mr-1" />
-              <span className="">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Quisquam, quod.
-              </span>
+              <Username
+                username={post.user.name}
+                id={post.user._id}
+                className="mr-1"
+              />
+              <span className="">{post.caption || ''}</span>
             </div>
           </div>
-          <div className="mt-1">
-            <button className="text-sm text-gray-200 text-opacity-50 ">
-              View all 12 comments
-            </button>
-          </div>
+          {post.comments.length > 0 && (
+            <div className="mt-1">
+              <button className="text-sm text-gray-200 text-opacity-50 ">
+                View all {post.comments.length} comments
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
