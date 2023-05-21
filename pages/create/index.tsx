@@ -93,7 +93,7 @@ const CreatePage: NextPageWithLayout = ({}) => {
               <div className="w-full ">
                 <form className="h-full">
                   <textarea
-                    className="w-full h-full p-1 bg-black shadow-app-shadow focus:outline-none"
+                    className="w-full h-full p-1 bg-black md:min-h-full shadow-app-shadow focus:outline-none"
                     placeholder="Write a caption"
                   />
                 </form>
