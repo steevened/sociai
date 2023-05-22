@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { getCsrfToken, getSession } from 'next-auth/react';
 import { authOptions } from '../auth/[...nextauth]';
+import { uploadImageToCloudinary } from '@/lib/utils/cloudinary';
 
 export default async function handlePublicationPost(
   req: NextApiRequest,
@@ -49,10 +50,14 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ error: 'image is required' });
     }
 
+    const imageUrl = await uploadImageToCloudinary(image);
+
+    res.status(201).json({ imageUrl });
+
     const newPost = new Post({
       // userId,
-      user: user,
-      image,
+      user,
+      image: imageUrl,
       caption,
       likes: [],
       comments: [],
@@ -62,7 +67,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
     await newPost.save();
     await db.disconnect();
 
-    res.status(201).json({ newPost });
+    // res.status(201).json({ newPost });
   } catch (error: any) {
     console.log(error);
     await db.disconnect();

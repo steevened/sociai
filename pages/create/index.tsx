@@ -9,6 +9,8 @@ import CreateForm from '@/components/create/CreateForm';
 import UploadModal from '@/components/create/UploadModal';
 import { createPost, getPost } from '@/lib/services';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { toast } from 'sonner';
 
 function readFile(file: File) {
   return new Promise((resolve) => {
@@ -37,11 +39,11 @@ const CreatePage: NextPageWithLayout = ({}) => {
   );
 
   const onFileChange = async (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      let imageDataUrl = await readFile(file);
-      setFile(imageDataUrl as string);
-    }
+    if (!e.target.files && e.target.files.length === 0) return;
+
+    const file = e.target.files[0];
+    let imageDataUrl = await readFile(file);
+    setFile(imageDataUrl as string);
     e.target.value = '';
     setCroppedImage(null);
   };
@@ -60,12 +62,31 @@ const CreatePage: NextPageWithLayout = ({}) => {
   const onSumbit = async () => {
     if (croppedImage) {
       try {
-        const res = await createPost({
-          caption: caption,
-          image: croppedImage,
-        });
-        router.push(`/`);
-        return res;
+        // const res = await createPost({
+        //   caption: caption,
+        //   image: croppedImage,
+        // });
+        toast.promise(
+          createPost({
+            caption: caption,
+            image: croppedImage,
+          }),
+          {
+            loading: 'Uploading...',
+            success: () => {
+              router.push(`/`);
+              return 'Uploaded successfully';
+            },
+            error: (error) => {
+              if (error.response.status === 413) {
+                setCroppedImage(null);
+                return 'File too large';
+              }
+
+              return `${error.response.data}`;
+            },
+          }
+        );
       } catch (error) {
         console.log(error);
       }
