@@ -31,7 +31,7 @@ export default function App({
             shouldRetryOnError: false,
           }}
         >
-          <Toaster richColors closeButton />
+          <Toaster richColors closeButton theme="dark" />
           {getlayout(<Component {...pageProps} />)}
         </SWRConfig>
       </AuthProvider>

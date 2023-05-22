@@ -28,7 +28,7 @@ function useUserById(id: string) {
 
 function useUserByEmail(email: string) {
   const { data, error, isLoading } = useSWR<UserByIDResponse>(
-    `/api/users/email/${email}`
+    email ? `/api/users/email/${email}` : null
   );
 
   return {
