@@ -1,13 +1,13 @@
 import Layout from '@/components/Layout';
 import { NextPageWithLayout } from './_app';
 import { ReactElement, useEffect, useState } from 'react';
-import Post from '@/components/home/Post';
+import PostCard from '@/components/home/Post';
 import { useRouter } from 'next/router';
-import { AddPostIn, InstagramTextLogo } from '@/components/icons/Svg';
-import { useSession } from 'next-auth/react';
-import { useUsers } from '@/lib/hooks';
+import { InstagramTextLogo } from '@/components/icons/Svg';
 import { getPost } from '@/lib/services';
 import { IPost } from '@/lib/interfaces';
+import { GetServerSideProps } from 'next';
+import { Post } from '@/models';
 
 // interface IPost {
 //   id: number;
@@ -33,18 +33,22 @@ import { IPost } from '@/lib/interfaces';
 //   },
 // ];
 
-const Home: NextPageWithLayout = () => {
+interface Props {
+  posts: IPost[];
+}
+
+const Home: NextPageWithLayout<Props> = ({ posts }) => {
   const router = useRouter();
 
-  const [posts, setPosts] = useState<IPost[]>([]);
+  // const [posts, setPosts] = useState<IPost[]>([]);
 
-  useEffect(() => {
-    getPost()
-      .then((res) => {
-        setPosts(res.posts);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getPost()
+  //     .then((res) => {
+  //       setPosts(res.posts);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   console.log(posts);
 
@@ -58,11 +62,18 @@ const Home: NextPageWithLayout = () => {
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
         {posts?.map((post) => (
-          <Post key={post._id} post={post} />
+          <PostCard key={post._id} post={post} />
         ))}
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const posts = await Post.find({}).populate('user').sort({ createdAt: -1 });
+  return {
+    props: { posts: JSON.parse(JSON.stringify(posts)) },
+  };
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
