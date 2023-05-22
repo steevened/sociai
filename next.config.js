@@ -6,6 +6,7 @@ const nextConfig = {
       'images.unsplash.com',
       'picsum.photos',
       'avatars.githubusercontent.com',
+      'res.cloudinary.com',
     ],
   },
 };

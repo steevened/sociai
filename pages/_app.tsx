@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from '@/context';
 import { SWRConfig } from 'swr';
 import { fetcher } from '../lib/helpers/fetcher.helper';
+import { Toaster } from 'sonner';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode;
@@ -30,6 +31,7 @@ export default function App({
             shouldRetryOnError: false,
           }}
         >
+          <Toaster richColors closeButton />
           {getlayout(<Component {...pageProps} />)}
         </SWRConfig>
       </AuthProvider>
