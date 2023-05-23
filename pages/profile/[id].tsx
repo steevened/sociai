@@ -8,21 +8,30 @@ import { ConfigLogo } from '@/components/icons/Svg';
 import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
-import { signIn, useSession } from 'next-auth/react';
 import { useUserById } from '@/lib/hooks';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import { Post, User } from '@/models';
 import { IPost, IUser } from '@/lib/interfaces';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { db } from '@/lib/db';
 
 interface Props {
   posts: IPost[];
   user: IUser;
+  isUserLoggedProfile: boolean;
 }
 
-const UserProfile: NextPageWithLayout<Props> = ({ posts, user }) => {
+const UserProfile: NextPageWithLayout<Props> = ({
+  posts,
+  user,
+  isUserLoggedProfile,
+}) => {
   const { logout } = useContext(AuthContext);
   const router = useRouter();
   // const { id } = router.query;
+
+  console.log(isUserLoggedProfile);
 
   return (
     <div className="mb-10">
@@ -107,17 +116,25 @@ const Btn = ({ text }: { text: string }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { id } = ctx.query;
-  // found where user.userId = id
-  const posts = await Post.find({ user: id }).sort({ createdAt: -1 });
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
+  const { id } = query;
+  const session = await getServerSession(req, res, authOptions);
 
+  await db.connect();
+  const posts = await Post.find({ user: id }).sort({ createdAt: -1 });
   const user = await User.findById(id);
+  const isUserLoggedProfile = session?.user?.email === user?.email;
+  await db.disconnect();
 
   return {
     props: {
       posts: JSON.parse(JSON.stringify(posts)),
       user: JSON.parse(JSON.stringify(user)),
+      isUserLoggedProfile,
     },
   };
 };
