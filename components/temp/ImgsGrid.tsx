@@ -1,82 +1,24 @@
-import React from 'react';
+import React, { FC } from 'react';
 import SavedImg from '../saved/SavedImg';
+import { IPost } from '@/lib/interfaces';
 
-interface IPost {
-  id: number;
-  imgLink: string;
-  likes: number;
-  comments: number;
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  posts: IPost[];
 }
 
-const posts: IPost[] = [
-  {
-    id: 1,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 2,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 3,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 4,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 5,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 6,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 7,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 8,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 9,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-];
-
-export default function ImgsGrid({ className }: { className?: string }) {
+const ImgsGrid: FC<Props> = ({ className, posts }) => {
   return (
     <div className={`grid grid-cols-3 gap-1 ${className}`}>
       {posts.map((post) => (
         <SavedImg
-          key={post.id}
-          comments={post.comments}
-          id={post.id}
-          imgLink={post.imgLink}
-          likes={post.likes}
+          key={post._id}
+          comments={post.comments.length}
+          image={post.image}
+          likes={post.likes.length}
         />
       ))}
     </div>
   );
-}
+};
+
+export default ImgsGrid;

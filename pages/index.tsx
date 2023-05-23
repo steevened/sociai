@@ -1,52 +1,33 @@
 import Layout from '@/components/Layout';
 import { NextPageWithLayout } from './_app';
 import { ReactElement, useEffect, useState } from 'react';
-import Post from '@/components/home/Post';
+import PostCard from '@/components/home/Post';
 import { useRouter } from 'next/router';
-import { AddPostIn, InstagramTextLogo } from '@/components/icons/Svg';
-import { useSession } from 'next-auth/react';
-import { useUsers } from '@/lib/hooks';
+import { InstagramTextLogo } from '@/components/icons/Svg';
 import { getPost } from '@/lib/services';
 import { IPost } from '@/lib/interfaces';
+import { GetServerSideProps } from 'next';
+import { Post } from '@/models';
+import { db } from '@/lib/db';
 
-// interface IPost {
-//   id: number;
-//   username: string;
-// }
+interface Props {
+  posts: IPost[];
+}
 
-// const posts: IPost[] = [
-//   {
-//     id: 1,
-//     username: 'steeven',
-//   },
-//   {
-//     id: 2,
-//     username: 'mike',
-//   },
-//   {
-//     id: 3,
-//     username: 'john',
-//   },
-//   {
-//     id: 4,
-//     username: 'jane',
-//   },
-// ];
-
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout<Props> = ({ posts }) => {
   const router = useRouter();
 
-  const [posts, setPosts] = useState<IPost[]>([]);
+  // const [posts, setPosts] = useState<IPost[]>([]);
 
-  useEffect(() => {
-    getPost()
-      .then((res) => {
-        setPosts(res.posts);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getPost()
+  //     .then((res) => {
+  //       setPosts(res.posts);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <div className="mb-36">
@@ -58,11 +39,20 @@ const Home: NextPageWithLayout = () => {
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
         {posts?.map((post) => (
-          <Post key={post._id} post={post} />
+          <PostCard key={post._id} post={post} />
         ))}
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await db.connect();
+  const posts = await Post.find({}).populate('user').sort({ createdAt: -1 });
+  await db.disconnect();
+  return {
+    props: { posts: JSON.parse(JSON.stringify(posts)) },
+  };
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {

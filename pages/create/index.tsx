@@ -11,6 +11,7 @@ import { createPost, getPost } from '@/lib/services';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { set } from 'mongoose';
 
 function readFile(file: File) {
   return new Promise((resolve) => {
@@ -80,6 +81,7 @@ const CreatePage: NextPageWithLayout = ({}) => {
             error: (error) => {
               if (error.response.status === 413) {
                 setCroppedImage(null);
+                setFile(undefined);
                 return 'File too large';
               }
 
