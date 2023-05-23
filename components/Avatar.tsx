@@ -14,7 +14,7 @@ export default function Avatar({ className, imageUrl }: Props) {
         !className && 'w-12'
       } rounded-full overflow-hidden ${className}`}
     >
-      <Image src={imageUrl || avatar} alt="avatar" width={100} height={100} />
+      <Image src={imageUrl || avatar} alt="avatar" width={1000} height={1000} />
     </div>
   );
 }

@@ -65,9 +65,9 @@ const UserProfile: NextPageWithLayout<Props> = ({
             </Menu.Items>
           </Menu>
         </div>
-        <div className="flex gap-8">
-          <Avatar imageUrl={user.image as string} className="w-20" />
-          <div className="flex flex-col justify-between">
+        <div className="flex gap-8 ">
+          <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
+          <div className="flex flex-col justify-between gap-2 lg:items-center lg:flex-row lg:gap-5 h-fit">
             <h2 className="text-xl">{user.name}</h2>
             <div className="flex gap-4 ">
               <Button
@@ -80,7 +80,7 @@ const UserProfile: NextPageWithLayout<Props> = ({
             </div>
           </div>
         </div>
-        <div className="mt-8 text-sm">
+        <div className="mt-8 text-sm ">
           {/* <h3 className="font-semibold">{user.name}</h3> */}
           <p className="font-thin">
             some text representing the profile description
