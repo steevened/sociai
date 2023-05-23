@@ -9,46 +9,22 @@ import { IPost } from '@/lib/interfaces';
 import { GetServerSideProps } from 'next';
 import { Post } from '@/models';
 
-// interface IPost {
-//   id: number;
-//   username: string;
+// interface Props {
+//   posts: IPost[];
 // }
 
-// const posts: IPost[] = [
-//   {
-//     id: 1,
-//     username: 'steeven',
-//   },
-//   {
-//     id: 2,
-//     username: 'mike',
-//   },
-//   {
-//     id: 3,
-//     username: 'john',
-//   },
-//   {
-//     id: 4,
-//     username: 'jane',
-//   },
-// ];
-
-interface Props {
-  posts: IPost[];
-}
-
-const Home: NextPageWithLayout<Props> = ({ posts }) => {
+const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
-  // const [posts, setPosts] = useState<IPost[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
-  // useEffect(() => {
-  //   getPost()
-  //     .then((res) => {
-  //       setPosts(res.posts);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  useEffect(() => {
+    getPost()
+      .then((res) => {
+        setPosts(res.posts);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   console.log(posts);
 
@@ -69,12 +45,12 @@ const Home: NextPageWithLayout<Props> = ({ posts }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const posts = await Post.find({}).populate('user').sort({ createdAt: -1 });
-  return {
-    props: { posts: JSON.parse(JSON.stringify(posts)) },
-  };
-};
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const posts = await Post.find({}).populate('user').sort({ createdAt: -1 });
+//   return {
+//     props: { posts: JSON.parse(JSON.stringify(posts)) },
+//   };
+// };
 
 Home.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
