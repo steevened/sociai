@@ -15,6 +15,7 @@ import { IPost, IUser } from '@/lib/interfaces';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { db } from '@/lib/db';
+import Button from '@/components/atoms/Button';
 
 interface Props {
   posts: IPost[];
@@ -69,16 +70,13 @@ const UserProfile: NextPageWithLayout<Props> = ({
           <div className="flex flex-col justify-between">
             <h2 className="text-xl">{user.name}</h2>
             <div className="flex gap-4 ">
-              {/* <Btn text="Following" /> */}
-              {/* <button
-                className="px-2 border border-white rounded-md"
-                onClick={() => {
-                  signIn();
-                }}
+              <Button
+                color="secondary"
+                variant="normal"
+                className="font-semibold "
               >
-                Sign in
-              </button> */}
-              <Btn text="Message" />
+                Edit profile
+              </Button>
             </div>
           </div>
         </div>
@@ -110,9 +108,9 @@ const UserProfile: NextPageWithLayout<Props> = ({
 
 const Btn = ({ text }: { text: string }) => {
   return (
-    <button className="px-4 py-1 font-semibold text-black bg-gray-300 rounded-md">
+    <Button color="secondary" variant="normal" className="font-semibold ">
       {text}
-    </button>
+    </Button>
   );
 };
 
