@@ -119,7 +119,7 @@ const UploadModal: FC<UploadModalProps> = ({
                   >
                     16:9
                     <span
-                      className={`w-4 h-3 border  rounded-sm ${
+                      className={`w-10 h-2 border  rounded-sm ${
                         aspect === 16 / 9 ? 'border-white' : 'border-gray-400'
                       }`}
                     />

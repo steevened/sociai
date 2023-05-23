@@ -74,7 +74,7 @@ const Saved: NextPageWithLayout = () => {
   return (
     <div className="">
       <TopBar title="All Saved Posts" />
-      <ImgsGrid className="mt-4" />
+      {/* <ImgsGrid className="mt-4" /> */}
     </div>
   );
 };

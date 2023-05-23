@@ -10,34 +10,23 @@ import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
 import { signIn, useSession } from 'next-auth/react';
 import { useUserById } from '@/lib/hooks';
+import { GetServerSideProps } from 'next';
+import { Post, User } from '@/models';
+import { IPost, IUser } from '@/lib/interfaces';
 
-const UserProfile: NextPageWithLayout = () => {
+interface Props {
+  posts: IPost[];
+  user: IUser;
+}
+
+const UserProfile: NextPageWithLayout<Props> = ({ posts, user }) => {
   const { logout } = useContext(AuthContext);
   const router = useRouter();
-  const { id } = router.query;
-  const { status } = useSession();
-
-  const { error, isLoading, user } = useUserById(id as string);
-
-  console.log(user);
-
-  // useEffect(() => {
-  //   if (status === 'unauthenticated') {
-  //     router.push('/');
-  //   }
-  // }, [router, status]);
-
-  if (isLoading || !user) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
-  }
+  // const { id } = router.query;
 
   return (
-    <div className="">
-      <TopBar title={user.email.split('@')[0]} />
+    <div className="mb-10">
+      <TopBar title={user.name} />
       <div className="relative mx-4 mt-8">
         <div className="absolute right-0">
           <Menu>
@@ -69,23 +58,23 @@ const UserProfile: NextPageWithLayout = () => {
         <div className="flex gap-8">
           <Avatar imageUrl={user.image as string} className="w-20" />
           <div className="flex flex-col justify-between">
-            <h2 className="text-xl">{user.email.split('@')[0]}</h2>
+            <h2 className="text-xl">{user.name}</h2>
             <div className="flex gap-4 ">
               {/* <Btn text="Following" /> */}
-              <button
+              {/* <button
                 className="px-2 border border-white rounded-md"
                 onClick={() => {
                   signIn();
                 }}
               >
                 Sign in
-              </button>
+              </button> */}
               <Btn text="Message" />
             </div>
           </div>
         </div>
         <div className="mt-8 text-sm">
-          <h3 className="font-semibold">{user.name}</h3>
+          {/* <h3 className="font-semibold">{user.name}</h3> */}
           <p className="font-thin">
             some text representing the profile description
           </p>
@@ -93,7 +82,7 @@ const UserProfile: NextPageWithLayout = () => {
       </div>
       <div className="relative flex justify-around py-2 mt-4 text-sm text-center shadow-app-top after:absolute after:inset-0 after:shadow-app-bottom after:pointer-events-none">
         <div className="">
-          <p className="font-semibold">12</p>
+          <p className="font-semibold">{posts.length}</p>
           <p className="text-gray-500">posts</p>
         </div>
         <button className="">
@@ -105,7 +94,7 @@ const UserProfile: NextPageWithLayout = () => {
           <p className="text-gray-500">following</p>
         </button>
       </div>
-      <ImgsGrid className="mt-4" />
+      <ImgsGrid className="mt-4" posts={posts} />
     </div>
   );
 };
@@ -116,6 +105,21 @@ const Btn = ({ text }: { text: string }) => {
       {text}
     </button>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { id } = ctx.query;
+  // found where user.userId = id
+  const posts = await Post.find({ user: id }).sort({ createdAt: -1 });
+
+  const user = await User.findById(id);
+
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+      user: JSON.parse(JSON.stringify(user)),
+    },
+  };
 };
 
 UserProfile.getLayout = function getLayout(page: ReactNode) {
