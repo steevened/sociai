@@ -29,7 +29,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
 
   return (
     <button
-      className={`px-4 py-2 duration-200 rounded-md ${styles[variant][color]} ${className}`}
+      className={`px-4 py-2 duration-200 rounded-md text-xs md:text-sm ${styles[variant][color]} ${className}`}
     >
       {children}
     </button>
