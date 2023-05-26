@@ -8,7 +8,6 @@ import { ConfigLogo } from '@/components/icons/Svg';
 import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
-import { useUserById } from '@/lib/hooks';
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import { Post, User } from '@/models';
 import { IPost, IUser } from '@/lib/interfaces';
@@ -35,7 +34,7 @@ const UserProfile: NextPageWithLayout<Props> = ({
   console.log(isUserLoggedProfile);
 
   return (
-    <div className="mb-10">
+    <div className="mb-10 test">
       <TopBar title={user.name} />
       <div className="relative mx-4 mt-8">
         <div className="absolute right-0">
@@ -67,13 +66,13 @@ const UserProfile: NextPageWithLayout<Props> = ({
         </div>
         <div className="grid grid-cols-2 gap-8 test">
           <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
-          <div className="flex flex-col justify-between gap-2 lg:items-center lg:flex-row lg:gap-5 h-fit test">
+          <div className="flex flex-col justify-between gap-2 lg:items-center lg:flex-row lg:gap-5 h-fit ">
             <h2 className="text-xl">{user.name}</h2>
             <div className="flex gap-4 ">
               <Button
                 color="secondary"
                 variant="normal"
-                className="font-semibold "
+                className="font-semibold"
               >
                 Edit profile
               </Button>
