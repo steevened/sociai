@@ -31,8 +31,6 @@ export default async function handlePublicationPost(
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions);
-  const csrf = await getCsrfToken({ req });
-  // console.log(session);
 
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized' });
