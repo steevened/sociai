@@ -4,21 +4,22 @@ import Username from '../links/Username';
 import MenuDropdown from '../MenuDropdown';
 import { CommentIcon, LikesIconIn, SaveIconIn } from '../icons/Svg';
 import { User } from '@/lib/interfaces/user-response.interface';
-import { IPost } from '@/lib/interfaces';
+import { IPost, Post } from '@/lib/interfaces';
 import { FC } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
 import { toggleLike } from '@/lib/services';
 
 interface Props {
-  post: IPost;
+  post: Post;
   className?: string;
+  mutate: () => void;
 }
 
-const Post: FC<Props> = ({ className, post }) => {
+const Post: FC<Props> = ({ className, post, mutate }) => {
   const handleLike = async () => {
     try {
       const res = await toggleLike(post._id);
-      console.log(res);
+      mutate();
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +38,10 @@ const Post: FC<Props> = ({ className, post }) => {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-md shadow-app-image">
+      <div
+        className="mt-4 overflow-hidden rounded-md shadow-app-image"
+        onDoubleClick={handleLike}
+      >
         <Image src={post.image} alt="photo" width={1000} height={1000} />
       </div>
       <div className="px-4 mt-4">

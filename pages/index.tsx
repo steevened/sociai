@@ -9,25 +9,18 @@ import { IPost } from '@/lib/interfaces';
 import { GetServerSideProps } from 'next';
 import { Post } from '@/models';
 import { db } from '@/lib/db';
+import { usePosts } from '@/lib/hooks';
 
 interface Props {
   posts: IPost[];
 }
 
-const Home: NextPageWithLayout<Props> = ({ posts }) => {
+const Home: NextPageWithLayout<Props> = ({}) => {
   const router = useRouter();
 
-  // const [posts, setPosts] = useState<IPost[]>([]);
+  const { posts, isLoading, error, mutate } = usePosts();
 
-  // useEffect(() => {
-  //   getPost()
-  //     .then((res) => {
-  //       setPosts(res.posts);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
-
-  // console.log(posts);
+  console.log(posts);
 
   return (
     <div className="mb-36">
@@ -39,7 +32,7 @@ const Home: NextPageWithLayout<Props> = ({ posts }) => {
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
         {posts?.map((post) => (
-          <PostCard key={post._id} post={post} />
+          <PostCard key={post._id} post={post} mutate={mutate} />
         ))}
       </div>
     </div>
