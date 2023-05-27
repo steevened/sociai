@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { Likes, Post, User } from '@/models';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 
@@ -9,6 +10,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ message: 'invalid ID ' + id });
+  }
+
   console.log(id);
   if (req.method === 'POST') {
     toggleLikes(req, res);
