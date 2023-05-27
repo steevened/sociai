@@ -3,7 +3,7 @@ import mongoose, { Schema, model, Model } from 'mongoose';
 
 const SavedSchema = new Schema(
   {
-    likes: { type: Schema.Types.ObjectId, ref: 'Likes', required: true },
+    post: { type: Schema.Types.ObjectId, ref: 'Post' },
     user: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   {
