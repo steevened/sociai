@@ -7,6 +7,7 @@ import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost } from '@/lib/interfaces';
 import { FC } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
+import { toggleLike } from '@/lib/services';
 
 interface Props {
   post: IPost;
@@ -14,6 +15,15 @@ interface Props {
 }
 
 const Post: FC<Props> = ({ className, post }) => {
+  const handleLike = async () => {
+    try {
+      const res = await toggleLike(post._id);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
@@ -33,7 +43,7 @@ const Post: FC<Props> = ({ className, post }) => {
       <div className="px-4 mt-4">
         <div className="flex">
           <div className="flex items-center gap-4 grow">
-            <button>
+            <button onClick={handleLike}>
               <LikesIconIn />
             </button>
             <button>
