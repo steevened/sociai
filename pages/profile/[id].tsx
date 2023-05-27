@@ -16,6 +16,7 @@ import { authOptions } from '../api/auth/[...nextauth]';
 import { db } from '@/lib/db';
 import Button from '@/components/atoms/Button';
 import ConfigMenu from '@/components/profile/ConfigMenu';
+import MenuDropdown from '@/components/MenuDropdown';
 
 interface Props {
   posts: IPost[];
@@ -37,43 +38,37 @@ const UserProfile: NextPageWithLayout<Props> = ({
   return (
     <div className="mb-10">
       <TopBar title={user.name} />
-      <div className="relative grid grid-cols-3 grid-rows-2 gap-5 mx-4 mt-8 ">
-        <div className="flex items-center justify-center col-span-1 col-start-1 lg:row-span-2">
-          <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
+      <div className="mx-4 mt-8 space-y-5 ">
+        <div className="flex gap-5">
+          <div className="">
+            <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
+          </div>
+          <div className="flex flex-col justify-between w-full lg:justify-start lg:gap-y-4">
+            <div className="flex items-start justify-between w-full ">
+              <h2 className="text-xl">{user.name}</h2>
+              {isUserLoggedProfile && <ConfigMenu />}
+            </div>
+            <div>
+              {isUserLoggedProfile ? (
+                <Button color="secondary">Edit profile</Button>
+              ) : (
+                <Button>Follow</Button>
+              )}
+            </div>
+            <div className="hidden w-full lg:block ">
+              <p className="text-sm font-thin">
+                some text representing the profile description
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="">
-          <h2 className="text-xl">{user.name}</h2>
-        </div>
-        <div className="w-full col-span-4 lg:col-span-2 ">
+        <div className="block w-full lg:hidden ">
           <p className="text-sm font-thin">
             some text representing the profile description
           </p>
         </div>
-        {/* <div className="absolute right-0">
-          <ConfigMenu />
-        </div> */}
-
-        {/* <div className="grid grid-cols-2 gap-8 ">
-          <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
-          <div className="flex flex-col justify-between gap-2 lg:items-center lg:flex-row lg:gap-5 h-fit ">
-            <h2 className="text-xl">{user.name}</h2>
-            <div className="flex gap-4 ">
-              <Button
-                color="secondary"
-                variant="normal"
-                className="font-semibold"
-              >
-                Edit profile
-              </Button>
-            </div>
-          </div>
-          <div className="mt-8 text-sm ">
-            <p className="font-thin">
-              some text representing the profile description
-            </p>
-          </div>
-        </div> */}
       </div>
+
       <div className="relative flex justify-around py-2 mt-4 text-sm text-center shadow-app-top after:absolute after:inset-0 after:shadow-app-bottom after:pointer-events-none">
         <div className="">
           <p className="font-semibold">{posts.length}</p>
