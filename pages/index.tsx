@@ -48,7 +48,10 @@ const Home: NextPageWithLayout<Props> = ({ posts }) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await db.connect();
-  const posts = await Post.find({}).populate('user').sort({ createdAt: -1 });
+  const posts = await Post.find({})
+    .populate('user')
+    .populate('likes')
+    .sort({ createdAt: -1 });
   await db.disconnect();
   return {
     props: { posts: JSON.parse(JSON.stringify(posts)) },

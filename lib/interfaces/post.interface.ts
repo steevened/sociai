@@ -1,3 +1,4 @@
+import { ILikes } from './likes.interface';
 import { IUser } from './user.interface';
 
 export interface IPost {
@@ -6,7 +7,7 @@ export interface IPost {
   user: IUser;
   image: string;
   caption: string;
-  likes: string[];
+  likes: ILikes[];
   comments: string[];
   cratedAt: Date;
   updatedAt: Date;
