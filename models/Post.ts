@@ -4,10 +4,9 @@ import mongoose, { Schema, Model, model } from 'mongoose';
 const PostSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    // userId: { type: String, required: true },
     image: { type: String, required: true },
     caption: { type: String, required: false },
-    likes: { type: Array, required: true },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     comments: { type: Array, required: true },
   },
   {

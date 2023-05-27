@@ -10,14 +10,17 @@ export default async function handlePublicationPost(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerSession(req, res, authOptions);
-  const csrf = await getCsrfToken({ req });
+  // const session = await getServerSession(req, res, authOptions);
+  // const csrf = await getCsrfToken({ req });
 
   switch (req.method) {
     case 'GET':
+      await db.connect();
       const posts = await Post.find({})
         .populate('user')
+        .populate('likes')
         .sort({ createdAt: -1 });
+      await db.disconnect();
       return res.status(200).json({ posts });
     case 'POST':
       return handlePost(req, res);
