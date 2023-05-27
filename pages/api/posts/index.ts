@@ -10,15 +10,12 @@ export default async function handlePublicationPost(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const session = await getServerSession(req, res, authOptions);
-  // const csrf = await getCsrfToken({ req });
-
   switch (req.method) {
     case 'GET':
       await db.connect();
       const posts = await Post.find({})
         .populate('user')
-        .populate('likes')
+        .populate({ path: 'likes', populate: { path: 'user' } })
         .sort({ createdAt: -1 });
       await db.disconnect();
       return res.status(200).json({ posts });
@@ -53,7 +50,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const imageUrl = await uploadImageToCloudinary(image);
 
-    res.status(201).json({ imageUrl });
+    // res.status(201).json({ imageUrl });
 
     const newPost = new Post({
       // userId,
@@ -68,7 +65,7 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
     await newPost.save();
     await db.disconnect();
 
-    // res.status(201).json({ newPost });
+    res.status(201).json({ newPost });
   } catch (error: any) {
     console.log(error);
     await db.disconnect();

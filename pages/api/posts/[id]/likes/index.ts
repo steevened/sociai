@@ -42,16 +42,17 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
     if (like) {
       await db.connect();
       await Likes.findByIdAndDelete(like._id);
+      await post.updateOne({ $pull: { likes: like._id } });
       await db.disconnect();
-      return res.status(200).json({ like: null });
+      return res.status(200).json({ message: 'like removed' });
     } else {
       await db.connect();
       const newLike = new Likes({ post, user });
+      await post.updateOne({ $push: { likes: newLike } });
       await newLike.save();
       await db.disconnect();
-      return res.status(200).json({ like: newLike });
+      return res.status(200).json({ message: 'Like added' });
     }
-    return res.status(200).json({ like });
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
