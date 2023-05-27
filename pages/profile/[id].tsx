@@ -15,6 +15,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { db } from '@/lib/db';
 import Button from '@/components/atoms/Button';
+import ConfigMenu from '@/components/profile/ConfigMenu';
 
 interface Props {
   posts: IPost[];
@@ -34,37 +35,25 @@ const UserProfile: NextPageWithLayout<Props> = ({
   console.log(isUserLoggedProfile);
 
   return (
-    <div className="mb-10 test">
+    <div className="mb-10">
       <TopBar title={user.name} />
-      <div className="relative mx-4 mt-8">
-        <div className="absolute right-0">
-          <Menu>
-            <Menu.Button>
-              <ConfigLogo />
-            </Menu.Button>
-            <Menu.Items
-              as="div"
-              className="absolute right-0 p-2 bg-black rounded-md shadow-app-shadow w-28"
-            >
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => {
-                      logout();
-                      router.push('/');
-                    }}
-                    className={`${
-                      active ? 'bg-gray-900' : ''
-                    } block w-full text-left px-4 py-2 text-sm rounded-md`}
-                  >
-                    Log Out
-                  </button>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
+      <div className="relative grid grid-cols-3 grid-rows-2 gap-5 mx-4 mt-8 ">
+        <div className="flex items-center justify-center col-span-1 col-start-1 lg:row-span-2">
+          <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
         </div>
-        <div className="grid grid-cols-2 gap-8 test">
+        <div className="">
+          <h2 className="text-xl">{user.name}</h2>
+        </div>
+        <div className="w-full col-span-4 lg:col-span-2 ">
+          <p className="text-sm font-thin">
+            some text representing the profile description
+          </p>
+        </div>
+        {/* <div className="absolute right-0">
+          <ConfigMenu />
+        </div> */}
+
+        {/* <div className="grid grid-cols-2 gap-8 ">
           <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
           <div className="flex flex-col justify-between gap-2 lg:items-center lg:flex-row lg:gap-5 h-fit ">
             <h2 className="text-xl">{user.name}</h2>
@@ -79,11 +68,11 @@ const UserProfile: NextPageWithLayout<Props> = ({
             </div>
           </div>
           <div className="mt-8 text-sm ">
-            {/* <p className="font-thin">
+            <p className="font-thin">
               some text representing the profile description
-            </p> */}
+            </p>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="relative flex justify-around py-2 mt-4 text-sm text-center shadow-app-top after:absolute after:inset-0 after:shadow-app-bottom after:pointer-events-none">
         <div className="">
