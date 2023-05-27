@@ -5,9 +5,10 @@ import MenuDropdown from '../MenuDropdown';
 import { CommentIcon, LikesIconIn, SaveIconIn } from '../icons/Svg';
 import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost, Post } from '@/lib/interfaces';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
 import { toggleLike } from '@/lib/services';
+import { useSession } from 'next-auth/react';
 
 interface Props {
   post: Post;
@@ -16,14 +17,26 @@ interface Props {
 }
 
 const Post: FC<Props> = ({ className, post, mutate }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const { data } = useSession();
+
   const handleLike = async () => {
     try {
       const res = await toggleLike(post._id);
+      setIsLiked(res.liked);
+      // console.log(res);
       mutate();
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const isLiked = post.likes.some(
+      (like) => like.user.email === data?.user?.email
+    );
+    setIsLiked(isLiked);
+  }, [post, data]);
 
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
@@ -48,7 +61,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
         <div className="flex">
           <div className="flex items-center gap-4 grow">
             <button onClick={handleLike}>
-              <LikesIconIn />
+              <LikesIconIn liked={isLiked} />
             </button>
             <button>
               <CommentIcon />

@@ -4,23 +4,14 @@ import { ReactElement, useEffect, useState } from 'react';
 import PostCard from '@/components/home/Post';
 import { useRouter } from 'next/router';
 import { InstagramTextLogo } from '@/components/icons/Svg';
-import { getPost } from '@/lib/services';
-import { IPost } from '@/lib/interfaces';
-import { GetServerSideProps } from 'next';
-import { Post } from '@/models';
-import { db } from '@/lib/db';
 import { usePosts } from '@/lib/hooks';
 
-interface Props {
-  posts: IPost[];
-}
-
-const Home: NextPageWithLayout<Props> = ({}) => {
+const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
   const { posts, isLoading, error, mutate } = usePosts();
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <div className="mb-36">
@@ -37,18 +28,6 @@ const Home: NextPageWithLayout<Props> = ({}) => {
       </div>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await db.connect();
-  const posts = await Post.find({})
-    .populate('user')
-    .populate('likes')
-    .sort({ createdAt: -1 });
-  await db.disconnect();
-  return {
-    props: { posts: JSON.parse(JSON.stringify(posts)) },
-  };
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {
