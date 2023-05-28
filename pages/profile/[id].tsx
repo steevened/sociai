@@ -1,10 +1,8 @@
 import TopBar from '@/components/atoms/TopBar';
 import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext } from 'react';
 import ImgsGrid from '@/components/temp/ImgsGrid';
-import { Menu } from '@headlessui/react';
-import { ConfigLogo } from '@/components/icons/Svg';
 import { NextPageWithLayout } from '../_app';
 import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
@@ -16,7 +14,6 @@ import { authOptions } from '../api/auth/[...nextauth]';
 import { db } from '@/lib/db';
 import Button from '@/components/atoms/Button';
 import ConfigMenu from '@/components/profile/ConfigMenu';
-import MenuDropdown from '@/components/MenuDropdown';
 
 interface Props {
   posts: IPost[];
@@ -33,7 +30,7 @@ const UserProfile: NextPageWithLayout<Props> = ({
   const router = useRouter();
   // const { id } = router.query;
 
-  console.log(isUserLoggedProfile);
+  // console.log(isUserLoggedProfile);
 
   return (
     <div className="mb-10">
@@ -85,14 +82,6 @@ const UserProfile: NextPageWithLayout<Props> = ({
       </div>
       <ImgsGrid className="mt-4" posts={posts} />
     </div>
-  );
-};
-
-const Btn = ({ text }: { text: string }) => {
-  return (
-    <Button color="secondary" variant="normal" className="font-semibold ">
-      {text}
-    </Button>
   );
 };
 

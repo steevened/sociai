@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import { ReactElement } from 'react';
 import Layout from '../../components/Layout';
 import TopBar from '@/components/atoms/TopBar';
 import SavedImg from '@/components/saved/SavedImg';
 import ImgsGrid from '@/components/temp/ImgsGrid';
+import { useSaved } from '@/lib/hooks';
+import { IPost, Post } from '@/lib/interfaces';
 
 export interface SavePost {
   id: number;
@@ -71,10 +73,21 @@ const savedPosts: SavePost[] = [
 ];
 
 const Saved: NextPageWithLayout = () => {
+  const { data: savedPosts, error, isLoading, mutate } = useSaved();
+  const [posts, setPosts] = useState<IPost[]>([]);
+
+  useEffect(() => {
+    const saved = savedPosts?.map(({ post }) => post);
+    if (!saved) return;
+    setPosts(saved as any);
+  }, [savedPosts]);
+
+  // console.log(savedPosts);
+
   return (
     <div className="">
       <TopBar title="All Saved Posts" />
-      {/* <ImgsGrid className="mt-4" /> */}
+      <ImgsGrid className="mt-4" posts={posts} />
     </div>
   );
 };

@@ -2,27 +2,65 @@ import Image from 'next/image';
 import Avatar from '../Avatar';
 import Username from '../links/Username';
 import MenuDropdown from '../MenuDropdown';
-import { CommentIcon, LikesIconIn, SaveIconIn } from '../icons/Svg';
+import {
+  CommentIcon,
+  LikesIconIn,
+  SaveIconIn,
+  SaveIconOut,
+} from '../icons/Svg';
 import { User } from '@/lib/interfaces/user-response.interface';
-import { IPost } from '@/lib/interfaces';
-import { FC } from 'react';
+import { IPost, Post } from '@/lib/interfaces';
+import { FC, useEffect, useState } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
-import { toggleLike } from '@/lib/services';
+import { toggleLike, toggleSaved } from '@/lib/services';
+import { useSession } from 'next-auth/react';
+import { useSaved } from '@/lib/hooks';
 
 interface Props {
-  post: IPost;
+  post: Post;
   className?: string;
+  mutate: () => void;
 }
 
-const Post: FC<Props> = ({ className, post }) => {
+const Post: FC<Props> = ({ className, post, mutate }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const { data } = useSession();
+  const { data: saved, mutate: mutateSaved } = useSaved();
+
   const handleLike = async () => {
     try {
       const res = await toggleLike(post._id);
-      console.log(res);
+      setIsLiked(res.liked);
+      // console.log(res);
+      mutate();
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSaved = async () => {
+    try {
+      const res = await toggleSaved(post._id);
+      setIsSaved(res.saved);
+      mutateSaved();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const isLiked = post.likes.some(
+      (like) => like.user.email === data?.user?.email
+    );
+    setIsLiked(isLiked);
+  }, [post, data]);
+
+  useEffect(() => {
+    const isSaved = saved?.some((s) => s.post._id === post._id);
+    setIsSaved(isSaved as boolean);
+  }, [post, saved]);
 
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
@@ -37,21 +75,24 @@ const Post: FC<Props> = ({ className, post }) => {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-md shadow-app-image">
+      <div
+        className="mt-4 overflow-hidden rounded-md shadow-app-image"
+        onDoubleClick={handleLike}
+      >
         <Image src={post.image} alt="photo" width={1000} height={1000} />
       </div>
       <div className="px-4 mt-4">
         <div className="flex">
           <div className="flex items-center gap-4 grow">
             <button onClick={handleLike}>
-              <LikesIconIn />
+              <LikesIconIn liked={isLiked} />
             </button>
             <button>
               <CommentIcon />
             </button>
           </div>
-          <button>
-            <SaveIconIn />
+          <button onClick={handleSaved}>
+            {isSaved ? <SaveIconOut /> : <SaveIconIn />}
           </button>
         </div>
         <div className="flex flex-col gap-1 mt-4">

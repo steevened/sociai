@@ -4,28 +4,12 @@ import { ReactElement, useEffect, useState } from 'react';
 import PostCard from '@/components/home/Post';
 import { useRouter } from 'next/router';
 import { InstagramTextLogo } from '@/components/icons/Svg';
-import { getPost } from '@/lib/services';
-import { IPost } from '@/lib/interfaces';
-import { GetServerSideProps } from 'next';
-import { Post } from '@/models';
-import { db } from '@/lib/db';
+import { usePosts } from '@/lib/hooks';
 
-interface Props {
-  posts: IPost[];
-}
-
-const Home: NextPageWithLayout<Props> = ({ posts }) => {
+const Home: NextPageWithLayout = () => {
   const router = useRouter();
 
-  // const [posts, setPosts] = useState<IPost[]>([]);
-
-  // useEffect(() => {
-  //   getPost()
-  //     .then((res) => {
-  //       setPosts(res.posts);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  const { posts, isLoading, error, mutate } = usePosts();
 
   // console.log(posts);
 
@@ -39,23 +23,11 @@ const Home: NextPageWithLayout<Props> = ({ posts }) => {
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
         {posts?.map((post) => (
-          <PostCard key={post._id} post={post} />
+          <PostCard key={post._id} post={post} mutate={mutate} />
         ))}
       </div>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  await db.connect();
-  const posts = await Post.find({})
-    .populate('user')
-    .populate('likes')
-    .sort({ createdAt: -1 });
-  await db.disconnect();
-  return {
-    props: { posts: JSON.parse(JSON.stringify(posts)) },
-  };
 };
 
 Home.getLayout = function getLayout(page: ReactElement) {

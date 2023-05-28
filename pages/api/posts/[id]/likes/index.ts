@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { Likes, Post, User } from '@/models';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 
@@ -9,6 +10,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { id } = req.query;
+
+  if (!mongoose.isValidObjectId(id)) {
+    return res.status(400).json({ message: 'invalid ID ' + id });
+  }
+
   console.log(id);
   if (req.method === 'POST') {
     toggleLikes(req, res);
@@ -44,14 +50,14 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
       await Likes.findByIdAndDelete(like._id);
       await post.updateOne({ $pull: { likes: like._id } });
       await db.disconnect();
-      return res.status(200).json({ message: 'like removed' });
+      return res.status(200).json({ liked: true });
     } else {
       await db.connect();
       const newLike = new Likes({ post, user });
       await post.updateOne({ $push: { likes: newLike } });
       await newLike.save();
       await db.disconnect();
-      return res.status(200).json({ message: 'Like added' });
+      return res.status(200).json({ liked: false });
     }
   } catch (error: any) {
     return res.status(500).json({ error: error.message });
