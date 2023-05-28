@@ -16,7 +16,7 @@ export default async function handlerSaved(
 
   try {
     await db.connect();
-    const saved = await Saved.find({}).populate('post');
+    const saved = await Saved.find({}).populate('post').sort({ createdAt: -1 });
     await db.disconnect();
     if (!saved) return res.status(404).json({ message: 'Not found' });
     return res.status(200).json({ saved });
