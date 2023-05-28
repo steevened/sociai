@@ -23,34 +23,29 @@ export default async function handler(
   console.log(id);
 
   switch (req.method) {
-    case 'GET':
-      return getSaved(req, res);
-
     case 'POST':
       return handleSaved(req, res);
-
     default:
       return res.status(405).json({ message: 'Method not allowed' });
   }
 }
 
-const getSaved = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { id } = req.query;
+// const getSaved = async (req: NextApiRequest, res: NextApiResponse) => {
+//   const { id } = req.query;
 
-  try {
-    await db.connect();
-    const saved = await Saved.find({});
-    await db.disconnect();
+//   try {
+//     await db.connect();
+//     const saved = await Saved.find({});
+//     await db.disconnect();
 
-    if (!saved) return res.status(404).json({ message: 'Not found' });
-    return res.status(200).json({ saved });
-
-    await db.disconnect();
-  } catch (error: any) {
-    await db.disconnect();
-    return res.status(500).json({ error: error.message });
-  }
-};
+//     if (!saved) return res.status(404).json({ message: 'Not found' });
+//     await db.disconnect();
+//     return res.status(200).json({ saved });
+//   } catch (error: any) {
+//     await db.disconnect();
+//     return res.status(500).json({ error: error.message });
+//   }
+// };
 
 const handleSaved = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
@@ -86,6 +81,9 @@ const handleSaved = async (req: NextApiRequest, res: NextApiResponse) => {
       await db.disconnect();
       return res.status(200).json({ saved: true });
     } else {
+      await db.connect();
+      await Saved.findByIdAndDelete(saved._id);
+      await db.disconnect();
       return res.status(200).json({ saved: false });
     }
   } catch (error: any) {
