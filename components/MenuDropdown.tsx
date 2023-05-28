@@ -30,7 +30,7 @@ export default function MenuDropdown() {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute p-2 mt-1 space-y-2 bg-black rounded-md -right-1 w-36 shadow-app-shadow">
-          <Menu.Item>
+          {/* <Menu.Item>
             {({ active }) => (
               <button
                 className={`flex w-full gap-2 items-center duration-200 px-2 py-2 rounded-md text-sm ${
@@ -54,7 +54,7 @@ export default function MenuDropdown() {
                 Save
               </button>
             )}
-          </Menu.Item>
+          </Menu.Item> */}
 
           <Menu.Item>
             {({ active }) => (
