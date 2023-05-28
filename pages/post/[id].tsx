@@ -44,8 +44,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
     mutate: mutatePost,
   } = usePostById(id as string);
 
-  const { mutate } = usePosts();
-  console.log(post);
+  // console.log(post);
 
   const handleLike = async () => {
     try {
@@ -82,62 +81,64 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   if (isLoading || !post) return <div>Loading...</div>;
 
   return (
-    <div className="mb-32">
+    <div className="mb-24 md:mb-0 md:min-h-screen flex flex-col">
       <TopBar title={'Post'} />
-      <div className="">
-        <div className="flex items-center justify-between px-4 py-2 ">
-          <div className="flex items-center gap-2">
-            <Avatar imageUrl={post.user.image} />
-            <Username username={post.user.name} id={post.user._id} />
+      <div className="grow flex items-center justify-center md:px-5">
+        <div className="md:flex  md:max-w-4xl md:shadow-app-shadow md:mx-auto ">
+          <div className="flex items-center justify-between px-4 py-2 md:hidden">
+            <div className="flex items-center gap-2">
+              <Avatar imageUrl={post.user.image} />
+              <Username username={post.user.name} id={post.user._id} />
+            </div>
+            <MenuDropdown postId={post._id} />
           </div>
-          <MenuDropdown postId={post._id} />
-        </div>
-        <div className="w-full ">
-          <Image
-            width={2000}
-            height={2000}
-            src={post.image}
-            alt={post.caption || 'image post'}
-          />
-        </div>
-        <div className="px-4 mt-4">
-          <div className="flex">
-            <div className="flex items-center gap-4 grow">
-              <button onClick={handleLike}>
-                <LikesIconIn liked={isLiked} />
-                {/* <LikesIconIn /> */}
-              </button>
-              <button>
-                <CommentIcon />
-              </button>
-            </div>
-            <button onClick={handleSaved}>
-              {isSaved ? <SaveIconOut /> : <SaveIconIn />}
-            </button>
+          <div className="w-full md:flex-1">
+            <Image
+              width={2000}
+              height={2000}
+              src={post.image}
+              alt={post.caption || 'image post'}
+            />
           </div>
-          <div className="flex flex-col gap-1 mt-4">
-            <div>
-              <button className="text-xs font-semibold">
-                {post.likes.length} like{post.likes.length !== 1 && 's'}
-              </button>
-            </div>
-            <div>
-              <div className="text-sm">
-                <Username
-                  username={post.user.name}
-                  id={post.user._id}
-                  className="mr-1"
-                />
-                <span className="">{post.caption}</span>
-              </div>
-            </div>
-            {post.comments.length > 0 && (
-              <div className="mt-1">
-                <button className="text-sm text-gray-200 text-opacity-50 ">
-                  View all {post.comments.length} comments
+          <div className="px-4 mt-4 md:flex-1">
+            <div className="flex">
+              <div className="flex items-center gap-4 grow">
+                <button onClick={handleLike}>
+                  <LikesIconIn liked={isLiked} />
+                  {/* <LikesIconIn /> */}
+                </button>
+                <button>
+                  <CommentIcon />
                 </button>
               </div>
-            )}
+              <button onClick={handleSaved}>
+                {isSaved ? <SaveIconOut /> : <SaveIconIn />}
+              </button>
+            </div>
+            <div className="flex flex-col gap-1 mt-4">
+              <div>
+                <button className="text-xs font-semibold">
+                  {post.likes.length} like{post.likes.length !== 1 && 's'}
+                </button>
+              </div>
+              <div>
+                <div className="text-sm">
+                  <Username
+                    username={post.user.name}
+                    id={post.user._id}
+                    className="mr-1"
+                  />
+                  <span className="">{post.caption}</span>
+                </div>
+              </div>
+              {post.comments.length > 0 && (
+                <div className="mt-1">
+                  <button className="text-sm text-gray-200 text-opacity-50 ">
+                    View all {post.comments.length} comments
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
