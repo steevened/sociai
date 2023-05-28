@@ -71,7 +71,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
-          <MenuDropdown />
+          <MenuDropdown postId={post._id} />
         </div>
       </div>
 
