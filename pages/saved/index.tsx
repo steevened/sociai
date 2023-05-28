@@ -74,7 +74,7 @@ const savedPosts: SavePost[] = [
 
 const Saved: NextPageWithLayout = () => {
   const { data: savedPosts, error, isLoading, mutate } = useSaved();
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     const saved = savedPosts?.map(({ post }) => post);
