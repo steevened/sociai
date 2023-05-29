@@ -12,6 +12,7 @@ const ImgsGrid: FC<Props> = ({ className, posts }) => {
       {posts.map((post) => (
         <SavedImg
           key={post._id}
+          id={post._id}
           comments={post.comments.length}
           image={post.image}
           likes={post.likes.length}

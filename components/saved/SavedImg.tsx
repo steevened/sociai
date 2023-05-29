@@ -2,16 +2,23 @@ import { SavePost } from '@/pages/saved';
 import Image from 'next/image';
 import { CommentIcon, LikesIconIn } from '../icons/Svg';
 import { FC } from 'react';
+import { useRouter } from 'next/router';
 
 interface Props {
   comments: number;
   likes: number;
   image: string;
+  id: string;
 }
 
-const SavedImg: FC<Props> = ({ comments, likes, image }) => {
+const SavedImg: FC<Props> = ({ comments, likes, image, id }) => {
+  const router = useRouter();
+
   return (
-    <div className="relative flex items-center justify-center w-full h-full overflow-hidden aspect-square group ">
+    <div
+      onClick={() => router.push(`/post/${id}`)}
+      className="relative flex items-center justify-center w-full h-full overflow-hidden aspect-square group "
+    >
       <Image
         src={image}
         alt="saved post"
