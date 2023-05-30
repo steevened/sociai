@@ -100,15 +100,16 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
               alt={post.caption || 'image post'}
             />
           </div>
-          <div className="px-4 mt-4 md:flex-1 md:mt-0 md:px-0">
-            <div className="hidden md:flex items-center justify-between px-4 py-2 mb-4 shadow-app-bottom">
+          <div className="px-4 mt-4 md:flex-1 md:mt-0 md:px-0 flex flex-col ">
+            <div className="hidden md:flex items-center justify-between px-4 py-2 mb-4 shadow-app-bottom ">
               <div className="flex  items-center gap-2">
                 <Avatar imageUrl={post.user.image} />
                 <Username username={post.user.name} id={post.user._id} />
               </div>
               <MenuDropdown postId={post._id} />
             </div>
-            <div className="md:px-4">
+            <div className="grow px-4 hidden md:block">hi</div>
+            <div className="md:px-4 md:shadow-app-top md:py-3">
               <div className="flex">
                 <div className="flex items-center gap-4 grow">
                   <button onClick={handleLike}>
@@ -123,7 +124,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
                   {isSaved ? <SaveIconOut /> : <SaveIconIn />}
                 </button>
               </div>
-              <div className="flex flex-col gap-1 mt-4">
+              <div className="flex flex-col gap-1 mt-4 md:mt-2">
                 <div>
                   <button className="text-xs font-semibold">
                     {post.likes.length} like{post.likes.length !== 1 && 's'}
