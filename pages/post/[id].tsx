@@ -101,14 +101,23 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
             />
           </div>
           <div className="px-4 mt-4 md:flex-1 md:mt-0 md:px-0 flex flex-col ">
-            <div className="hidden md:flex items-center justify-between px-4 py-2 mb-4 shadow-app-bottom ">
+            <div className="hidden md:flex items-center justify-between px-4 py-2 mb-4 shadow-app-bottom">
               <div className="flex  items-center gap-2">
                 <Avatar imageUrl={post.user.image} />
                 <Username username={post.user.name} id={post.user._id} />
               </div>
               <MenuDropdown postId={post._id} />
             </div>
-            <div className="grow px-4 hidden md:block">hi</div>
+            <div className="grow px-4 hidden md:block">
+              <div className="text-sm">
+                <Username
+                  username={post.user.name}
+                  id={post.user._id}
+                  className="mr-1"
+                />
+                <span className="">{post.caption}</span>
+              </div>
+            </div>
             <div className="md:px-4 md:shadow-app-top md:py-3">
               <div className="flex">
                 <div className="flex items-center gap-4 grow">
@@ -116,9 +125,9 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
                     <LikesIconIn liked={isLiked} />
                     {/* <LikesIconIn /> */}
                   </button>
-                  <button>
+                  <label htmlFor="comment" role="button">
                     <CommentIcon />
-                  </button>
+                  </label>
                 </div>
                 <button onClick={handleSaved}>
                   {isSaved ? <SaveIconOut /> : <SaveIconIn />}
@@ -148,6 +157,13 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="mt-2 md:mt-0 shadow-app-shadow p-1 flex items-center">
+              <textarea
+                id="comment"
+                className="w-full h-full bg-black focus:outline-none p-2 resize-none"
+              />
+              <button className="text-app-blue  right-2">POST</button>
             </div>
           </div>
         </div>
