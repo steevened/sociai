@@ -26,7 +26,7 @@ const SavedImg: FC<Props> = ({ comments, likes, image, id }) => {
         height={1000}
         className="object-cover w-full h-full"
       />
-      <div className="absolute inset-0 items-center justify-center hidden cursor-pointer bg-black/50 group-hover:flex">
+      <div className="absolute inset-0 items-center justify-center opacity-0 cursor-pointer bg-black/50 group-hover:opacity-100 flex duration-100">
         <div className="flex flex-col items-center gap-1 font-semibold">
           <div className="flex gap-2">
             <LikesIconIn /> <span>{likes}</span>

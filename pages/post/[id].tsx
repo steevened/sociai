@@ -92,7 +92,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
             </div>
             <MenuDropdown postId={post._id} />
           </div>
-          <div className="w-full md:flex-1">
+          <div className="w-full md:flex-1 shadow-app-shadow p-[1px]">
             <Image
               width={2000}
               height={2000}
@@ -158,10 +158,11 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
                 )}
               </div>
             </div>
-            <div className="mt-2 md:mt-0 shadow-app-shadow p-1 flex items-center">
+            <div className="mt-2 md:mt-0 shadow-app-top p-1 flex items-center">
               <textarea
                 id="comment"
-                className="w-full h-full bg-black focus:outline-none p-2 resize-none"
+                placeholder="Add a comment..."
+                className="w-full h-full bg-black focus:outline-none p-2 resize-none "
               />
               <button className="text-app-blue  right-2">POST</button>
             </div>
