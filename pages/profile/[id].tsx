@@ -33,7 +33,7 @@ const UserProfile: NextPageWithLayout<Props> = ({
   // console.log(isUserLoggedProfile);
 
   return (
-    <div className="mb-10">
+    <div className="">
       <TopBar title={user.name} />
       <div className="mx-4 mt-8 space-y-5 ">
         <div className="flex gap-5">
@@ -80,7 +80,9 @@ const UserProfile: NextPageWithLayout<Props> = ({
           <p className="text-gray-500">following</p>
         </button>
       </div>
-      <ImgsGrid className="mt-4" posts={posts} />
+      <div className="p-1">
+        <ImgsGrid className="" posts={posts} />
+      </div>
     </div>
   );
 };
