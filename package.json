@@ -27,6 +27,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-easy-crop": "^4.7.4",
+    "react-textarea-autosize": "^8.4.1",
     "sonner": "^0.3.5",
     "swr": "^2.1.5",
     "typescript": "5.0.2"

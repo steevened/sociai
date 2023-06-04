@@ -23,6 +23,7 @@ import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { toast } from 'sonner';
+import TextAreaAutosize from 'react-textarea-autosize';
 
 interface Props {
   userId: string;
@@ -166,7 +167,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
               </div>
             </div>
             <div className="flex items-center p-1 mt-2 md:mt-0 shadow-app-top">
-              <textarea
+              <TextAreaAutosize
                 id="comment"
                 placeholder="Add a comment..."
                 className="w-full h-full p-2 bg-black resize-none focus:outline-none "

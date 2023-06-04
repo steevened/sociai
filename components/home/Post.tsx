@@ -16,6 +16,7 @@ import { toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
 import { toast } from 'sonner';
+import TextAreaAutosize from 'react-textarea-autosize';
 
 interface Props {
   post: Post;
@@ -26,6 +27,7 @@ interface Props {
 const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [inputValue, setInputValue] = useState<string>('');
 
   const { data } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
@@ -128,6 +130,22 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
               </button>
             </div>
           )}
+          <div className="flex items-center mt-2">
+            <TextAreaAutosize
+              id="comment"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full h-full p-2 bg-black resize-none focus:outline-none "
+            />
+            <button
+              className={`text-app-blue right-2 ${
+                inputValue.length === 0 && 'hidden'
+              }`}
+            >
+              POST
+            </button>
+          </div>
         </div>
       </div>
     </div>
