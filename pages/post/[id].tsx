@@ -81,10 +81,10 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   if (isLoading || !post) return <div>Loading...</div>;
 
   return (
-    <div className="mb-24 md:mb-0 md:min-h-screen flex flex-col">
+    <div className="flex flex-col mb-24 md:mb-0 md:min-h-screen">
       <TopBar title={'Post'} />
-      <div className="grow flex items-center justify-center md:px-5">
-        <div className="md:flex  md:max-w-4xl md:shadow-app-shadow md:mx-auto ">
+      <div className="flex items-center justify-center grow md:px-5">
+        <div className="md:flex md:max-w-4xl md:shadow-app-shadow md:mx-auto ">
           <div className="flex items-center justify-between px-4 py-2 md:hidden">
             <div className="flex items-center gap-2">
               <Avatar imageUrl={post.user.image} />
@@ -92,7 +92,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
             </div>
             <MenuDropdown postId={post._id} />
           </div>
-          <div className="w-full md:flex-1 shadow-app-shadow p-[1px]">
+          <div className="w-full md:flex-1 p-[1px] shadow-app-right">
             <Image
               width={2000}
               height={2000}
@@ -100,15 +100,15 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
               alt={post.caption || 'image post'}
             />
           </div>
-          <div className="px-4 mt-4 md:flex-1 md:mt-0 md:px-0 flex flex-col ">
-            <div className="hidden md:flex items-center justify-between px-4 py-2 mb-4 shadow-app-bottom">
-              <div className="flex  items-center gap-2">
+          <div className="flex flex-col px-4 mt-4 md:flex-1 md:mt-0 md:px-0 ">
+            <div className="items-center justify-between hidden px-4 py-2 mb-4 md:flex shadow-app-bottom">
+              <div className="flex items-center gap-2">
                 <Avatar imageUrl={post.user.image} />
                 <Username username={post.user.name} id={post.user._id} />
               </div>
               <MenuDropdown postId={post._id} />
             </div>
-            <div className="grow px-4 hidden md:block">
+            <div className="hidden px-4 grow md:block">
               <div className="text-sm">
                 <Username
                   username={post.user.name}
@@ -158,13 +158,13 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
                 )}
               </div>
             </div>
-            <div className="mt-2 md:mt-0 shadow-app-top p-1 flex items-center">
+            <div className="flex items-center p-1 mt-2 md:mt-0 shadow-app-top">
               <textarea
                 id="comment"
                 placeholder="Add a comment..."
-                className="w-full h-full bg-black focus:outline-none p-2 resize-none "
+                className="w-full h-full p-2 bg-black resize-none focus:outline-none "
               />
-              <button className="text-app-blue  right-2">POST</button>
+              <button className="text-app-blue right-2">POST</button>
             </div>
           </div>
         </div>
