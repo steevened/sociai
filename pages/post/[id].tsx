@@ -22,6 +22,7 @@ import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
+import { toast } from 'sonner';
 
 interface Props {
   userId: string;
@@ -47,6 +48,9 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   // console.log(post);
 
   const handleLike = async () => {
+    if (!session) {
+      toast.error('Please Sign Up to continue');
+    }
     try {
       const res = await toggleLike(post?._id || '');
       setIsLiked(res.liked);
@@ -59,6 +63,9 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   };
 
   const handleSaved = async () => {
+    if (!session) {
+      toast.error('Please Sign Up to continue');
+    }
     try {
       const res = await toggleSaved(post?._id || '');
       setIsSaved(res.saved);

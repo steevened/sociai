@@ -15,6 +15,7 @@ import alternAvatar from '../../public/avatar.jpg';
 import { toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
+import { toast } from 'sonner';
 
 interface Props {
   post: Post;
@@ -29,10 +30,16 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const { data } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
+  console.log(data);
+
   const handleLike = async () => {
+    if (!data) {
+      toast.error('Please Sign Up to continue');
+    }
     try {
       const res = await toggleLike(post._id);
       setIsLiked(res.liked);
+      console.log(res);
       // console.log(res);
       mutate();
     } catch (error) {
@@ -41,6 +48,9 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   };
 
   const handleSaved = async () => {
+    if (!data) {
+      toast.error('Please Sign Up to continue');
+    }
     try {
       const res = await toggleSaved(post._id);
       setIsSaved(res.saved);
