@@ -12,7 +12,7 @@ import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost, Post } from '@/lib/interfaces';
 import { FC, useEffect, useState } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
-import { toggleLike, toggleSaved } from '@/lib/services';
+import { createComment, toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
 import { toast } from 'sonner';
@@ -29,11 +29,11 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
 
-  const { data } = useSession();
+  const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
   const handleLike = async () => {
-    if (!data) {
+    if (!session) {
       toast.error('Please Sign Up to continue');
     }
     try {
@@ -48,7 +48,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   };
 
   const handleSaved = async () => {
-    if (!data) {
+    if (!session) {
       toast.error('Please Sign Up to continue');
     }
     try {
@@ -60,12 +60,32 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     }
   };
 
+  const handleComment = async () => {
+    if (!inputValue) return;
+    if (!session) {
+      return toast.error('Please Sign Up to continue');
+    }
+    try {
+      // const res = await createComment(post._id, inputValue);
+      toast.promise(createComment(post._id, inputValue), {
+        loading: 'Loading...',
+        success: 'Comment created',
+        error: (data) => `${data}`,
+      });
+
+      setInputValue('');
+      mutate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const isLiked = post.likes.some(
-      (like) => like.user.email === data?.user?.email
+      (like) => like.user.email === session?.user?.email
     );
     setIsLiked(isLiked);
-  }, [post, data]);
+  }, [post, session]);
 
   useEffect(() => {
     const isSaved = saved?.some((s) => s.post._id === post._id);
@@ -138,6 +158,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
               className="w-full h-full p-2 bg-black resize-none focus:outline-none "
             />
             <button
+              onClick={handleComment}
               className={`text-app-blue right-2 ${
                 inputValue.length === 0 && 'hidden'
               }`}
