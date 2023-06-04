@@ -123,6 +123,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           </div>
           {post.comments.length > 0 && (
             <div className="mt-1">
+              <div>{/* <p>{post.comments[0].user}</p> */}</div>
               <button className="text-sm text-gray-200 text-opacity-50 ">
                 View all {post.comments.length} comments
               </button>

@@ -5,6 +5,7 @@ import PostCard from '@/components/home/Post';
 import { useRouter } from 'next/router';
 import { InstagramTextLogo } from '@/components/icons/Svg';
 import { usePosts } from '@/lib/hooks';
+import { Post } from '@/lib/interfaces';
 
 const Home: NextPageWithLayout = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const Home: NextPageWithLayout = () => {
       </div>
 
       <div className="flex flex-col items-center my-20 space-y-10 md:my-10">
-        {posts?.map((post) => (
+        {posts?.map((post: Post) => (
           <PostCard key={post._id} post={post} mutate={mutate} />
         ))}
       </div>

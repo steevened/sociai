@@ -18,7 +18,7 @@ export default async function handleComments(
   switch (req.method) {
     case 'GET':
       await db.connect();
-      const comments = await Comments.find({ post: id });
+      const comments = await Comments.find({ post: id }).populate('user');
       if (!comments) {
         await db.disconnect();
         return res.status(404).json({ message: 'Not found' });

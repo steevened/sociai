@@ -3,8 +3,8 @@ import mongoose, { Model, Schema, model } from 'mongoose';
 
 const CommentsSchema = new Schema(
   {
-    user: { type: String },
-    post: { type: String },
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    post: { type: Schema.Types.ObjectId, ref: 'Post' },
     comment: { type: String, required: true },
   },
   { timestamps: true }
