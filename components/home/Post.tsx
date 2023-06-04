@@ -32,8 +32,6 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const { data } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
-  console.log(data);
-
   const handleLike = async () => {
     if (!data) {
       toast.error('Please Sign Up to continue');
