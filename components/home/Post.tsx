@@ -145,11 +145,18 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           </div>
           {post.comments.length > 0 && (
             <div className="mt-1">
-              <div>
-                <p>{post.comments[0].user}</p>
+              <div className="flex items-center gap-2">
+                <Username
+                  username={post.comments[0].user.name}
+                  id={post.comments[0].user._id}
+                />
+                <p className="text-sm">
+                  {post.comments[0].comment.slice(0, 40)}...
+                </p>
               </div>
               <button className="text-sm text-gray-200 text-opacity-50 ">
-                View all {post.comments.length} comments
+                {/* View all {post.comments.length} comments */}
+                View all comments
               </button>
             </div>
           )}

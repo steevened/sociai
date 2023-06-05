@@ -70,7 +70,7 @@ export interface Post {
 }
 
 export interface Comment {
-  user: string;
+  user: User;
   post: string;
   comment: string;
   _id: string;

@@ -45,18 +45,18 @@ const deleteComment = async (req: NextApiRequest, res: NextApiResponse) => {
       await db.disconnect();
       return res.status(404).json({ message: 'comment not found' });
     }
-    const { _id, post, user, comment } = commentToDelete;
+    // const { _id, post, user, comment } = commentToDelete;
 
-    const commentOnPost = { _id, post, user, comment };
+    // const commentOnPost = { _id, post, user, comment };
 
     await postToUpdate.updateOne({
-      $pull: { comments: commentOnPost },
+      $pull: { comments: commentId },
     });
 
     await Comments.findByIdAndRemove(commentId);
 
     await db.disconnect();
-    return res.status(200).json({ deleted: commentOnPost });
+    return res.status(200).json({ message: 'Deleted succesfully' });
   } catch (error) {
     await db.disconnect();
     return res.status(400).json({ message: error });
