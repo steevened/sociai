@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../helpers/axios.helper';
 
 export const createComment = async (postId: string, comment: string) => {
   const { data } = await axios.post(

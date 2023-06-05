@@ -92,12 +92,10 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     setIsSaved(isSaved as boolean);
   }, [post, saved]);
 
-  console.log(post);
-
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
-        <Avatar imageUrl={post.user.image} />
+        <Avatar userId={post.user._id} imageUrl={post.user.image} />
         <div className="flex flex-grow gap-2 text-base">
           <Username username={post.user.name} id={post.user._id} />
           <p className="text-sm text-gray-500">1d</p>
@@ -145,13 +143,14 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           </div>
           {post.comments.length > 0 && (
             <div className="mt-1">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
                 <Username
                   username={post.comments[0].user.name}
                   id={post.comments[0].user._id}
                 />
-                <p className="text-sm">
-                  {post.comments[0].comment.slice(0, 40)}...
+                <p className="text-sm text-gray-200 text-opacity-70">
+                  {post.comments[0].comment.slice(0, 40)}
+                  {post.comments[0].comment.length > 39 && '...'}
                 </p>
               </div>
               <button className="text-sm text-gray-200 text-opacity-50 ">
