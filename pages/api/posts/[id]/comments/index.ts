@@ -11,7 +11,7 @@ export default async function handleComments(
 ) {
   const { id } = req.query;
 
-  if (!mongoose.isValidObjectId) {
+  if (!mongoose.isValidObjectId(id)) {
     return res.status(400).json({ message: `Invalid ID` + id });
   }
 

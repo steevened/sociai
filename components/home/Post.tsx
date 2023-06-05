@@ -92,6 +92,8 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     setIsSaved(isSaved as boolean);
   }, [post, saved]);
 
+  console.log(post);
+
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
@@ -117,9 +119,9 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
             <button onClick={handleLike}>
               <LikesIconIn liked={isLiked} />
             </button>
-            <button>
+            <label role="button" htmlFor="comment-home-page">
               <CommentIcon />
-            </button>
+            </label>
           </div>
           <button onClick={handleSaved}>
             {isSaved ? <SaveIconOut /> : <SaveIconIn />}
@@ -143,7 +145,9 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           </div>
           {post.comments.length > 0 && (
             <div className="mt-1">
-              <div>{/* <p>{post.comments[0].user}</p> */}</div>
+              <div>
+                <p>{post.comments[0].user}</p>
+              </div>
               <button className="text-sm text-gray-200 text-opacity-50 ">
                 View all {post.comments.length} comments
               </button>
@@ -151,7 +155,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           )}
           <div className="flex items-center mt-2">
             <TextAreaAutosize
-              id="comment"
+              id="comment-home-page"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Add a comment..."
