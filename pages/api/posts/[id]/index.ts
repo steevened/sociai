@@ -16,7 +16,10 @@ export default async function handler(
   switch (req.method) {
     case 'GET':
       await db.connect();
-      const post = await Post.findById(id).populate('user').populate('likes');
+      const post = await Post.findById(id)
+        .populate('user')
+        .populate({ path: 'likes', populate: { path: 'user' } })
+        .populate({ path: 'comments', populate: { path: 'user' } });
       if (!post) {
         await db.disconnect();
         return res.status(404).json({ message: 'Post not found' });

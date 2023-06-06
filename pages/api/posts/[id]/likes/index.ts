@@ -34,7 +34,6 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await db.connect();
     const user = await User.findOne({ email: session?.user?.email });
-    await db.disconnect();
     if (!user) {
       return res.status(404).json({ error: 'user not found' });
     }
@@ -43,6 +42,7 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
     if (!post) {
       return res.status(404).json({ error: 'post not found' });
     }
+    await db.disconnect();
 
     const like = await Likes.findOne({ post, user });
     if (like) {

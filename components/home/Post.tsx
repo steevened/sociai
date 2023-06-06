@@ -12,10 +12,11 @@ import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost, Post } from '@/lib/interfaces';
 import { FC, useEffect, useState } from 'react';
 import alternAvatar from '../../public/avatar.jpg';
-import { toggleLike, toggleSaved } from '@/lib/services';
+import { createComment, toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
 import { toast } from 'sonner';
+import TextAreaAutosize from 'react-textarea-autosize';
 
 interface Props {
   post: Post;
@@ -26,14 +27,13 @@ interface Props {
 const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [inputValue, setInputValue] = useState<string>('');
 
-  const { data } = useSession();
+  const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
-  console.log(data);
-
   const handleLike = async () => {
-    if (!data) {
+    if (!session) {
       toast.error('Please Sign Up to continue');
     }
     try {
@@ -48,7 +48,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   };
 
   const handleSaved = async () => {
-    if (!data) {
+    if (!session) {
       toast.error('Please Sign Up to continue');
     }
     try {
@@ -60,12 +60,32 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     }
   };
 
+  const handleComment = async () => {
+    if (!inputValue) return;
+    if (!session) {
+      return toast.error('Please Sign Up to continue');
+    }
+    try {
+      // const res = await createComment(post._id, inputValue);
+      toast.promise(createComment(post._id, inputValue), {
+        loading: 'Loading...',
+        success: 'Comment created',
+        error: (data) => `${data}`,
+      });
+
+      setInputValue('');
+      mutate();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const isLiked = post.likes.some(
-      (like) => like.user.email === data?.user?.email
+      (like) => like.user.email === session?.user?.email
     );
     setIsLiked(isLiked);
-  }, [post, data]);
+  }, [post, session]);
 
   useEffect(() => {
     const isSaved = saved?.some((s) => s.post._id === post._id);
@@ -75,7 +95,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
-        <Avatar imageUrl={post.user.image} />
+        <Avatar userId={post.user._id} imageUrl={post.user.image} />
         <div className="flex flex-grow gap-2 text-base">
           <Username username={post.user.name} id={post.user._id} />
           <p className="text-sm text-gray-500">1d</p>
@@ -97,9 +117,9 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
             <button onClick={handleLike}>
               <LikesIconIn liked={isLiked} />
             </button>
-            <button>
+            <label role="button" htmlFor="comment-home-page">
               <CommentIcon />
-            </button>
+            </label>
           </div>
           <button onClick={handleSaved}>
             {isSaved ? <SaveIconOut /> : <SaveIconIn />}
@@ -123,11 +143,39 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           </div>
           {post.comments.length > 0 && (
             <div className="mt-1">
+              <div className="flex items-center gap-1">
+                <Username
+                  username={post.comments[0].user.name}
+                  id={post.comments[0].user._id}
+                />
+                <p className="text-sm text-gray-200 text-opacity-70">
+                  {post.comments[0].comment.slice(0, 40)}
+                  {post.comments[0].comment.length > 39 && '...'}
+                </p>
+              </div>
               <button className="text-sm text-gray-200 text-opacity-50 ">
-                View all {post.comments.length} comments
+                {/* View all {post.comments.length} comments */}
+                View all comments
               </button>
             </div>
           )}
+          <div className="flex items-center mt-2">
+            <TextAreaAutosize
+              id="comment-home-page"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Add a comment..."
+              className="w-full h-full p-2 bg-black resize-none focus:outline-none "
+            />
+            <button
+              onClick={handleComment}
+              className={`text-app-blue right-2 ${
+                inputValue.length === 0 && 'hidden'
+              }`}
+            >
+              POST
+            </button>
+          </div>
         </div>
       </div>
     </div>

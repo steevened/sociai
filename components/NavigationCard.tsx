@@ -37,18 +37,18 @@ const routes: Route[] = [
     iconActive: <HomeIconIn />,
     iconInactive: <HomeIconOut />,
   },
-  {
-    name: 'Notifications',
-    path: '/notifications',
-    iconActive: <LikesIconIn />,
-    iconInactive: <LikesIconOut />,
-  },
-  {
-    name: 'Messages',
-    path: '/messages',
-    iconActive: <MsgsIn />,
-    iconInactive: <MsgsOut />,
-  },
+  // {
+  //   name: 'Notifications',
+  //   path: '/notifications',
+  //   iconActive: <LikesIconIn />,
+  //   iconInactive: <LikesIconOut />,
+  // },
+  // {
+  //   name: 'Messages',
+  //   path: '/messages',
+  //   iconActive: <MsgsIn />,
+  //   iconInactive: <MsgsOut />,
+  // },
   {
     name: 'Create',
     path: '/create',

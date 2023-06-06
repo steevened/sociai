@@ -16,6 +16,7 @@ export default async function handlePublicationPost(
       const posts = await Post.find({})
         .populate('user')
         .populate({ path: 'likes', populate: { path: 'user' } })
+        .populate({ path: 'comments', populate: { path: 'user' } })
         .sort({ createdAt: -1 });
       await db.disconnect();
       return res.status(200).json({ posts });
