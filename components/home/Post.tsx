@@ -31,6 +31,8 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
 
+  const { user, isLogged } = useContext(AuthContext);
+
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -96,6 +98,8 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     setIsSaved(isSaved as boolean);
   }, [post, saved]);
 
+  console.log({ isLogged, user });
+
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
@@ -105,7 +109,11 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
-          <MenuDropdown postId={post._id} />
+          <MenuDropdown
+            postId={post._id}
+            isLogged={isLogged}
+            isPostFromUser={post.user._id === user?._id}
+          />
         </div>
       </div>
 
