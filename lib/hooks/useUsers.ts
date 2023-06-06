@@ -26,14 +26,14 @@ function useUserById(id: string) {
   };
 }
 
-function useUserByEmail(email: string) {
+function useUserByEmail(email?: string) {
   const { data, error, isLoading } = useSWR<UserByIDResponse>(
     email ? `/api/users/email/${email}` : null
   );
 
   return {
     user: data?.user,
-    isLoading: isLoading || !data?.user,
+    isLoading,
     error,
   };
 }
