@@ -1,7 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { FC, Fragment } from 'react';
-import { CopyIcon, EyeIcon, FaceIcon } from './icons/Svg';
+import { CopyIcon, EditIcon, EyeIcon, FaceIcon } from './icons/Svg';
+import Link from 'next/link';
 
 interface Props {
   postId: string;
@@ -15,6 +16,7 @@ const MenuDropdown: FC<Props> = ({
   isPostFromUser = false,
 }) => {
   const router = useRouter();
+
   return (
     <Menu as="div" className="relative text-gray-400">
       <Menu.Button className="p-1 duration-100 rounded-full hover:bg-gray-900 active:scale-95 hover:scale-105">
@@ -69,22 +71,23 @@ const MenuDropdown: FC<Props> = ({
               </button>
             )}
           </Menu.Item>
-          {/* {isPostFromUser && (
+          {isPostFromUser && isLogged && (
             <Menu.Item>
               {({ active }) => (
-                <button
-                  className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-sm text-green-500 ${
+                <Link
+                  href={`/post/${postId}?edit=true`}
+                  className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-sm ${
                     active && 'bg-gray-900'
-                  } `}
+                  }`}
                 >
                   <>
-                    <FaceIcon smile />
-                    Follow
+                    <EditIcon />
+                    Edit
                   </>
-                </button>
+                </Link>
               )}
             </Menu.Item>
-          )} */}
+          )}
         </Menu.Items>
       </Transition>
     </Menu>

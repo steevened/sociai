@@ -42,6 +42,8 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   const router = useRouter();
   const { id } = router.query;
 
+  console.log(router.query);
+
   const {
     data: post,
     isLoading,
@@ -96,8 +98,6 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
     }
   };
 
-  console.log(post?.comments);
-
   useEffect(() => {
     const isLiked = post?.likes.some((like: Like) => like.user._id === userId);
     setIsLiked(isLiked as boolean);
@@ -135,6 +135,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
           handleComment={handleComment}
           inputValue={inputValue}
           setInputValue={setInputValue}
+          willEdit={router.query.edit ? true : false}
         />
       </div>
     </div>

@@ -20,6 +20,7 @@ interface PostDesktopProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   handleComment: () => void;
+  willEdit: boolean;
 }
 
 const PostDesktop: FC<PostDesktopProps> = ({
@@ -31,10 +32,11 @@ const PostDesktop: FC<PostDesktopProps> = ({
   inputValue,
   setInputValue,
   handleComment,
+  willEdit,
 }) => {
   return (
     <div className="min-h-[calc(100vh-60px)] flex items-center justify-center md:w-5/6 lg:w-3/4 mx-auto">
-      <div className="flex shadow-app-shadow">
+      <div className={`flex shadow-app-shadow `}>
         <div className="w-1/2 p-[1px]">
           <Imagecontainer image={post.image} />
         </div>

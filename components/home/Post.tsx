@@ -98,8 +98,6 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     setIsSaved(isSaved as boolean);
   }, [post, saved]);
 
-  console.log({ isLogged, user });
-
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
