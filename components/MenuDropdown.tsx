@@ -69,7 +69,7 @@ const MenuDropdown: FC<Props> = ({
               </button>
             )}
           </Menu.Item>
-          {isPostFromUser && (
+          {/* {isPostFromUser && (
             <Menu.Item>
               {({ active }) => (
                 <button
@@ -84,7 +84,7 @@ const MenuDropdown: FC<Props> = ({
                 </button>
               )}
             </Menu.Item>
-          )}
+          )} */}
         </Menu.Items>
       </Transition>
     </Menu>
