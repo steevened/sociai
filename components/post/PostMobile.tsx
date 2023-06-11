@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useState } from 'react';
 import Avatar from '../Avatar';
 import Username from '../links/Username';
 import Imagecontainer from './Imagecontainer';
@@ -14,6 +14,7 @@ import {
 import { Post, User } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
 import { Menu, Transition } from '@headlessui/react';
+import EditPostMenu from './EditPostMenu';
 
 interface PostMobileProps {
   post: Post;
@@ -40,6 +41,11 @@ const PostMobile: FC<PostMobileProps> = ({
   willEdit,
   setWillEdit,
 }) => {
+  const [isAllCommentsShowed, setIsAllCommentsShowed] =
+    useState<boolean>(false);
+
+  const [willEditComment, setWillEditComment] = useState<boolean>(false);
+
   return (
     <div className="">
       <div className="flex items-center justify-between px-2 py-1 ">
@@ -49,56 +55,10 @@ const PostMobile: FC<PostMobileProps> = ({
         </div>
         <div>
           {!willEdit ? (
-            <Menu as="div" className="relative text-gray-400">
-              <Menu.Button className="p-1 duration-100 rounded-full hover:bg-gray-900 active:scale-95 hover:scale-105">
-                <MenuDotsIcon />
-              </Menu.Button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute p-2 mt-1 space-y-2 bg-black rounded-md -right-1 w-36 shadow-app-shadow">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        onClick={() => setWillEdit(true)}
-                        className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-sm ${
-                          active && 'bg-gray-900'
-                        }`}
-                      >
-                        <>
-                          <EditIcon />
-                          Edit
-                        </>
-                      </button>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-red-500 text-sm ${
-                          active && 'bg-gray-900'
-                        }`}
-                      >
-                        <>
-                          <TrashIcon />
-                          Delete
-                        </>
-                      </button>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
+            <EditPostMenu onEdit={setWillEdit} />
           ) : (
             <button
               onClick={() => setWillEdit(false)}
-              // disabled={inputValue.length <= 0}
               className="text-app-blue right-2 disabled:text-opacity-50"
             >
               SAVE
@@ -144,9 +104,12 @@ const PostMobile: FC<PostMobileProps> = ({
           </TextAreaAutosize>
         </div>
 
-        {post.comments.length > 1 && (
+        {post.comments.length > 1 && !isAllCommentsShowed && (
           <div className="mt-1">
-            <button className="text-sm text-gray-200 text-opacity-50 ">
+            <button
+              onClick={() => setIsAllCommentsShowed(true)}
+              className="text-sm text-gray-200 text-opacity-50 "
+            >
               View all {post.comments.length} comments
             </button>
             <div className="flex items-center mt-1">
@@ -160,6 +123,33 @@ const PostMobile: FC<PostMobileProps> = ({
               </p>
             </div>
           </div>
+        )}
+        {post.comments.length > 1 && isAllCommentsShowed && (
+          <ul className="space-y-5">
+            {post.comments.map((comment) => (
+              <li
+                key={comment._id}
+                className="flex items-center justify-between gap-2 mt-1"
+              >
+                <Username
+                  id={post.comments[0].user._id}
+                  username={post.comments[0].user.name}
+                />
+                <TextAreaAutosize
+                  // value={comment.comment}
+                  disabled={!willEditComment}
+                  // onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="Add a comment..."
+                  className={`w-full h-full p-2 text-sm text-gray-200 bg-black resize-none focus:outline-none text-opacity-70  bg-transparent  rounded-md  ${
+                    willEditComment && 'ring-2'
+                  }`}
+                >
+                  {comment.comment}
+                </TextAreaAutosize>
+                <EditPostMenu onEdit={() => setWillEditComment(true)} />
+              </li>
+            ))}
+          </ul>
         )}
         {post.comments.length === 1 && (
           <div className="flex items-center mt-1">
