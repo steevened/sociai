@@ -4,17 +4,15 @@ import Username from '../links/Username';
 import Imagecontainer from './Imagecontainer';
 import {
   CommentIcon,
-  EditIcon,
   LikesIconIn,
-  MenuDotsIcon,
   SaveIconIn,
   SaveIconOut,
-  TrashIcon,
 } from '../icons/Svg';
 import { Post, User } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
 import { Menu, Transition } from '@headlessui/react';
 import EditPostMenu from './EditPostMenu';
+import CommentItem from './CommentItem';
 
 interface PostMobileProps {
   post: Post;
@@ -43,8 +41,6 @@ const PostMobile: FC<PostMobileProps> = ({
 }) => {
   const [isAllCommentsShowed, setIsAllCommentsShowed] =
     useState<boolean>(false);
-
-  const [willEditComment, setWillEditComment] = useState<boolean>(false);
 
   return (
     <div className="">
@@ -127,27 +123,7 @@ const PostMobile: FC<PostMobileProps> = ({
         {post.comments.length > 1 && isAllCommentsShowed && (
           <ul className="space-y-5">
             {post.comments.map((comment) => (
-              <li
-                key={comment._id}
-                className="flex items-center justify-between gap-2 mt-1"
-              >
-                <Username
-                  id={post.comments[0].user._id}
-                  username={post.comments[0].user.name}
-                />
-                <TextAreaAutosize
-                  // value={comment.comment}
-                  disabled={!willEditComment}
-                  // onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Add a comment..."
-                  className={`w-full h-full p-2 text-sm text-gray-200 bg-black resize-none focus:outline-none text-opacity-70  bg-transparent  rounded-md  ${
-                    willEditComment && 'ring-2'
-                  }`}
-                >
-                  {comment.comment}
-                </TextAreaAutosize>
-                <EditPostMenu onEdit={() => setWillEditComment(true)} />
-              </li>
+              <CommentItem key={comment._id} comment={comment} post={post} />
             ))}
           </ul>
         )}

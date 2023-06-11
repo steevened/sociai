@@ -1,16 +1,19 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, HtmlHTMLAttributes, PropsWithChildren } from 'react';
 
-interface ButtonProps {
+interface ButtonProps extends HtmlHTMLAttributes<HTMLButtonElement> {
   color?: 'primary' | 'secondary';
   variant?: 'normal' | 'outline' | 'text';
   className?: string;
+  disabled?: boolean;
 }
 
-const Button: FC<PropsWithChildren<ButtonProps>> = ({
+const Button: FC<ButtonProps> = ({
   children,
   color = 'primary',
   variant = 'normal',
   className = '',
+  disabled = false,
+  ...restProps
 }) => {
   const styles = {
     normal: {
@@ -29,7 +32,9 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
 
   return (
     <button
-      className={`px-4 py-2 duration-200 rounded-md text-xs md:text-sm ${styles[variant][color]} ${className}`}
+      {...restProps}
+      disabled={disabled}
+      className={`px-4 py-2 duration-200 rounded-md text-xs md:text-sm disabled:pointer-events-none disabled:opacity-50 ${styles[variant][color]} ${className}`}
     >
       {children}
     </button>

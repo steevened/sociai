@@ -18,10 +18,10 @@ interface UpdateComment {
 export const updateComment = async (
   postId: string,
   commentId: string,
-  comment: UpdateComment
+  comment: string
 ) => {
-  const { data } = await axios.post(
-    `api/post/${postId}/comments/${commentId}`,
+  const { data } = await axios.patch(
+    `api/posts/${postId}/comments/${commentId}`,
     { comment },
     {
       withCredentials: true,
