@@ -35,6 +35,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
+  const [willEdit, setWillEdit] = useState<boolean>(false);
 
   const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
@@ -123,6 +124,8 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
           handleComment={handleComment}
           inputValue={inputValue}
           setInputValue={setInputValue}
+          willEdit={willEdit}
+          setWillEdit={setWillEdit}
         />
       </div>
       <div className="hidden md:block ">
@@ -135,7 +138,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
           handleComment={handleComment}
           inputValue={inputValue}
           setInputValue={setInputValue}
-          willEdit={router.query.edit ? true : false}
+          willEdit={willEdit}
         />
       </div>
     </div>

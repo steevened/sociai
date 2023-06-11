@@ -1,15 +1,19 @@
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import Avatar from '../Avatar';
 import Username from '../links/Username';
 import Imagecontainer from './Imagecontainer';
 import {
   CommentIcon,
+  EditIcon,
   LikesIconIn,
+  MenuDotsIcon,
   SaveIconIn,
   SaveIconOut,
+  TrashIcon,
 } from '../icons/Svg';
 import { Post, User } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
+import { Menu, Transition } from '@headlessui/react';
 
 interface PostMobileProps {
   post: Post;
@@ -20,6 +24,8 @@ interface PostMobileProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   handleComment: () => void;
+  willEdit: boolean;
+  setWillEdit: (value: boolean) => void;
 }
 
 const PostMobile: FC<PostMobileProps> = ({
@@ -31,12 +37,74 @@ const PostMobile: FC<PostMobileProps> = ({
   inputValue,
   setInputValue,
   handleComment,
+  willEdit,
+  setWillEdit,
 }) => {
   return (
     <div className="">
-      <div className="flex items-center justify-start gap-4 px-2 py-1 ">
-        <Avatar userId={post.user._id} imageUrl={post.user.image} />
-        <Username id={post.user._id} username={post.user.name} />
+      <div className="flex items-center justify-between px-2 py-1 ">
+        <div className="flex items-center gap-4">
+          <Avatar userId={post.user._id} imageUrl={post.user.image} />
+          <Username id={post.user._id} username={post.user.name} />
+        </div>
+        <div>
+          {!willEdit ? (
+            <Menu as="div" className="relative text-gray-400">
+              <Menu.Button className="p-1 duration-100 rounded-full hover:bg-gray-900 active:scale-95 hover:scale-105">
+                <MenuDotsIcon />
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute p-2 mt-1 space-y-2 bg-black rounded-md -right-1 w-36 shadow-app-shadow">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => setWillEdit(true)}
+                        className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-sm ${
+                          active && 'bg-gray-900'
+                        }`}
+                      >
+                        <>
+                          <EditIcon />
+                          Edit
+                        </>
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-red-500 text-sm ${
+                          active && 'bg-gray-900'
+                        }`}
+                      >
+                        <>
+                          <TrashIcon />
+                          Delete
+                        </>
+                      </button>
+                    )}
+                  </Menu.Item>
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          ) : (
+            <button
+              onClick={() => setWillEdit(false)}
+              // disabled={inputValue.length <= 0}
+              className="text-app-blue right-2 disabled:text-opacity-50"
+            >
+              SAVE
+            </button>
+          )}
+        </div>
       </div>
       <Imagecontainer image={post.image} />
       <div className="flex justify-between p-2">
@@ -67,8 +135,10 @@ const PostMobile: FC<PostMobileProps> = ({
           />
           <TextAreaAutosize
             value={post.caption}
-            className="w-full bg-transparent resize-none "
-            disabled
+            className={`w-full bg-transparent resize-none p-2 rounded-md focus:outline-none ${
+              willEdit && 'ring-2 '
+            }`}
+            disabled={!willEdit}
           >
             {post.caption}
           </TextAreaAutosize>
