@@ -134,7 +134,7 @@ const PostMobile: FC<PostMobileProps> = ({
             className="mr-1"
           />
           <TextAreaAutosize
-            value={post.caption}
+            // value={post.caption}
             className={`w-full bg-transparent resize-none p-2 rounded-md focus:outline-none ${
               willEdit && 'ring-2 '
             }`}
