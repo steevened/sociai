@@ -41,7 +41,7 @@ const PostDesktop: FC<PostDesktopProps> = ({
           <Imagecontainer image={post.image} />
         </div>
         <div className="relative w-1/2 overflow-y-auto scrollbar-thumb-blue-500 scrollbar-thumb-rounded-full scrollbar-thin scrollbar-track-gray-900">
-          <div className="sticky flex items-center justify-start gap-4 px-2 py-1.5 shadow-app-bottom z-20 bg-black m-[1px]">
+          <div className="sticky flex items-center justify-start gap-4 px-2 py-1.5 shadow-app-bottom z-20 bg-black m-[1px] ">
             <Avatar userId={post.user._id} imageUrl={post.user.image} />
             <Username id={post.user._id} username={post.user.name} />
           </div>

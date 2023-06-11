@@ -58,16 +58,22 @@ const PostMobile: FC<PostMobileProps> = ({
             {post.likes.length} like{post.likes.length !== 1 && 's'}
           </span>
         </div>
-        <div className="">
-          <div className="text-sm">
-            <Username
-              username={post.user.name}
-              id={post.user._id}
-              className="mr-1"
-            />
-            <span className="">{post.caption}</span>
-          </div>
+
+        <div className="flex items-center text-sm">
+          <Username
+            username={post.user.name}
+            id={post.user._id}
+            className="mr-1"
+          />
+          <TextAreaAutosize
+            value={post.caption}
+            className="w-full bg-transparent resize-none "
+            disabled
+          >
+            {post.caption}
+          </TextAreaAutosize>
         </div>
+
         {post.comments.length > 1 && (
           <div className="mt-1">
             <button className="text-sm text-gray-200 text-opacity-50 ">

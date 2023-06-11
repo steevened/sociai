@@ -11,7 +11,6 @@ import {
 import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost, Post } from '@/lib/interfaces';
 import { FC, useContext, useEffect, useState } from 'react';
-import alternAvatar from '../../public/avatar.jpg';
 import { createComment, toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
