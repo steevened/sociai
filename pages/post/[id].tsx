@@ -114,7 +114,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   return (
     <div className="flex flex-col mb-24 md:mb-0 md:min-h-screen">
       <TopBar title={'Post'} />
-      <div className="md:hidden">
+      <div className="">
         <PostMobile
           post={post}
           handleLike={handleLike}
@@ -128,7 +128,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
           setWillEdit={setWillEdit}
         />
       </div>
-      <div className="hidden md:block ">
+      <div className="hidden ">
         <PostDesktop
           post={post}
           handleLike={handleLike}
