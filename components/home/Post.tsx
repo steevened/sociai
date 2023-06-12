@@ -10,13 +10,14 @@ import {
 } from '../icons/Svg';
 import { User } from '@/lib/interfaces/user-response.interface';
 import { IPost, Post } from '@/lib/interfaces';
-import { FC, useEffect, useState } from 'react';
-import alternAvatar from '../../public/avatar.jpg';
+import { FC, useContext, useEffect, useState } from 'react';
 import { createComment, toggleLike, toggleSaved } from '@/lib/services';
 import { useSession } from 'next-auth/react';
 import { useSaved } from '@/lib/hooks';
 import { toast } from 'sonner';
 import TextAreaAutosize from 'react-textarea-autosize';
+import { useRouter } from 'next/router';
+import { AuthContext } from '@/context';
 
 interface Props {
   post: Post;
@@ -28,6 +29,10 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
+
+  const { user, isLogged } = useContext(AuthContext);
+
+  const router = useRouter();
 
   const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
@@ -101,7 +106,11 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
           <p className="text-sm text-gray-500">1d</p>
         </div>
         <div className="">
-          <MenuDropdown postId={post._id} />
+          <MenuDropdown
+            postId={post._id}
+            isLogged={isLogged}
+            isPostFromUser={post.user._id === user?._id}
+          />
         </div>
       </div>
 
@@ -153,7 +162,10 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
                   {post.comments[0].comment.length > 39 && '...'}
                 </p>
               </div>
-              <button className="text-sm text-gray-200 text-opacity-50 ">
+              <button
+                onClick={() => router.push(`/post/${post._id}`)}
+                className="text-sm text-gray-200 text-opacity-50 "
+              >
                 {/* View all {post.comments.length} comments */}
                 View all comments
               </button>

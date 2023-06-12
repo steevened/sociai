@@ -28,7 +28,7 @@ export default function App({
           value={{
             fetcher,
             revalidateOnFocus: false,
-            shouldRetryOnError: false,
+            shouldRetryOnError: true,
           }}
         >
           <Toaster richColors closeButton theme="dark" />

@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div className="w-full md:w-3/12">
         <NavigationCard />
       </div>
-      <div className="md:ml-16 xl:ml-60">{children}</div>
+      <div className="md:ml-16 xl:ml-60 ">{children}</div>
     </div>
   );
 }

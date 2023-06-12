@@ -38,7 +38,11 @@ const UserProfile: NextPageWithLayout<Props> = ({
       <div className="mx-4 mt-8 space-y-5 ">
         <div className="flex gap-5">
           <div className="">
-            <Avatar imageUrl={user.image as string} className="w-20 lg:w-40" />
+            <Avatar
+              userId={user._id}
+              imageUrl={user.image as string}
+              className="w-20 lg:w-40"
+            />
           </div>
           <div className="flex flex-col justify-between w-full lg:justify-start lg:gap-y-4">
             <div className="flex items-start justify-between w-full ">

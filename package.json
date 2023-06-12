@@ -31,7 +31,8 @@
     "sonner": "^0.3.5",
     "swr": "^2.1.5",
     "tailwind-scrollbar": "^3.0.4",
-    "typescript": "5.0.2"
+    "typescript": "5.0.2",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/formidable": "^2.0.6",

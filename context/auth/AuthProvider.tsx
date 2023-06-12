@@ -1,11 +1,13 @@
-import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
-import { IUser } from '@/lib/interfaces';
+import { FC, PropsWithChildren, useEffect, useReducer, useState } from 'react';
+import { User } from '@/lib/interfaces';
 import { authReducer, AuthContext } from './';
 import { useSession, signOut } from 'next-auth/react';
+import { useUserByEmail } from '@/lib/hooks';
+import axios from '../../lib/helpers/axios.helper';
 
 export interface AuthState {
   isLogged: boolean;
-  user?: IUser;
+  user?: User;
 }
 
 const AUTH_INITIAL_STATE: AuthState = {
@@ -15,10 +17,15 @@ const AUTH_INITIAL_STATE: AuthState = {
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
+  const [user, setUser] = useState<User | null>(null);
 
   const { data, status } = useSession();
 
-  const login = (user: IUser) => {
+  // const { user, error, isLoading } = useUserByEmail(
+  //   (data?.user?.email as string) || undefined
+  // );
+
+  const login = (user: User) => {
     dispatch({
       type: '[AUTH] - LOGIN',
       payload: user,
@@ -31,17 +38,20 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      const { user } = data;
-      login({
-        name: user?.name,
-        email: user?.email,
-        image: user?.image || '',
-      } as IUser);
+    if (data?.user?.email) {
+      axios
+        .get(`/api/users/email/${data?.user?.email}`)
+        .then((res) => setUser(res.data.user));
     }
-  }, [data, status]);
+  }, [data]);
 
-  // console.log({ data, status });
+  useEffect(() => {
+    if (status === 'authenticated' && user) {
+      login(user);
+    }
+  }, [user, status]);
+
+  // console.log(user);
 
   return (
     <AuthContext.Provider

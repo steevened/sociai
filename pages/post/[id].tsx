@@ -3,29 +3,26 @@ import { NextPageWithLayout } from '../_app';
 import TopBar from '@/components/atoms/TopBar';
 import { GetServerSideProps } from 'next';
 import { db } from '@/lib/db';
-import { Post, User } from '@/models';
-import { ILikes, Like, Post as PostInterface } from '@/lib/interfaces';
+import { User } from '@/models';
+import { Like, Post as PostInterface } from '@/lib/interfaces';
 
 import { useEffect, useState } from 'react';
-import { createComment, toggleLike, toggleSaved } from '@/lib/services';
-import { usePostById, usePosts, useSaved } from '@/lib/hooks';
+import {
+  createComment,
+  deleteComment,
+  toggleLike,
+  toggleSaved,
+} from '@/lib/services';
+import { usePostById, useSaved } from '@/lib/hooks';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { toast } from 'sonner';
-
-import PostMobile from '@/components/post/PostMobile';
-import Imagecontainer from '@/components/post/Imagecontainer';
-import Avatar from '@/components/Avatar';
-import Username from '@/components/links/Username';
-import {
-  CommentIcon,
-  LikesIconIn,
-  SaveIconIn,
-  SaveIconOut,
-} from '@/components/icons/Svg';
-import PostDesktop from '@/components/post/PostDesktop';
+import { useUiStore } from '@/store/uiStore/uiStore';
+import Button from '@/components/atoms/Button';
+import PostContainer from '@/components/post/PostContainer';
+import ConfirmModal from '@/components/ui/ConfirmModal';
 
 interface Props {
   userId: string;
@@ -35,12 +32,19 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
+  const [willEdit, setWillEdit] = useState<boolean>(false);
+
+  const [commentToDeleteId, setCommentToDeleteId] = useState<string>('');
 
   const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
   const router = useRouter();
   const { id } = router.query;
+
+  const { isModalOpen } = useUiStore();
+
+  // console.log(router.query);
 
   const {
     data: post,
@@ -96,7 +100,20 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
     }
   };
 
-  console.log(post?.comments);
+  const onDeleteComment = async () => {
+    if (!session) return toast.error('Please Sign Up to continue');
+    if (!commentToDeleteId) return toast.error('Something went wrong');
+
+    // console.log(commentToDeleteId);
+
+    deleteComment(post?._id!, commentToDeleteId)
+      .then(() => {
+        mutatePost();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     const isLiked = post?.likes.some((like: Like) => like.user._id === userId);
@@ -111,33 +128,32 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   if (isLoading || !post) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col mb-24 md:mb-0 md:min-h-screen">
-      <TopBar title={'Post'} />
-      <div className="md:hidden">
-        <PostMobile
-          post={post}
-          handleLike={handleLike}
-          handleSaved={handleSaved}
-          isLiked={isLiked}
-          isSaved={isSaved}
-          handleComment={handleComment}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-        />
+    <>
+      <div className="flex flex-col mb-28 md:mb-0 md:min-h-screen ">
+        <TopBar title={'Post'} />
+        <div className="">
+          <PostContainer
+            post={post}
+            handleLike={handleLike}
+            handleSaved={handleSaved}
+            isLiked={isLiked}
+            isSaved={isSaved}
+            handleComment={handleComment}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            willEdit={willEdit}
+            setWillEdit={setWillEdit}
+            setCommentToDeleteId={setCommentToDeleteId}
+          />
+        </div>
       </div>
-      <div className="hidden md:block ">
-        <PostDesktop
-          post={post}
-          handleLike={handleLike}
-          handleSaved={handleSaved}
-          isLiked={isLiked}
-          isSaved={isSaved}
-          handleComment={handleComment}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
+      {isModalOpen && (
+        <ConfirmModal
+          onConfirm={onDeleteComment}
+          onCancel={() => setCommentToDeleteId('')}
         />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

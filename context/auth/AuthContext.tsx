@@ -1,10 +1,10 @@
-import { IUser } from '@/lib/interfaces';
+import { IUser, User } from '@/lib/interfaces';
 import { createContext } from 'react';
 
 interface AuthContextProps {
   isLogged: boolean;
-  user?: IUser;
-  login: (user: IUser) => void;
+  user?: User;
+  login: (user: User) => void;
   logout: () => void;
 }
 
