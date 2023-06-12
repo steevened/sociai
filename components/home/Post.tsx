@@ -74,12 +74,16 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
       // const res = await createComment(post._id, inputValue);
       toast.promise(createComment(post._id, inputValue), {
         loading: 'Loading...',
-        success: 'Comment created',
+        success: () => {
+          setInputValue('');
+          mutate();
+          return 'COMMENT ADDED SUCCESSFULLY';
+        },
         error: (data) => `${data}`,
       });
 
       setInputValue('');
-      mutate();
+      // mutate();
     } catch (error) {
       console.log(error);
     }

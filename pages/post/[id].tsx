@@ -29,17 +29,19 @@ interface Props {
 }
 
 const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
-  const [willEdit, setWillEdit] = useState<boolean>(false);
+  const [willEdit, setWillEdit] = useState<boolean>(
+    router.query.edit === 'true' ? true : false
+  );
 
   const [commentToDeleteId, setCommentToDeleteId] = useState<string>('');
 
   const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
-  const router = useRouter();
   const { id } = router.query;
 
   const { isModalOpen } = useUiStore();
