@@ -1,4 +1,4 @@
-import { IPost } from '@/lib/interfaces';
+import { Post } from '@/lib/interfaces';
 import mongoose, { Schema, Model, model } from 'mongoose';
 
 const PostSchema = new Schema(
@@ -14,5 +14,5 @@ const PostSchema = new Schema(
   }
 );
 
-const Post: Model<IPost> = mongoose.models.Post || model('Post', PostSchema);
+const Post: Model<Post> = mongoose.models.Post || model('Post', PostSchema);
 export default Post;

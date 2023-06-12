@@ -16,3 +16,14 @@ export const createPost = async (post: Post) => {
   });
   return res;
 };
+
+export const updatePost = async (id: string, caption: string) => {
+  const res = await axios.patch(
+    `/api/posts/${id}`,
+    { caption },
+    {
+      withCredentials: true,
+    }
+  );
+  return res;
+};

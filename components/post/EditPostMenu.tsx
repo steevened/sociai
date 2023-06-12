@@ -42,9 +42,7 @@ const EditPostMenu: FC<EditPostMenuProps> = ({ onEdit, onDelete }) => {
           <Menu.Item>
             {({ active }) => (
               <button
-                onClick={() => {
-                  onDelete();
-                }}
+                onClick={onDelete}
                 className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-red-500 text-sm ${
                   active && 'bg-gray-900'
                 }`}
