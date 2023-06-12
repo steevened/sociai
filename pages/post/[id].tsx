@@ -3,12 +3,12 @@ import { NextPageWithLayout } from '../_app';
 import TopBar from '@/components/atoms/TopBar';
 import { GetServerSideProps } from 'next';
 import { db } from '@/lib/db';
-import { Post, User } from '@/models';
-import { ILikes, Like, Post as PostInterface } from '@/lib/interfaces';
+import { User } from '@/models';
+import { Like, Post as PostInterface } from '@/lib/interfaces';
 
 import { useEffect, useState } from 'react';
 import { createComment, toggleLike, toggleSaved } from '@/lib/services';
-import { usePostById, usePosts, useSaved } from '@/lib/hooks';
+import { useModal, usePostById, useSaved } from '@/lib/hooks';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
@@ -16,16 +16,6 @@ import { authOptions } from '../api/auth/[...nextauth]';
 import { toast } from 'sonner';
 
 import PostMobile from '@/components/post/PostMobile';
-import Imagecontainer from '@/components/post/Imagecontainer';
-import Avatar from '@/components/Avatar';
-import Username from '@/components/links/Username';
-import {
-  CommentIcon,
-  LikesIconIn,
-  SaveIconIn,
-  SaveIconOut,
-} from '@/components/icons/Svg';
-import PostDesktop from '@/components/post/PostDesktop';
 
 interface Props {
   userId: string;
@@ -42,6 +32,8 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
 
   const router = useRouter();
   const { id } = router.query;
+
+  const { isModalOpen, setIsModalOpen } = useModal();
 
   // console.log(router.query);
 
@@ -112,36 +104,32 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   if (isLoading || !post) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col mb-24 md:mb-0 md:min-h-screen">
-      <TopBar title={'Post'} />
-      <div className="">
-        <PostMobile
-          post={post}
-          handleLike={handleLike}
-          handleSaved={handleSaved}
-          isLiked={isLiked}
-          isSaved={isSaved}
-          handleComment={handleComment}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          willEdit={willEdit}
-          setWillEdit={setWillEdit}
-        />
+    <>
+      <div className="flex flex-col mb-28 md:mb-0 md:min-h-screen ">
+        <TopBar title={'Post'} />
+        <div className="">
+          <PostMobile
+            post={post}
+            handleLike={handleLike}
+            handleSaved={handleSaved}
+            isLiked={isLiked}
+            isSaved={isSaved}
+            handleComment={handleComment}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            willEdit={willEdit}
+            setWillEdit={setWillEdit}
+          />
+        </div>
       </div>
-      <div className="hidden ">
-        <PostDesktop
-          post={post}
-          handleLike={handleLike}
-          handleSaved={handleSaved}
-          isLiked={isLiked}
-          isSaved={isSaved}
-          handleComment={handleComment}
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          willEdit={willEdit}
-        />
-      </div>
-    </div>
+      {isModalOpen && (
+        <div
+          role="button"
+          onClick={() => setIsModalOpen(false)}
+          className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+        ></div>
+      )}
+    </>
   );
 };
 

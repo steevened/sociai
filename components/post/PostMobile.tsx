@@ -49,7 +49,10 @@ const PostMobile: FC<PostMobileProps> = ({
           </div>
           <div>
             {!willEdit ? (
-              <EditPostMenu onEdit={setWillEdit} />
+              <EditPostMenu
+                onEdit={setWillEdit}
+                onDelete={() => console.log('deleted')}
+              />
             ) : (
               <button
                 onClick={() => setWillEdit(false)}
@@ -64,27 +67,26 @@ const PostMobile: FC<PostMobileProps> = ({
           <Imagecontainer image={post.image} />
         </div>
         <div className="relative overflow-x-auto md:col-start-2 md:row-span-5 scrollbar-thumb-blue-500 scrollbar-thumb-rounded-full scrollbar-thin scrollbar-track-gray-900">
-          <div className="md:absolute md:w-full md:h-full ">
-            <div className="flex justify-between p-2 ">
-              <div className="flex items-center gap-4 ">
-                <button onClick={handleLike}>
-                  <LikesIconIn liked={isLiked} />
+          <div className="md:absolute md:w-full md:h-full md:flex md:flex-col ">
+            <div className="p-2 shadow-app-bottom">
+              <div className="flex justify-between ">
+                <div className="flex items-center gap-4 ">
+                  <button onClick={handleLike}>
+                    <LikesIconIn liked={isLiked} />
+                  </button>
+                  <label htmlFor="comment" role="button">
+                    <CommentIcon />
+                  </label>
+                </div>
+                <button onClick={handleSaved}>
+                  {isSaved ? <SaveIconOut /> : <SaveIconIn />}
                 </button>
-                <label htmlFor="comment" role="button">
-                  <CommentIcon />
-                </label>
               </div>
-              <button onClick={handleSaved}>
-                {isSaved ? <SaveIconOut /> : <SaveIconIn />}
-              </button>
-            </div>
-            <div className="flex flex-col gap-1 px-2 ">
               <div>
                 <span className="text-xs font-semibold">
                   {post.likes.length} like{post.likes.length !== 1 && 's'}
                 </span>
               </div>
-
               <div className="flex items-center text-sm">
                 <Username
                   username={post.user.name}
@@ -99,7 +101,8 @@ const PostMobile: FC<PostMobileProps> = ({
                   disabled={!willEdit}
                 />
               </div>
-
+            </div>
+            <div className="flex flex-col gap-1 px-2 grow ">
               {/* {post.comments.length > 1 && !isAllCommentsShowed && (
           <div className="mt-1">
             <button
@@ -144,7 +147,7 @@ const PostMobile: FC<PostMobileProps> = ({
           </div>
         )} */}
             </div>
-            <div className="flex items-center p-1 mt-2 md:mt-0">
+            <div className="flex items-center p-1 mt-2 md:mt-0 shadow-app-top">
               <TextAreaAutosize
                 id="comment"
                 value={inputValue}

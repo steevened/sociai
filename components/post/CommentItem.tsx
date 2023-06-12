@@ -95,7 +95,10 @@ const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
       </div>
       {!willEditComment && (
         <div>
-          <EditPostMenu onEdit={() => setWillEditComment(true)} />
+          <EditPostMenu
+            onEdit={() => setWillEditComment(true)}
+            onDelete={() => console.log('deleted')}
+          />
         </div>
       )}
     </li>
