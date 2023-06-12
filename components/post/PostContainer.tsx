@@ -8,13 +8,13 @@ import {
   SaveIconIn,
   SaveIconOut,
 } from '../icons/Svg';
-import { Post, User } from '@/lib/interfaces';
+import { Post } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
-import { Menu, Transition } from '@headlessui/react';
+
 import EditPostMenu from './EditPostMenu';
 import CommentItem from './CommentItem';
 
-interface PostMobileProps {
+interface PostContainerProps {
   post: Post;
   handleLike: () => void;
   isLiked: boolean;
@@ -25,9 +25,10 @@ interface PostMobileProps {
   handleComment: () => void;
   willEdit: boolean;
   setWillEdit: (value: boolean) => void;
+  setCommentToDeleteId: (value: string) => void;
 }
 
-const PostMobile: FC<PostMobileProps> = ({
+const PostContainer: FC<PostContainerProps> = ({
   post,
   handleLike,
   isLiked,
@@ -38,6 +39,7 @@ const PostMobile: FC<PostMobileProps> = ({
   handleComment,
   willEdit,
   setWillEdit,
+  setCommentToDeleteId,
 }) => {
   return (
     <div className="h-full  md:h-[calc(100vh-60px)] md:flex md:items-center md:justify-center md:w-5/6 lg:w-3/4 mx-auto">
@@ -66,7 +68,7 @@ const PostMobile: FC<PostMobileProps> = ({
         <div className="md:row-start-1 md:row-span-6 md:p-[1px]">
           <Imagecontainer image={post.image} />
         </div>
-        <div className="relative overflow-x-auto md:col-start-2 md:row-span-5 scrollbar-thumb-blue-500 scrollbar-thumb-rounded-full scrollbar-thin scrollbar-track-gray-900">
+        <div className="relative overflow-x-auto md:col-start-2 md:row-span-5 scrollbar-thumb-blue-500 scrollbar-thumb-rounded-full scrollbar-thin scrollbar-track-gray-900 ">
           <div className="md:absolute md:w-full md:h-full md:flex md:flex-col ">
             <div className="p-2 shadow-app-bottom">
               <div className="flex justify-between ">
@@ -130,6 +132,7 @@ const PostMobile: FC<PostMobileProps> = ({
                     key={comment._id}
                     comment={comment}
                     post={post}
+                    setCommentToDeleteId={setCommentToDeleteId}
                   />
                 ))}
               </ul>
@@ -170,4 +173,4 @@ const PostMobile: FC<PostMobileProps> = ({
   );
 };
 
-export default PostMobile;
+export default PostContainer;

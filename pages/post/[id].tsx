@@ -7,15 +7,22 @@ import { User } from '@/models';
 import { Like, Post as PostInterface } from '@/lib/interfaces';
 
 import { useEffect, useState } from 'react';
-import { createComment, toggleLike, toggleSaved } from '@/lib/services';
-import { useModal, usePostById, useSaved } from '@/lib/hooks';
+import {
+  createComment,
+  deleteComment,
+  toggleLike,
+  toggleSaved,
+} from '@/lib/services';
+import { usePostById, useSaved } from '@/lib/hooks';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { toast } from 'sonner';
-
-import PostMobile from '@/components/post/PostMobile';
+import { useUiStore } from '@/store/uiStore/uiStore';
+import Button from '@/components/atoms/Button';
+import PostContainer from '@/components/post/PostContainer';
+import ConfirmModal from '@/components/ui/ConfirmModal';
 
 interface Props {
   userId: string;
@@ -27,13 +34,15 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [willEdit, setWillEdit] = useState<boolean>(false);
 
+  const [commentToDeleteId, setCommentToDeleteId] = useState<string>('');
+
   const { data: session } = useSession();
   const { data: saved, mutate: mutateSaved } = useSaved();
 
   const router = useRouter();
   const { id } = router.query;
 
-  const { isModalOpen, setIsModalOpen } = useModal();
+  const { isModalOpen } = useUiStore();
 
   // console.log(router.query);
 
@@ -91,6 +100,21 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
     }
   };
 
+  const onDeleteComment = async () => {
+    if (!session) return toast.error('Please Sign Up to continue');
+    if (!commentToDeleteId) return toast.error('Something went wrong');
+
+    // console.log(commentToDeleteId);
+
+    deleteComment(post?._id!, commentToDeleteId)
+      .then(() => {
+        mutatePost();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const isLiked = post?.likes.some((like: Like) => like.user._id === userId);
     setIsLiked(isLiked as boolean);
@@ -108,7 +132,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
       <div className="flex flex-col mb-28 md:mb-0 md:min-h-screen ">
         <TopBar title={'Post'} />
         <div className="">
-          <PostMobile
+          <PostContainer
             post={post}
             handleLike={handleLike}
             handleSaved={handleSaved}
@@ -119,15 +143,15 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
             setInputValue={setInputValue}
             willEdit={willEdit}
             setWillEdit={setWillEdit}
+            setCommentToDeleteId={setCommentToDeleteId}
           />
         </div>
       </div>
       {isModalOpen && (
-        <div
-          role="button"
-          onClick={() => setIsModalOpen(false)}
-          className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
-        ></div>
+        <ConfirmModal
+          onConfirm={onDeleteComment}
+          onCancel={() => setCommentToDeleteId('')}
+        />
       )}
     </>
   );

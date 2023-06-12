@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react';
 import { FC, Fragment } from 'react';
 import { MenuDotsIcon, EditIcon, TrashIcon } from '../icons/Svg';
-import { useModal } from '@/lib/hooks';
+import { useUiStore } from '@/store/uiStore/uiStore';
 
 interface EditPostMenuProps {
   onEdit: (value?: any) => void;
@@ -9,8 +9,6 @@ interface EditPostMenuProps {
 }
 
 const EditPostMenu: FC<EditPostMenuProps> = ({ onEdit, onDelete }) => {
-  const { isModalOpen, setIsModalOpen } = useModal();
-
   return (
     <Menu as="div" className="relative text-gray-400 ">
       <Menu.Button className="p-1 duration-100 rounded-full hover:bg-gray-900 active:scale-95 hover:scale-105">
@@ -44,7 +42,9 @@ const EditPostMenu: FC<EditPostMenuProps> = ({ onEdit, onDelete }) => {
           <Menu.Item>
             {({ active }) => (
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  onDelete();
+                }}
                 className={`flex w-full gap-2 items-center duration-200  px-2 py-2 rounded-md text-red-500 text-sm ${
                   active && 'bg-gray-900'
                 }`}

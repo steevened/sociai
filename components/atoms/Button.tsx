@@ -1,7 +1,7 @@
 import { FC, HtmlHTMLAttributes, PropsWithChildren } from 'react';
 
 interface ButtonProps extends HtmlHTMLAttributes<HTMLButtonElement> {
-  color?: 'primary' | 'secondary';
+  color?: 'primary' | 'secondary' | 'danger';
   variant?: 'normal' | 'outline' | 'text';
   className?: string;
   disabled?: boolean;
@@ -19,14 +19,18 @@ const Button: FC<ButtonProps> = ({
     normal: {
       primary: 'bg-sky-700 hover:bg-blue-500',
       secondary: 'text-black bg-gray-300 hover:bg-gray-400',
+      danger: 'text-white bg-red-500 hover:bg-red-600',
     },
     outline: {
       primary: 'text-white border border-white hover:bg-white hover:text-black',
       secondary: 'shadow-app-shadow-2 hover:bg-gray-300 hover:text-black',
+      danger:
+        'text-red-500 border border-red-500 hover:bg-red-500 hover:text-white',
     },
     text: {
       primary: 'text-white hover:bg-white hover:text-black',
       secondary: 'hover:bg-gray-900',
+      danger: 'text-red-500 hover:bg-red-500 hover:text-white',
     },
   };
 

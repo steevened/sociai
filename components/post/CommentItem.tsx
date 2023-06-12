@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import Username from '../links/Username';
 import TextAreaAutosize from 'react-textarea-autosize';
 import { Comment, Post } from '@/lib/interfaces';
@@ -8,13 +8,20 @@ import { updateComment } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
 import { LoadIcon } from '../icons/Svg';
+import { useUiStore } from '@/store/uiStore/uiStore';
+import { AuthContext } from '@/context';
 
 interface CommentItemProps {
   comment: Comment;
   post: Post;
+  setCommentToDeleteId: (id: string) => void;
 }
 
-const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
+const CommentItem: FC<CommentItemProps> = ({
+  comment,
+  post,
+  setCommentToDeleteId,
+}) => {
   const [willEditComment, setWillEditComment] = useState<boolean>(false);
   const [isCommentChanged, setIsCommentChanged] = useState<boolean>(false);
 
@@ -22,7 +29,11 @@ const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
   const [loadingUpdateComment, setLoadingUpdateComment] =
     useState<boolean>(false);
 
+  const { toggleModal } = useUiStore();
+
   const { mutate } = usePostById(post._id);
+
+  const { user, isLogged } = useContext(AuthContext);
 
   const onUpdate = () => {
     setLoadingUpdateComment(true);
@@ -45,7 +56,7 @@ const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
   }, [comment, inputValue]);
 
   return (
-    <li className="flex items-center justify-between gap-2 mt-1">
+    <li className="flex items-center justify-between gap-2 mt-1 ">
       <div>
         <Username
           id={post.comments[0].user._id}
@@ -93,11 +104,15 @@ const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
           </div>
         )}
       </div>
-      {!willEditComment && (
+
+      {user?._id === comment.user._id && isLogged && !willEditComment && (
         <div>
           <EditPostMenu
             onEdit={() => setWillEditComment(true)}
-            onDelete={() => console.log('deleted')}
+            onDelete={() => {
+              setCommentToDeleteId(comment._id);
+              toggleModal(true);
+            }}
           />
         </div>
       )}

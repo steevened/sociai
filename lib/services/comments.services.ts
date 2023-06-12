@@ -32,7 +32,7 @@ export const updateComment = async (
 
 export const deleteComment = async (postID: string, commentId: string) => {
   const { data } = await axios.delete(
-    `api/post/${postID}/comments/${commentId}`,
+    `api/posts/${postID}/comments/${commentId}`,
     {
       withCredentials: true,
     }
