@@ -7,6 +7,7 @@ import Button from '../atoms/Button';
 import { updateComment } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
+import { LoadIcon } from '../icons/Svg';
 
 interface CommentItemProps {
   comment: Comment;
@@ -57,18 +58,37 @@ const CommentItem: FC<CommentItemProps> = ({ comment, post }) => {
           disabled={!willEditComment}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Add a comment..."
-          className={`w-full h-full p-2 text-sm text-gray-200 bg-black resize-none focus:outline-none text-opacity-70  bg-transparent  rounded-md  ${
+          className={`w-full h-full p-2 text-sm text-gray-200 bg-black resize-none focus:outline-none text-opacity-70  bg-transparent  rounded-md  flex items-center ${
             willEditComment && 'ring-2'
           }`}
         />
 
         {willEditComment && (
           <div className="flex items-center gap-4 mt-2">
-            <Button onClick={() => setWillEditComment(false)} color="secondary">
+            <Button
+              onClick={() => {
+                setWillEditComment(false);
+                setInputValue(comment.comment);
+              }}
+              color="secondary"
+            >
               CANCEL
             </Button>
-            <Button onClick={onUpdate} disabled={!isCommentChanged}>
-              SAVE
+            <Button
+              className="flex items-center gap-2"
+              onClick={onUpdate}
+              disabled={!isCommentChanged}
+            >
+              {loadingUpdateComment ? (
+                <>
+                  <span>
+                    <LoadIcon />
+                  </span>
+                  SAVING
+                </>
+              ) : (
+                'SAVE'
+              )}
             </Button>
           </div>
         )}

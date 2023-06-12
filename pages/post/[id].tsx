@@ -43,7 +43,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log(router.query);
+  // console.log(router.query);
 
   const {
     data: post,

@@ -88,7 +88,7 @@ const updateComment = async (req: NextApiRequest, res: NextApiResponse) => {
     await Comments.findByIdAndUpdate(commentId, { comment });
 
     await postToUpdate.updateOne({
-      $pull: { comments: { _id: commentId } },
+      $pull: { comments: commentId },
     });
 
     // Add the updated comment to the comments array
