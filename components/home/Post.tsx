@@ -77,7 +77,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
         success: () => {
           setInputValue('');
           mutate();
-          return 'COMMENT ADDED SUCCESSFULLY';
+          return 'comment added';
         },
         error: (data) => `${data}`,
       });
