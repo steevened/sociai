@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import Avatar from '../Avatar';
 import Username from '../links/Username';
 import Imagecontainer from './Imagecontainer';
@@ -16,6 +16,8 @@ import CommentItem from './CommentItem';
 import { updatePost } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
+import { AuthContext } from '@/context';
 
 interface PostContainerProps {
   post: Post;
@@ -49,6 +51,9 @@ const PostContainer: FC<PostContainerProps> = ({
 
   const { mutate: mutatePost } = usePostById(post._id);
 
+  const session = useSession();
+  const { isLogged, user } = useContext(AuthContext);
+
   const onUpdate = async () => {
     updatePost(post._id, captionValue)
       .then(() => {
@@ -74,23 +79,25 @@ const PostContainer: FC<PostContainerProps> = ({
             <Avatar userId={post.user._id} imageUrl={post.user.image} />
             <Username id={post.user._id} username={post.user.name} />
           </div>
-          <div>
-            {!willEdit ? (
-              <EditPostMenu
-                onEdit={() => setWillEdit(true)}
-                onDelete={() => console.log('deleted')}
-              />
-            ) : (
-              <button
-                onClick={() => {
-                  isCaptionChanged ? onUpdate() : setWillEdit(false);
-                }}
-                className="text-app-blue right-2 disabled:text-opacity-50"
-              >
-                {isCaptionChanged ? 'SAVE' : 'CANCEL'}
-              </button>
-            )}
-          </div>
+          {isLogged && post.user._id === user?._id && (
+            <div>
+              {!willEdit ? (
+                <EditPostMenu
+                  onEdit={() => setWillEdit(true)}
+                  onDelete={() => console.log('deleted')}
+                />
+              ) : (
+                <button
+                  onClick={() => {
+                    isCaptionChanged ? onUpdate() : setWillEdit(false);
+                  }}
+                  className="text-app-blue right-2 disabled:text-opacity-50"
+                >
+                  {isCaptionChanged ? 'SAVE' : 'CANCEL'}
+                </button>
+              )}
+            </div>
+          )}
         </div>
         <div className="md:row-start-1 md:row-span-6 md:p-[1px]">
           <Imagecontainer image={post.image} />

@@ -19,6 +19,7 @@ export default async function handlePublicationPost(
         .populate({ path: 'comments', populate: { path: 'user' } })
         .sort({ createdAt: -1 });
       await db.disconnect();
+      if (!posts) return res.status(404).json({ message: 'not found' });
       return res.status(200).json({ posts });
     case 'POST':
       return handlePost(req, res);
