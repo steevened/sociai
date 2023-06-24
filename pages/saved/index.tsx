@@ -17,7 +17,7 @@ export interface SavePost {
 
 const Saved: NextPageWithLayout = () => {
   const { data: savedPosts, error, isLoading, mutate } = useSaved();
-  const [posts, setPosts] = useState<IPost[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     const saved = savedPosts?.map(({ post }) => post);
