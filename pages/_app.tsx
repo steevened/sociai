@@ -38,7 +38,7 @@ export default function App({
               <Head>
                 <meta name="description" content="A social media app" />
                 <link rel="icon" href="/favicon.png" />
-                <title>Social Media App</title>
+                <title>SociAI</title>
               </Head>
               <Component {...pageProps} />
             </>
