@@ -13,7 +13,7 @@ import TextAreaAutosize from 'react-textarea-autosize';
 
 import EditPostMenu from './EditPostMenu';
 import CommentItem from './CommentItem';
-import { updatePost } from '@/lib/services';
+import { deleteComment, updatePost } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
@@ -51,7 +51,6 @@ const PostContainer: FC<PostContainerProps> = ({
 
   const { mutate: mutatePost } = usePostById(post._id);
 
-  const session = useSession();
   const { isLogged, user } = useContext(AuthContext);
 
   const onUpdate = async () => {
@@ -140,50 +139,15 @@ const PostContainer: FC<PostContainerProps> = ({
               </div>
             </div>
             <div className="flex flex-col gap-1 px-2 grow ">
-              {/* {post.comments.length > 1 && !isAllCommentsShowed && (
-          <div className="mt-1">
-            <button
-              onClick={() => setIsAllCommentsShowed(true)}
-              className="text-sm text-gray-200 text-opacity-50 "
-            >
-              View all {post.comments.length} comments
-            </button>
-            <div className="flex items-center mt-1">
-              <Username
-                id={post.comments[0].user._id}
-                username={post.comments[0].user.name}
-              />
-              <p className="inline ml-1 text-sm text-gray-200 text-opacity-70">
-                {post.comments[0].comment.slice(0, 40)}
-                {post.comments[0].comment.length > 39 && '...'}
-              </p>
-            </div>
-          </div>
-        )} */}
-              {/* {post.comments.length > 1 && isAllCommentsShowed && ( */}
               <ul className="space-y-5">
                 {post.comments.map((comment) => (
                   <CommentItem
                     key={comment._id}
                     comment={comment}
                     post={post}
-                    setCommentToDeleteId={setCommentToDeleteId}
                   />
                 ))}
               </ul>
-              {/* )} */}
-              {/* {post.comments.length === 1 && (
-          <div className="flex items-center mt-1">
-            <Username
-              id={post.comments[0].user._id}
-              username={post.comments[0].user.name}
-            />
-            <p className="inline ml-1 text-sm text-gray-200 text-opacity-70">
-              {post.comments[0].comment.slice(0, 40)}
-              {post.comments[0].comment.length > 39 && '...'}
-            </p>
-          </div>
-        )} */}
             </div>
             <div className="flex items-center p-1 mt-2 md:mt-0 shadow-app-top">
               <TextAreaAutosize
