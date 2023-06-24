@@ -129,9 +129,13 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const session = await getServerSession(req, res, authOptions);
 
-  await db.connect();
-  const userLogged = await User.findOne({ email: session?.user?.email });
-  await db.disconnect();
+  let userLogged = null;
+
+  if (session) {
+    await db.connect();
+    userLogged = await User.findOne({ email: session?.user?.email });
+    await db.disconnect();
+  }
 
   return {
     props: {
