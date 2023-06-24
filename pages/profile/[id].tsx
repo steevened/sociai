@@ -8,7 +8,7 @@ import Avatar from '@/components/Avatar';
 import { AuthContext } from '@/context';
 import { GetServerSideProps, NextApiRequest, NextApiResponse } from 'next';
 import { Post, User } from '@/models';
-import { IPost, IUser } from '@/lib/interfaces';
+import { IPost, IUser, Post as PostInterface } from '@/lib/interfaces';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { db } from '@/lib/db';
@@ -16,7 +16,7 @@ import Button from '@/components/atoms/Button';
 import ConfigMenu from '@/components/profile/ConfigMenu';
 
 interface Props {
-  posts: IPost[];
+  posts: PostInterface[];
   user: IUser;
   isUserLoggedProfile: boolean;
 }
