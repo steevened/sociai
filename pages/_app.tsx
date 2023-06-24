@@ -7,6 +7,7 @@ import { AuthProvider } from '@/context';
 import { SWRConfig } from 'swr';
 import { fetcher } from '../lib/helpers/fetcher.helper';
 import { Toaster } from 'sonner';
+import Head from 'next/head';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (_page: ReactElement) => ReactNode;
@@ -32,7 +33,16 @@ export default function App({
           }}
         >
           <Toaster richColors closeButton theme="dark" />
-          {getlayout(<Component {...pageProps} />)}
+          {getlayout(
+            <>
+              <Head>
+                <meta name="description" content="A social media app" />
+                <link rel="icon" href="/favicon.png" />
+                <title>Social Media App</title>
+              </Head>
+              <Component {...pageProps} />
+            </>
+          )}
         </SWRConfig>
       </AuthProvider>
     </SessionProvider>

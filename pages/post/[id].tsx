@@ -102,7 +102,7 @@ const PostPage: NextPageWithLayout<Props> = ({ userId }) => {
   return (
     <>
       <div className="flex flex-col mb-28 md:mb-0 md:min-h-screen ">
-        <TopBar title={'Post'} />
+        <TopBar title="Post" />
         <div className="">
           <PostContainer
             post={post}

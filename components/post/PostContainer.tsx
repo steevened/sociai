@@ -79,7 +79,7 @@ const PostContainer: FC<PostContainerProps> = ({
               {!willEdit ? (
                 <EditPostMenu
                   onEdit={() => setWillEdit(true)}
-                  onDelete={() => console.log('deleted')}
+                  onDelete={() => toast.error('Not implemented, try later')}
                 />
               ) : (
                 <button
