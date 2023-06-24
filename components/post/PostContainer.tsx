@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import Avatar from '../Avatar';
 import Username from '../links/Username';
 import Imagecontainer from './Imagecontainer';
@@ -10,12 +10,12 @@ import {
 } from '../icons/Svg';
 import { Post } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
-
 import EditPostMenu from './EditPostMenu';
 import CommentItem from './CommentItem';
 import { updatePost } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
+import { AuthContext } from '@/context';
 
 interface PostContainerProps {
   post: Post;
@@ -28,7 +28,6 @@ interface PostContainerProps {
   handleComment: () => void;
   willEdit: boolean;
   setWillEdit: (value: boolean) => void;
-  setCommentToDeleteId: (value: string) => void;
 }
 
 const PostContainer: FC<PostContainerProps> = ({
@@ -42,12 +41,13 @@ const PostContainer: FC<PostContainerProps> = ({
   handleComment,
   willEdit,
   setWillEdit,
-  setCommentToDeleteId,
 }) => {
   const [captionValue, setCaptionValue] = useState<string>(post.caption);
   const [isCaptionChanged, setIsCaptionChanged] = useState<boolean>(false);
 
   const { mutate: mutatePost } = usePostById(post._id);
+
+  const { isLogged, user } = useContext(AuthContext);
 
   const onUpdate = async () => {
     updatePost(post._id, captionValue)
@@ -74,23 +74,25 @@ const PostContainer: FC<PostContainerProps> = ({
             <Avatar userId={post.user._id} imageUrl={post.user.image} />
             <Username id={post.user._id} username={post.user.name} />
           </div>
-          <div>
-            {!willEdit ? (
-              <EditPostMenu
-                onEdit={() => setWillEdit(true)}
-                onDelete={() => console.log('deleted')}
-              />
-            ) : (
-              <button
-                onClick={() => {
-                  isCaptionChanged ? onUpdate() : setWillEdit(false);
-                }}
-                className="text-app-blue right-2 disabled:text-opacity-50"
-              >
-                {isCaptionChanged ? 'SAVE' : 'CANCEL'}
-              </button>
-            )}
-          </div>
+          {isLogged && post.user._id === user?._id && (
+            <div>
+              {!willEdit ? (
+                <EditPostMenu
+                  onEdit={() => setWillEdit(true)}
+                  onDelete={() => toast.error('Not implemented, try later')}
+                />
+              ) : (
+                <button
+                  onClick={() => {
+                    isCaptionChanged ? onUpdate() : setWillEdit(false);
+                  }}
+                  className="text-app-blue right-2 disabled:text-opacity-50"
+                >
+                  {isCaptionChanged ? 'SAVE' : 'CANCEL'}
+                </button>
+              )}
+            </div>
+          )}
         </div>
         <div className="md:row-start-1 md:row-span-6 md:p-[1px]">
           <Imagecontainer image={post.image} />
@@ -133,50 +135,15 @@ const PostContainer: FC<PostContainerProps> = ({
               </div>
             </div>
             <div className="flex flex-col gap-1 px-2 grow ">
-              {/* {post.comments.length > 1 && !isAllCommentsShowed && (
-          <div className="mt-1">
-            <button
-              onClick={() => setIsAllCommentsShowed(true)}
-              className="text-sm text-gray-200 text-opacity-50 "
-            >
-              View all {post.comments.length} comments
-            </button>
-            <div className="flex items-center mt-1">
-              <Username
-                id={post.comments[0].user._id}
-                username={post.comments[0].user.name}
-              />
-              <p className="inline ml-1 text-sm text-gray-200 text-opacity-70">
-                {post.comments[0].comment.slice(0, 40)}
-                {post.comments[0].comment.length > 39 && '...'}
-              </p>
-            </div>
-          </div>
-        )} */}
-              {/* {post.comments.length > 1 && isAllCommentsShowed && ( */}
               <ul className="space-y-5">
                 {post.comments.map((comment) => (
                   <CommentItem
                     key={comment._id}
                     comment={comment}
                     post={post}
-                    setCommentToDeleteId={setCommentToDeleteId}
                   />
                 ))}
               </ul>
-              {/* )} */}
-              {/* {post.comments.length === 1 && (
-          <div className="flex items-center mt-1">
-            <Username
-              id={post.comments[0].user._id}
-              username={post.comments[0].user.name}
-            />
-            <p className="inline ml-1 text-sm text-gray-200 text-opacity-70">
-              {post.comments[0].comment.slice(0, 40)}
-              {post.comments[0].comment.length > 39 && '...'}
-            </p>
-          </div>
-        )} */}
             </div>
             <div className="flex items-center p-1 mt-2 md:mt-0 shadow-app-top">
               <TextAreaAutosize

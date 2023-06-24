@@ -15,63 +15,6 @@ export interface SavePost {
   comments: number;
 }
 
-const savedPosts: SavePost[] = [
-  {
-    id: 1,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 2,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 3,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 4,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 5,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 6,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 7,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 8,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-  {
-    id: 9,
-    imgLink: 'https://picsum.photos/200/200',
-    likes: 100,
-    comments: 10,
-  },
-];
-
 const Saved: NextPageWithLayout = () => {
   const { data: savedPosts, error, isLoading, mutate } = useSaved();
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -87,7 +30,7 @@ const Saved: NextPageWithLayout = () => {
   return (
     <div className="">
       <TopBar title="All Saved Posts" />
-      <div className="p-1">
+      <div className="p-1 pb-20 md:pb-1">
         <ImgsGrid posts={posts} />
       </div>
     </div>

@@ -25,6 +25,10 @@ interface Props {
   mutate: () => void;
 }
 
+const dateTimeFormatter = new Intl.DateTimeFormat(undefined, {
+  dateStyle: 'short',
+});
+
 const Post: FC<Props> = ({ className, post, mutate }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -74,12 +78,16 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
       // const res = await createComment(post._id, inputValue);
       toast.promise(createComment(post._id, inputValue), {
         loading: 'Loading...',
-        success: 'Comment created',
+        success: () => {
+          setInputValue('');
+          mutate();
+          return 'comment added';
+        },
         error: (data) => `${data}`,
       });
 
       setInputValue('');
-      mutate();
+      // mutate();
     } catch (error) {
       console.log(error);
     }
@@ -97,13 +105,19 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
     setIsSaved(isSaved as boolean);
   }, [post, saved]);
 
+  console.log(post.createdAt);
+
   return (
     <div className={`w-[350px] shadow-app-bottom pb-6 ${className}`}>
       <div className="flex items-center gap-3">
         <Avatar userId={post.user._id} imageUrl={post.user.image} />
-        <div className="flex flex-grow gap-2 text-base">
+        <div className="flex items-center flex-grow gap-2 text-base">
           <Username username={post.user.name} id={post.user._id} />
-          <p className="text-sm text-gray-500">1d</p>
+          <p className="text-sm text-gray-500">
+            <span className="text-gray-400">
+              {dateTimeFormatter.format(new Date(post.createdAt))}
+            </span>
+          </p>
         </div>
         <div className="">
           <MenuDropdown

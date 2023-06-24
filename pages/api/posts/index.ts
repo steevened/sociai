@@ -12,20 +12,28 @@ export default async function handlePublicationPost(
 ) {
   switch (req.method) {
     case 'GET':
-      await db.connect();
-      const posts = await Post.find({})
-        .populate('user')
-        .populate({ path: 'likes', populate: { path: 'user' } })
-        .populate({ path: 'comments', populate: { path: 'user' } })
-        .sort({ createdAt: -1 });
-      await db.disconnect();
-      return res.status(200).json({ posts });
+      return getAllPosts(req, res);
     case 'POST':
       return handlePost(req, res);
     default:
       return res.status(405).json({ error: 'Method not allowed' });
   }
 }
+
+const getAllPosts = async (req: NextApiRequest, res: NextApiResponse) => {
+  await db.connect();
+  const posts = await Post.find({})
+    .populate('user')
+    .populate({ path: 'likes', populate: { path: 'user' } })
+    .populate({ path: 'comments', populate: { path: 'user' } })
+    .sort({ createdAt: -1 });
+  if (!posts) {
+    await db.disconnect();
+    return res.status(404).json({ message: 'not found' });
+  }
+  await db.disconnect();
+  return res.status(200).json({ posts });
+};
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(req, res, authOptions);

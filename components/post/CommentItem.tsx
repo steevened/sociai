@@ -4,7 +4,7 @@ import TextAreaAutosize from 'react-textarea-autosize';
 import { Comment, Post } from '@/lib/interfaces';
 import EditPostMenu from './EditPostMenu';
 import Button from '../atoms/Button';
-import { updateComment } from '@/lib/services';
+import { deleteComment, updateComment } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
 import { LoadIcon } from '../icons/Svg';
@@ -14,13 +14,14 @@ import { AuthContext } from '@/context';
 interface CommentItemProps {
   comment: Comment;
   post: Post;
-  setCommentToDeleteId: (id: string) => void;
+  //this function will be a promise of type unknown
+  // onDeleteComment: (commentId: string) => Promise<string | number | undefined>;
 }
 
 const CommentItem: FC<CommentItemProps> = ({
   comment,
   post,
-  setCommentToDeleteId,
+  // onDeleteComment,
 }) => {
   const [willEditComment, setWillEditComment] = useState<boolean>(false);
   const [isCommentChanged, setIsCommentChanged] = useState<boolean>(false);
@@ -29,7 +30,8 @@ const CommentItem: FC<CommentItemProps> = ({
   const [loadingUpdateComment, setLoadingUpdateComment] =
     useState<boolean>(false);
 
-  const { toggleModal } = useUiStore();
+  const [isLoadingDeleteComment, setIsLoadingDeleteComment] =
+    useState<boolean>(false);
 
   const { mutate } = usePostById(post._id);
 
@@ -49,6 +51,8 @@ const CommentItem: FC<CommentItemProps> = ({
         console.log(error);
       });
   };
+
+  console.log(isLoadingDeleteComment);
 
   useEffect(() => {
     const isChanged = inputValue === comment.comment;
@@ -95,7 +99,6 @@ const CommentItem: FC<CommentItemProps> = ({
                   <span>
                     <LoadIcon />
                   </span>
-                  SAVING
                 </>
               ) : (
                 'SAVE'
@@ -110,8 +113,45 @@ const CommentItem: FC<CommentItemProps> = ({
           <EditPostMenu
             onEdit={() => setWillEditComment(true)}
             onDelete={() => {
-              setCommentToDeleteId(comment._id);
-              toggleModal(true);
+              toast.custom((t) => (
+                <div className="w-full p-2 bg-black rounded-md shadow-app-shadow min-w-[300px]">
+                  <h1 className="font-medium text-center">
+                    This comment will be deleted
+                  </h1>
+                  <div className="flex justify-center gap-2 mt-2">
+                    <Button color="primary" onClick={() => toast.dismiss(t)}>
+                      Cancel
+                    </Button>
+                    <Button
+                      color="danger"
+                      className=""
+                      onClick={() => {
+                        setIsLoadingDeleteComment(true);
+                        deleteComment(post?._id, comment?._id)
+                          .then(() => {
+                            mutate();
+                            toast.dismiss(t);
+                            setIsLoadingDeleteComment(false);
+                            toast.success('Comment deleted');
+                          })
+                          .catch((error) => {
+                            console.log(error);
+                            setIsLoadingDeleteComment(false);
+                            toast.error('Failed to delete comment');
+                          });
+                      }}
+                    >
+                      {isLoadingDeleteComment ? (
+                        <span>
+                          <LoadIcon />
+                        </span>
+                      ) : (
+                        <p>Confirm</p>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              ));
             }}
           />
         </div>

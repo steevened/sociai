@@ -35,7 +35,7 @@ const UserProfile: NextPageWithLayout<Props> = ({
   return (
     <div className="">
       <TopBar title={user.name} />
-      <div className="mx-4 mt-8 space-y-5 ">
+      <div className="mx-4 mt-8 space-y-5">
         <div className="flex gap-5">
           <div className="">
             <Avatar
@@ -49,25 +49,25 @@ const UserProfile: NextPageWithLayout<Props> = ({
               <h2 className="text-xl">{user.name}</h2>
               {isUserLoggedProfile && <ConfigMenu />}
             </div>
-            <div>
+            {/* <div>
               {isUserLoggedProfile ? (
                 <Button color="secondary">Edit profile</Button>
               ) : (
                 <Button>Follow</Button>
               )}
-            </div>
-            <div className="hidden w-full lg:block ">
+            </div> */}
+            {/* <div className="hidden w-full lg:block ">
               <p className="text-sm font-thin">
                 some text representing the profile description
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="block w-full lg:hidden ">
+        {/* <div className="block w-full lg:hidden ">
           <p className="text-sm font-thin">
             some text representing the profile description
           </p>
-        </div>
+        </div> */}
       </div>
 
       <div className="relative flex justify-around py-2 mt-4 text-sm text-center shadow-app-top after:absolute after:inset-0 after:shadow-app-bottom after:pointer-events-none">
@@ -75,16 +75,16 @@ const UserProfile: NextPageWithLayout<Props> = ({
           <p className="font-semibold">{posts.length}</p>
           <p className="text-gray-500">posts</p>
         </div>
-        <button className="">
+        {/* <button className="">
           <p className="font-semibold">12</p>
           <p className="text-gray-500">followers</p>
         </button>
         <button className="">
           <p className="font-semibold">12</p>
           <p className="text-gray-500">following</p>
-        </button>
+        </button> */}
       </div>
-      <div className="p-1">
+      <div className="p-1 pb-20 md:pb-1">
         <ImgsGrid className="" posts={posts} />
       </div>
     </div>
