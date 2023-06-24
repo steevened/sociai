@@ -16,7 +16,7 @@ const ConfigMenu: FC<ConfigMenuProps> = ({}) => {
       </Menu.Button>
       <Menu.Items
         as="div"
-        className="absolute right-0 p-2 bg-black rounded-md shadow-app-shadow w-28"
+        className="absolute right-0 p-2 mr-2 bg-black rounded-md mt-7 shadow-app-shadow w-28 "
       >
         <Menu.Item>
           {({ active }) => (

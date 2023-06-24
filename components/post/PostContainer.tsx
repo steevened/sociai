@@ -10,13 +10,11 @@ import {
 } from '../icons/Svg';
 import { Post } from '@/lib/interfaces';
 import TextAreaAutosize from 'react-textarea-autosize';
-
 import EditPostMenu from './EditPostMenu';
 import CommentItem from './CommentItem';
-import { deleteComment, updatePost } from '@/lib/services';
+import { updatePost } from '@/lib/services';
 import { usePostById } from '@/lib/hooks';
 import { toast } from 'sonner';
-import { useSession } from 'next-auth/react';
 import { AuthContext } from '@/context';
 
 interface PostContainerProps {
@@ -30,7 +28,6 @@ interface PostContainerProps {
   handleComment: () => void;
   willEdit: boolean;
   setWillEdit: (value: boolean) => void;
-  setCommentToDeleteId: (value: string) => void;
 }
 
 const PostContainer: FC<PostContainerProps> = ({
@@ -44,7 +41,6 @@ const PostContainer: FC<PostContainerProps> = ({
   handleComment,
   willEdit,
   setWillEdit,
-  setCommentToDeleteId,
 }) => {
   const [captionValue, setCaptionValue] = useState<string>(post.caption);
   const [isCaptionChanged, setIsCaptionChanged] = useState<boolean>(false);
