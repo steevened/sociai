@@ -1,4 +1,5 @@
-import { IComments } from '@/lib/interfaces';
+// import { IComments } from '@/lib/interfaces';
+import { Comment } from '@/lib/interfaces';
 import mongoose, { Model, Schema, model } from 'mongoose';
 
 const CommentsSchema = new Schema(
@@ -10,7 +11,7 @@ const CommentsSchema = new Schema(
   { timestamps: true }
 );
 
-const Comments: Model<IComments> =
+const Comments: Model<Comment> =
   mongoose.models.Comments || model('Comments', CommentsSchema);
 
 export default Comments;
