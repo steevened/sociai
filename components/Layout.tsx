@@ -1,7 +1,6 @@
 import NavigationCard from './NavigationCard';
 import { ReactNode } from 'react';
 import { useRouter } from 'next/router';
-import ProfileLayout from './profile/ProfileLayout';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const router = useRouter();

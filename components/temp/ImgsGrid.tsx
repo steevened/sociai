@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import SavedImg from '../saved/SavedImg';
-import { IPost } from '@/lib/interfaces';
+import { Post } from '@/lib/interfaces';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  posts: IPost[];
+  posts: Post[];
 }
 
 const ImgsGrid: FC<Props> = ({ className, posts }) => {

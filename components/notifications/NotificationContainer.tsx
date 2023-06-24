@@ -13,7 +13,7 @@ const NotificationContainer: FC<PropsWithChildren<Props>> = ({
   return (
     <div className="flex items-center px-2 py-4 cursor-pointer hover:bg-gray-900 shadow-app-bottom">
       <div className="flex items-center gap-2 grow">
-        <Avatar />
+        {/* <Avatar /> */}
         <div className="text-sm">
           <Username username="piero" id="1" /> <span>{prompt}</span>
         </div>
