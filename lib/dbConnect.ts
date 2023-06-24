@@ -4,11 +4,11 @@ https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/uti
 **/
 import mongoose from 'mongoose';
 
-if (!process.env.MONGO_URL) {
-  throw new Error('Please add your MONGO_URL to .env.local');
-}
+// if (!process.env.MONGO_URL) {
+//   throw new Error('Please add your MONGO_URL to .env.local');
+// }
 
-const MONGO_URL: string = process.env.MONGO_URL;
+const MONGO_URL: string = process.env.MONGO_URL || '';
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
