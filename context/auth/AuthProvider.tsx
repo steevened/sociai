@@ -3,7 +3,7 @@ import { User } from '@/lib/interfaces';
 import { authReducer, AuthContext } from './';
 import { useSession, signOut } from 'next-auth/react';
 import { useUserByEmail } from '@/lib/hooks';
-import axios from '../../lib/helpers/axios.helper';
+import axios from 'axios';
 
 export interface AuthState {
   isLogged: boolean;
