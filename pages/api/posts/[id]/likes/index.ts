@@ -34,25 +34,26 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await db.connect();
     const user = await User.findOne({ email: session?.user?.email });
+
     if (!user) {
+      await db.disconnect();
       return res.status(404).json({ error: 'user not found' });
     }
 
     const post = await Post.findById(id);
+
     if (!post) {
+      await db.disconnect();
       return res.status(404).json({ error: 'post not found' });
     }
-    await db.disconnect();
 
     const like = await Likes.findOne({ post, user });
     if (like) {
-      await db.connect();
       await Likes.findByIdAndDelete(like._id);
       await post.updateOne({ $pull: { likes: like._id } });
       await db.disconnect();
       return res.status(200).json({ liked: true });
     } else {
-      await db.connect();
       const newLike = new Likes({ post, user });
       await post.updateOne({ $push: { likes: newLike } });
       await newLike.save();
@@ -60,6 +61,7 @@ const toggleLikes = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(200).json({ liked: false });
     }
   } catch (error: any) {
+    await db.disconnect();
     return res.status(500).json({ error: error.message });
   }
 };
