@@ -43,7 +43,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
 
   const handleLike = async () => {
     if (!session) {
-      toast.error('Please Sign Up to continue');
+      toast.error('please sign up to continue');
     }
     try {
       const res = await toggleLike(post._id);
@@ -58,7 +58,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
 
   const handleSaved = async () => {
     if (!session) {
-      toast.error('Please Sign Up to continue');
+      toast.error('please sign up to continue');
     }
     try {
       const res = await toggleSaved(post._id);
@@ -72,7 +72,7 @@ const Post: FC<Props> = ({ className, post, mutate }) => {
   const handleComment = async () => {
     if (!inputValue) return;
     if (!session) {
-      return toast.error('Please Sign Up to continue');
+      return toast.error('please sign up to continue');
     }
     try {
       // const res = await createComment(post._id, inputValue);
