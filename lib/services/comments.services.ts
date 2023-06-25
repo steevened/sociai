@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const createComment = async (postId: string, comment: string) => {
   const { data } = await axios.post(
-    `api/posts/${postId}/comments`,
+    `/api/posts/${postId}/comments`,
     { comment },
     {
       withCredentials: true,
@@ -21,7 +21,7 @@ export const updateComment = async (
   comment: string
 ) => {
   const { data } = await axios.patch(
-    `api/posts/${postId}/comments/${commentId}`,
+    `/api/posts/${postId}/comments/${commentId}`,
     { comment },
     {
       withCredentials: true,
@@ -32,7 +32,7 @@ export const updateComment = async (
 
 export const deleteComment = async (postID: string, commentId: string) => {
   const { data } = await axios.delete(
-    `api/posts/${postID}/comments/${commentId}`,
+    `/api/posts/${postID}/comments/${commentId}`,
     {
       withCredentials: true,
     }
